@@ -51,4 +51,4 @@ Após isso verifique a versão do `Node.js` através do comando:
 node --version
 ```
 
-Será apresentado a versão mais atual.
+Deve ser apresentado a versão LTS do `Node.js`.
