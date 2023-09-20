@@ -54,8 +54,8 @@ node --version
 
 Deve ser apresentado a versão LTS do `Node.js`.
 
-# Frontend
-## Iniciando o nextjs
+## Frontend
+### Iniciando o nextjs
 antes de tudo é preciso ter o node instalado na máquina como é mostrado acima.
 
 ### Rodando o projeto
