@@ -25,7 +25,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 ```
 
-Apóis isso feche e reabra o terminal
+Após isso feche e reabra o terminal
 
 #### Verifique a instalação do NVM
 
@@ -48,7 +48,20 @@ nvm install --lts
 Após isso verifique a versão do `Node.js` através do comando:
 
 ```bash
+
 node --version
 ```
 
 Deve ser apresentado a versão LTS do `Node.js`.
+
+# Frontend
+## Iniciando o nextjs
+antes de tudo é preciso ter o node instalado na máquina como é mostrado acima.
+
+### Rodando o projeto
+para rodar o frontend do projeto basta instalar as dependências e rodar o servidor utilizando esses comandos: 
+```bash
+npm i
+npm run dev
+```
+basta isso, se estiver tudo certo.
