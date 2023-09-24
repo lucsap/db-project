@@ -112,7 +112,7 @@ Para sair do terminal do `PostgreSQL` digite o comando
 ### 2.1 Guia de Uso do Docker com PostgreSQL
 
 #### Pré-requisitos
-[Docker] (https://www.docker.com/get-started/)instalado em seu sistema.
+[Docker](https://www.docker.com/get-started/) instalado em seu sistema.
 [Docker Compose](https://docs.docker.com/compose/install/) (geralmente incluído com a instalação do Docker).
 
 #### Configuração do Docker Compose
@@ -122,13 +122,14 @@ No diretório do projeto, verifique se existe um arquivo docker-compose.yml. Est
 #### Iniciar o Banco de Dados PostgreSQL
 
 Abra um terminal e navegue até o diretório do projeto onde está o arquivo docker-compose.yml.
-Para iniciar o contêiner PostgreSQL, execute o seguinte comando:
+- *Para iniciar o contêiner PostgreSQL, execute o seguinte comando:*
 
 ```bash
 docker-compose up -d
 ```
 Isso criará e iniciará o contêiner PostgreSQL em segundo plano (-d).
-Aguarde até que o contêiner esteja em execução. Você pode verificar o status do contêiner com o seguinte comando:
+Aguarde até que o contêiner esteja em execução. 
+- *Você pode verificar o status do contêiner com o seguinte comando:*
 
 ```bash
 docker ps
