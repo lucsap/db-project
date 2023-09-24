@@ -112,8 +112,8 @@ Para sair do terminal do `PostgreSQL` digite o comando
 ### 2.1 Guia de Uso do Docker com PostgreSQL
 
 #### Pré-requisitos
-- [Docker](https://www.docker.com/get-started/)instalado em seu sistema.
-- [Docker Compose](https://docs.docker.com/compose/install/) (geralmente incluído com a instalação do Docker).
+[Docker] (https://www.docker.com/get-started/)instalado em seu sistema.
+[Docker Compose](https://docs.docker.com/compose/install/) (geralmente incluído com a instalação do Docker).
 
 #### Configuração do Docker Compose
 
@@ -121,9 +121,8 @@ No diretório do projeto, verifique se existe um arquivo docker-compose.yml. Est
 
 #### Iniciar o Banco de Dados PostgreSQL
 
-- Abra um terminal e navegue até o diretório do projeto onde está o arquivo docker-compose.yml.
-
-- Para iniciar o contêiner PostgreSQL, execute o seguinte comando:
+Abra um terminal e navegue até o diretório do projeto onde está o arquivo docker-compose.yml.
+Para iniciar o contêiner PostgreSQL, execute o seguinte comando:
 
 ```bash
 docker-compose up -d
@@ -142,9 +141,9 @@ Para se conectar ao banco de dados PostgreSQL a partir do terminal, use o seguin
 ```bash
 psql -h localhost -U postgres -d db
 ```
-- h localhost: Especifica o host onde o PostgreSQL está sendo executado (local).
-- U postgres: Especifica o nome de usuário (geralmente é "postgres" por padrão).
-- d db: Especifica o nome do banco de dados ao qual você deseja se conectar.
+`-h` localhost: Especifica o host onde o PostgreSQL está sendo executado (local).
+`-U` postgres: Especifica o nome de usuário (geralmente é "postgres" por padrão).
+`-d` db: Especifica o nome do banco de dados ao qual você deseja se conectar.
 Será solicitada a senha do usuário "postgres". Insira a senha configurada no arquivo docker-compose.yml (por padrão, é "postgres").
 
 Você estará conectado ao banco de dados PostgreSQL e poderá executar comandos SQL.
