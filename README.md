@@ -1,6 +1,11 @@
 # Trabalho de Banco de Dados
 
 ## Configuração de ambiente
+### Tecnologias utilizada nesse projeto
+- [nestjs](https://nestjs.com/)
+- [nextjs](https://nextjs.org/)
+- [knexjs](https://knexjs.org/)
+- [nodejs](https://nodejs.org/en)
 
 ### 1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
 
@@ -174,3 +179,19 @@ npm run dev
 ```
 
 basta isso, se estiver tudo certo.
+
+## Backend
+
+## Instale as dependências
+
+```bash
+$ npm install
+```
+
+## Rodando a aplicação
+
+```bash
+# development
+$ npm run start
+```
+
