@@ -142,9 +142,9 @@ Para se conectar ao banco de dados PostgreSQL a partir do terminal, use o seguin
 ```bash
 psql -h localhost -U postgres -d db
 ```
-`-h` localhost: Especifica o host onde o PostgreSQL está sendo executado (local).
-`-U` postgres: Especifica o nome de usuário (geralmente é "postgres" por padrão).
-`-d` db: Especifica o nome do banco de dados ao qual você deseja se conectar.
+- `-h` localhost: Especifica o host onde o PostgreSQL está sendo executado (local).
+- `-U` postgres: Especifica o nome de usuário (geralmente é "postgres" por padrão).
+- `-d` db: Especifica o nome do banco de dados ao qual você deseja se conectar.
 Será solicitada a senha do usuário "postgres". Insira a senha configurada no arquivo docker-compose.yml (por padrão, é "postgres").
 
 Você estará conectado ao banco de dados PostgreSQL e poderá executar comandos SQL.
