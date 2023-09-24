@@ -112,8 +112,8 @@ Para sair do terminal do `PostgreSQL` digite o comando
 ### 2.1 Guia de Uso do Docker com PostgreSQL
 
 #### Pré-requisitos
-[Docker](https://www.docker.com/get-started/) instalado em seu sistema.
-[Docker Compose](https://docs.docker.com/compose/install/) (geralmente incluído com a instalação do Docker).
+- [Docker](https://www.docker.com/get-started/) instalado em seu sistema.
+- [Docker Compose](https://docs.docker.com/compose/install/) (geralmente incluído com a instalação do Docker).
 
 #### Configuração do Docker Compose
 
