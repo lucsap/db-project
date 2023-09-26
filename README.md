@@ -1,6 +1,11 @@
 # Trabalho de Banco de Dados
 
 ## Configuração de ambiente
+### Tecnologias utilizada nesse projeto
+- [nestjs](https://nestjs.com/)
+- [nextjs](https://nextjs.org/)
+- [knexjs](https://knexjs.org/)
+- [nodejs](https://nodejs.org/en)
 
 ### 1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
 
@@ -109,6 +114,55 @@ Para sair do terminal do `PostgreSQL` digite o comando
 \q
 ```
 
+### 2.1 Guia de Uso do Docker com PostgreSQL
+
+#### Pré-requisitos
+- [Docker](https://www.docker.com/get-started/) instalado em seu sistema.
+- [Docker Compose](https://docs.docker.com/compose/install/) (geralmente incluído com a instalação do Docker).
+
+#### Configuração do Docker Compose
+
+No diretório do projeto, verifique se existe um arquivo docker-compose.yml. Este arquivo contém as configurações necessárias para criar o contêiner PostgreSQL.
+
+#### Iniciar o Banco de Dados PostgreSQL
+
+Abra um terminal e navegue até o diretório do projeto onde está o arquivo docker-compose.yml.
+- *Para iniciar o contêiner PostgreSQL, execute o seguinte comando:*
+
+```bash
+docker-compose up -d
+```
+Isso criará e iniciará o contêiner PostgreSQL em segundo plano (-d).
+Aguarde até que o contêiner esteja em execução. 
+- *Você pode verificar o status do contêiner com o seguinte comando:*
+
+```bash
+docker ps
+```
+Certifique-se de que o contêiner PostgreSQL esteja listado na saída.
+
+#### Conectar-se ao Banco de Dados PostgreSQL
+Para se conectar ao banco de dados PostgreSQL a partir do terminal, use o seguinte comando:
+
+```bash
+psql -h localhost -U postgres -d db
+```
+- `-h` localhost: Especifica o host onde o PostgreSQL está sendo executado (local).
+- `-U` postgres: Especifica o nome de usuário (geralmente é "postgres" por padrão).
+- `-d` db: Especifica o nome do banco de dados ao qual você deseja se conectar.
+- Será solicitada a senha do usuário "postgres". Insira a senha configurada no arquivo docker-compose.yml (por padrão, é "postgres").
+
+Você estará conectado ao banco de dados PostgreSQL e poderá executar comandos SQL.
+
+#### Encerrar o Contêiner
+Quando você terminar de trabalhar com o banco de dados, você pode parar e remover o contêiner PostgreSQL usando o seguinte comando:
+
+```bash
+docker-compose down
+```
+
+Isso desligará e removerá o contêiner PostgreSQL. Certifique-se de que nenhum dado importante seja perdido antes de executar este comando.
+
 ## Frontend
 
 ### Iniciando o nextjs
@@ -125,3 +179,19 @@ npm run dev
 ```
 
 basta isso, se estiver tudo certo.
+
+## Backend
+
+## Instale as dependências
+
+```bash
+$ npm install
+```
+
+## Rodando a aplicação
+
+```bash
+# development
+$ npm run start
+```
+
