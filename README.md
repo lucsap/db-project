@@ -6,6 +6,7 @@
 - [nextjs](https://nextjs.org/)
 - [knexjs](https://knexjs.org/)
 - [nodejs](https://nodejs.org/en)
+- [postgresql](https://www.postgresql.org/)
 
 ### 1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
 
