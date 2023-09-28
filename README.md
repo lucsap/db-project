@@ -7,6 +7,33 @@
   <img alt="Status" src="https://img.shields.io/badge/status-In_progress-green">
 </div>
 
+# :gear: Sistema de Gerenciamento de Livros e Materiais Didáticos
+
+Este projeto tem como objetivo desenvolver um Sistema de Informação dedicado ao gerenciamento de livros de ensino e materiais didáticos em um laboratório. Com a finalidade de atender tanto estudantes quanto professores, nosso sistema permitirá o acesso organizado e o empréstimo desses recursos por meio de uma plataforma computacional.
+
+## :white_check_mark: Funcionalidades Principais
+
+- **Cadastro de Livros e Materiais Didáticos:** Os administradores do sistema poderão inserir informações detalhadas sobre os livros e materiais disponíveis no laboratório.
+
+- **Pesquisa e Consulta:** Todos os usuários terão a capacidade de buscar e visualizar informações sobre os recursos educacionais disponíveis.
+
+- **Empréstimo e Devolução:** Membros do laboratório poderão solicitar o empréstimo de livros e materiais, com um sistema de controle de prazo de devolução.
+
+- **Níveis de Acesso:** O sistema será projetado com diferentes níveis de acesso, garantindo que apenas membros autorizados possam realizar empréstimos.
+
+## :building_construction: Estrutura do Projeto
+
+- **Regras de Negócio:** As regras de negócio definem as diretrizes e políticas que regem o funcionamento do sistema, incluindo quem pode acessar, como os empréstimos são autorizados e quais são as políticas de devolução.
+
+- **Banco de Dados:** Uma parte essencial deste projeto é a definição do banco de dados, que armazenará informações cruciais sobre os recursos educacionais, incluindo detalhes sobre os livros, disponibilidade e histórico de empréstimos.
+
+- :computer: **Interface de Usuário:** A interface será projetada de forma intuitiva, permitindo uma fácil navegação para todos os tipos de usuários.
+
+## :rocket: Como Contribuir
+
+- Para contribuir com este projeto, siga as diretrizes de contribuição no arquivo CONTRIBUTING.md.
+
+- Se você encontrar problemas ou bugs, por favor, abra uma issue em nosso repositório.
 
 
 ### Tecnologias utilizada nesse projeto
