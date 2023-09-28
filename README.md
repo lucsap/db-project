@@ -1,13 +1,13 @@
 <div align="center">
-<img src="https://i.pinimg.com/originals/ef/24/c7/ef24c74beefe5ed3c1ce0bed3ccac4cc.png"  height=300>
+  <img src="https://i.pinimg.com/originals/ef/24/c7/ef24c74beefe5ed3c1ce0bed3ccac4cc.png"  height=300>
+</div>
+<h1 align="center"> Trabalho de banco de dados </h1>
+<div>
+  <img alt="GitHub" src="https://img.shields.io/github/license/lucsap/db-project">
+  <img alt="Status" src="https://img.shields.io/badge/status-In_progress-green">
 </div>
 
-![GitHub](https://img.shields.io/github/license/lucsap/db-project)
 
-
-# Trabalho de Banco de Dados
-
-## Configuração de ambiente
 
 ### Tecnologias utilizada nesse projeto
 
@@ -46,6 +46,7 @@
   <img src="https://img.shields.io/badge/Typescript-grey?style=for-the-badge&logo=typescript">
 </a>
 
+## Configuração do ambiente
 
 ### 1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
 
