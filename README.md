@@ -13,19 +13,19 @@ Este projeto tem como objetivo desenvolver um Sistema de Informação dedicado a
 
 ## :white_check_mark: Funcionalidades Principais
 
-- **Cadastro de Livros e Materiais Didáticos:** Os administradores do sistema poderão inserir informações detalhadas sobre os livros e materiais disponíveis no laboratório.
+- :books: **Cadastro de Livros e Materiais Didáticos:** Os administradores do sistema poderão inserir informações detalhadas sobre os livros e materiais disponíveis no laboratório.
 
-- **Pesquisa e Consulta:** Todos os usuários terão a capacidade de buscar e visualizar informações sobre os recursos educacionais disponíveis.
+- :mag: **Pesquisa e Consulta:** Todos os usuários terão a capacidade de buscar e visualizar informações sobre os recursos educacionais disponíveis.
 
-- **Empréstimo e Devolução:** Membros do laboratório poderão solicitar o empréstimo de livros e materiais, com um sistema de controle de prazo de devolução.
+- :arrows_counterclockwise: **Empréstimo e Devolução:** Membros do laboratório poderão solicitar o empréstimo de livros e materiais, com um sistema de controle de prazo de devolução.
 
-- **Níveis de Acesso:** O sistema será projetado com diferentes níveis de acesso, garantindo que apenas membros autorizados possam realizar empréstimos.
+- :lock: **Níveis de Acesso:** O sistema será projetado com diferentes níveis de acesso, garantindo que apenas membros autorizados possam realizar empréstimos.
 
 ## :building_construction: Estrutura do Projeto
 
-- **Regras de Negócio:** As regras de negócio definem as diretrizes e políticas que regem o funcionamento do sistema, incluindo quem pode acessar, como os empréstimos são autorizados e quais são as políticas de devolução.
+- :bar_chart: **Regras de Negócio:** As regras de negócio definem as diretrizes e políticas que regem o funcionamento do sistema, incluindo quem pode acessar, como os empréstimos são autorizados e quais são as políticas de devolução.
 
-- **Banco de Dados:** Uma parte essencial deste projeto é a definição do banco de dados, que armazenará informações cruciais sobre os recursos educacionais, incluindo detalhes sobre os livros, disponibilidade e histórico de empréstimos.
+- :floppy_disk: **Banco de Dados:** Uma parte essencial deste projeto é a definição do banco de dados, que armazenará informações cruciais sobre os recursos educacionais, incluindo detalhes sobre os livros, disponibilidade e histórico de empréstimos.
 
 - :computer: **Interface de Usuário:** A interface será projetada de forma intuitiva, permitindo uma fácil navegação para todos os tipos de usuários.
 
