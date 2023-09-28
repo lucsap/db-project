@@ -8,12 +8,26 @@
 # Trabalho de Banco de Dados
 
 ## Configuração de ambiente
+
 ### Tecnologias utilizada nesse projeto
-- [nestjs](https://nestjs.com/)
-- [nextjs](https://nextjs.org/)
-- [knexjs](https://knexjs.org/)
-- [nodejs](https://nodejs.org/en)
-- [postgresql](https://www.postgresql.org/)
+
+<table>
+  <tr>
+    <td><a href="https://nestjs.com/">nestjs</a></td>
+    <td><a href="https://nextjs.org/">nextjs</a></td>
+    <td><a href="https://knexjs.org/">knexjs</a></td>
+    <td><a href="https://nodejs.org/en">nodejs</a></td>
+    <td><a href="https://www.postgresql.org/">postgresql</a></td>
+  </tr>
+  <tr>
+    <td>10.1</td>
+    <td>13.5</td>
+    <td>2.5</td>
+    <td>lts</td>
+    <td>15.4</td>
+  </tr>
+</table>
+
 
 ### 1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
 
