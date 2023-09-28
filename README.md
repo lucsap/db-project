@@ -13,11 +13,26 @@
 
 <table>
   <tr>
-    <td><a href="https://nestjs.com/">nestjs</a></td>
-    <td><a href="https://nextjs.org/">nextjs</a></td>
-    <td><a href="https://knexjs.org/">knexjs</a></td>
-    <td><a href="https://nodejs.org/en">nodejs</a></td>
-    <td><a href="https://www.postgresql.org/">postgresql</a></td>
+    <td>
+      <img src="https://d33wubrfki0l68.cloudfront.net/49c2be6f2607b5c12dd27f8ecc8521723447975d/f05c5/logo-small.cbbeba89.svg" height=20>
+      <a href="https://nestjs.com/">nestjs</a>
+    </td>
+    <td>
+      <img src="https://branditechture.agency/brand-logos/wp-content/uploads/wpdm-cache/Next.js-900x0.png" height=20>
+      <a href="https://nextjs.org/">nextjs</a>
+    </td>
+    <td>
+      <img src="https://knexjs.org/knex-logo.png" height=20>
+      <a href="https://knexjs.org/">knexjs</a>
+    </td>
+    <td>
+      <img src="https://1.bp.blogspot.com/-sqAjIvOtpXI/XYoCmqOyMwI/AAAAAAAAJig/CowR8wgEauEs-RXN2IPmLYkC7NHoHuA3gCLcBGAsYHQ/s1600/node-js-logo.png" height=20>
+      <a href="https://nodejs.org/en">nodejs</a>
+    </td>
+    <td>
+      <img src="https://wiki.postgresql.org/images/a/a4/PostgreSQL_logo.3colors.svg" height=20>
+      <a href="https://www.postgresql.org/">postgresql</a>
+    </td>
   </tr>
   <tr>
     <td>10.1</td>
@@ -27,6 +42,9 @@
     <td>15.4</td>
   </tr>
 </table>
+<a href="https://www.typescriptlang.org/">
+  <img src="https://img.shields.io/badge/Typescript-grey?style=for-the-badge&logo=typescript">
+</a>
 
 
 ### 1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
