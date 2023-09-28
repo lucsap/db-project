@@ -1,3 +1,10 @@
+<div align="center">
+<img src="https://i.pinimg.com/originals/ef/24/c7/ef24c74beefe5ed3c1ce0bed3ccac4cc.png"  height=300>
+</div>
+
+![GitHub](https://img.shields.io/github/license/lucsap/db-project)
+
+
 # Trabalho de Banco de Dados
 
 ## Configuração de ambiente
