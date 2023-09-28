@@ -31,7 +31,7 @@ Este projeto tem como objetivo desenvolver um Sistema de Informação dedicado a
 
 ## :rocket: Como Contribuir
 
-- Para contribuir com este projeto, siga as diretrizes de contribuição no arquivo CONTRIBUTING.md.
+- Para contribuir com este projeto, siga as diretrizes de contribuição no arquivo [CONTRIBUTING.md](CONTRIBUTING.md).
 
 - Se você encontrar problemas ou bugs, por favor, abra uma issue em nosso repositório.
 
