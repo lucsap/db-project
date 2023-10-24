@@ -1,11 +1,13 @@
 # Trabalho de Banco de Dados
 
 ## Configuração de ambiente
-### Tecnologias utilizada nesse projeto
-- [nestjs](https://nestjs.com/)
-- [nextjs](https://nextjs.org/)
-- [knexjs](https://knexjs.org/)
-- [nodejs](https://nodejs.org/en)
+### Tecnologias utilizada no projeto
+- [nestjs](https://nestjs.com/) - framework backend 
+- [nextjs](https://nextjs.org/) - framework frontend
+- [knexjs](https://knexjs.org/) - SQL query builder
+- [nodejs](https://nodejs.org/en) - servidor backend 
+
+descrições e documentação mais detalhadas se encontram no link das tecnologias
 
 ### 1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
 
