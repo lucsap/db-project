@@ -35,7 +35,6 @@ Este projeto tem como objetivo desenvolver um Sistema de Informação dedicado a
 
 - Se você encontrar problemas ou bugs, por favor, abra uma issue em nosso repositório.
 
-
 ### Tecnologias utilizada nesse projeto
 
 <table>
@@ -185,6 +184,7 @@ Para sair do terminal do `PostgreSQL` digite o comando
 ### 2.1 Guia de Uso do Docker com PostgreSQL
 
 #### Pré-requisitos
+
 - [Docker](https://www.docker.com/get-started/) instalado em seu sistema.
 - [Docker Compose](https://docs.docker.com/compose/install/) (geralmente incluído com a instalação do Docker).
 
@@ -195,26 +195,32 @@ No diretório do projeto, verifique se existe um arquivo docker-compose.yml. Est
 #### Iniciar o Banco de Dados PostgreSQL
 
 Abra um terminal e navegue até o diretório do projeto onde está o arquivo docker-compose.yml.
-- *Para iniciar o contêiner PostgreSQL, execute o seguinte comando:*
+
+- _Para iniciar o contêiner PostgreSQL, execute o seguinte comando:_
 
 ```bash
 docker-compose up -d
 ```
+
 Isso criará e iniciará o contêiner PostgreSQL em segundo plano (-d).
-Aguarde até que o contêiner esteja em execução. 
-- *Você pode verificar o status do contêiner com o seguinte comando:*
+Aguarde até que o contêiner esteja em execução.
+
+- _Você pode verificar o status do contêiner com o seguinte comando:_
 
 ```bash
 docker ps
 ```
+
 Certifique-se de que o contêiner PostgreSQL esteja listado na saída.
 
 #### Conectar-se ao Banco de Dados PostgreSQL
+
 Para se conectar ao banco de dados PostgreSQL a partir do terminal, use o seguinte comando:
 
 ```bash
 psql -h localhost -U postgres -d db
 ```
+
 - `-h` localhost: Especifica o host onde o PostgreSQL está sendo executado (local).
 - `-U` postgres: Especifica o nome de usuário (geralmente é "postgres" por padrão).
 - `-d` db: Especifica o nome do banco de dados ao qual você deseja se conectar.
@@ -223,6 +229,7 @@ psql -h localhost -U postgres -d db
 Você estará conectado ao banco de dados PostgreSQL e poderá executar comandos SQL.
 
 #### Encerrar o Contêiner
+
 Quando você terminar de trabalhar com o banco de dados, você pode parar e remover o contêiner PostgreSQL usando o seguinte comando:
 
 ```bash
@@ -262,4 +269,3 @@ $ npm install
 # development
 $ npm run start
 ```
-
