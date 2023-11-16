@@ -10,7 +10,7 @@ module.exports = {
       host: 'localhost',
       user: 'postgres',
       password: 'postgres',
-      database: 'db',
+      database: 'postgres',
     },
   },
 }

@@ -63,7 +63,7 @@ CREATE TABLE "Livros" (
      )
 );
 
-CREATE TABLE "MateriaisDidadicos" (
+CREATE TABLE "MateriaisDidaticos" (
     "id" int   NOT NULL,
     "uri_foto_material" varchar(255)   NOT NULL,
     "numero_serie" int   NOT NULL,
@@ -90,7 +90,7 @@ ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id" FOREIGN KEY("id")
 REFERENCES "CadastroDeItens" ("id_item");
 
 ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_material" FOREIGN KEY("id_material")
-REFERENCES "MateriaisDidadicos" ("id");
+REFERENCES "MateriaisDidaticos" ("id");
 
 ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_isbn" FOREIGN KEY("id_isbn")
 REFERENCES "Livros" ("ISBN");

@@ -8,7 +8,7 @@ author:
   - Thiago Silva Ribeiro - 202037702
 group: 1
 CRediT: [Conceito e atribuição de contribuições individuais]
-date: 24/10/2023
+date: 16/11/2023
 ---
 
 <div align="center">
@@ -29,12 +29,12 @@ date: 24/10/2023
 
 ## CRediT (Contributor Roles Taxonomy):
 
-- **Gustavo** configuração do docker, configuração do backend e documentação dos mesmos, configuração e instalação do frontend.
+- **Gustavo** configuração do docker, configuração do backend e documentação dos mesmos, configuração e instalação do frontend, criação dos scripts SQL.
 - **Lucas** criação do repositório, instalação do nvm e do nodejs, e documentação do mesmo.
 - **Ana Beatriz** instalação do postgresql e configuração do mesmo.
 - **Thiago** criação do modelo de banco de dados e documentação do mesmo.
 
-## Data da Versão Atual: 24/10/2023
+## Data da Versão Atual: 16/11/2023
 
 ---
 
@@ -247,3 +247,191 @@ Um Diagrama do Modelo Lógico Relacional é uma representação visual que descr
 <div align="center">
 <img src="tabelas.jpeg" height="300" alt="Tabela Markdown">
 </div>
+
+## 4. Scripts SQL
+### Criação de tabelas
+
+#### Tabela Usuários
+```sql
+CREATE TABLE "Usuarios"(
+    "id" int   NOT NULL,
+    "nome" varchar(255)   NOT NULL,
+    "sobrenome" varchar(255)   NOT NULL,
+    "is_admin" boolean   NOT NULL,
+    "uri_foto" varchar(255)   NOT NULL,
+    "senha" varchar(64)   NOT NULL,
+    "email" varchar(255)   NOT NULL,
+    CONSTRAINT "pk_usuarios" PRIMARY KEY (
+        "id"
+     ),
+    CONSTRAINT "uc_usuarios_nome" UNIQUE (
+        "nome"
+    )
+);
+```
+
+#### Tabela Emprestimos
+```sql
+CREATE TABLE "Emprestimos"(
+    "id_usuario" int   NOT NULL,
+    "id_item" int   NOT NULL,
+    "data_emprestimo" date   NOT NULL,
+    "data_devolucao_prevista" date   NOT NULL,
+    "status" boolean   NOT NULL
+);
+```
+
+#### Tabela Devoluções
+```sql
+CREATE TABLE "Devolucoes"(
+    "id_usuario" int   NOT NULL,
+    "id_item" int   NOT NULL
+);
+```
+
+#### Tabela CadastroDeItens
+```sql
+CREATE TABLE "CadastroDeItens" (
+    "id_item" int   NOT NULL,
+    "tipo" varchar(255)   NOT NULL,
+    "data_aquisicao" date   NOT NULL,
+    "categoria" varchar(255)   NOT NULL,
+    "descricao" varchar(255)   NOT NULL,
+    "titulo" varchar(255)   NOT NULL,
+    "autor" varchar(255)   NOT NULL,
+    "uri_foto" varchar(255)   NOT NULL,
+    "numero_serie" int   NOT NULL
+);
+```
+
+#### Tabela Itens
+```sql
+CREATE TABLE "Itens" (
+    "id" int   NOT NULL,
+    "id_material" int   NOT NULL,
+    "id_isbn" int   NOT NULL,
+    "localizacao_fisica" varchar(255)   NOT NULL,
+    "data_aquisicao" date   NOT NULL,
+    "categoria" varchar(255)   NOT NULL,
+    "estado_conservacao" varchar(255)   NOT NULL,
+    "descricao" varchar(255)   NOT NULL,
+    CONSTRAINT "pk_itens" PRIMARY KEY (
+        "id"
+     )
+);
+```
+
+#### Tabela Livros
+```sql
+CREATE TABLE "Livros" (
+    "ISBN" int   NOT NULL,
+    "autor" varchar(255)   NOT NULL,
+    "titulo" varchar(255)   NOT NULL,
+    "uri_capa_livro" varchar(255)   NOT NULL,
+    CONSTRAINT "pk_livros" PRIMARY KEY (
+        "ISBN"
+     )
+);
+```
+
+#### Tabela MateriaisDidáticos
+```sql
+CREATE TABLE "MateriaisDidaticos" (
+    "id" int   NOT NULL,
+    "uri_foto_material" varchar(255)   NOT NULL,
+    "numero_serie" int   NOT NULL,
+    CONSTRAINT "pk_materiaisDidadicos" PRIMARY KEY (
+        "id"
+     )
+);
+```
+
+### Chaves estrangeiras
+```sql
+ALTER TABLE "Emprestimos" ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
+REFERENCES "Usuarios" ("id");
+
+ALTER TABLE "Emprestimos" ADD CONSTRAINT "fk_emprestimos_id_item" FOREIGN KEY("id_item")
+REFERENCES "Itens" ("id");
+
+ALTER TABLE "Devolucoes" ADD CONSTRAINT "fk_devolucoes_id_usuario" FOREIGN KEY("id_usuario")
+REFERENCES "Usuarios" ("id");
+
+ALTER TABLE "Devolucoes" ADD CONSTRAINT "fk_devolucoes_id_item" FOREIGN KEY("id_item")
+REFERENCES "Itens" ("id");
+
+ALTER TABLE "CadastroDeItens" ADD CONSTRAINT "uc_cadastroDeItens_id_item" UNIQUE ("id_item");
+
+ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id" FOREIGN KEY("id")
+REFERENCES "CadastroDeItens" ("id_item");
+
+ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_material" FOREIGN KEY("id_material")
+REFERENCES "MateriaisDidaticos" ("id");
+
+ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_isbn" FOREIGN KEY("id_isbn")
+REFERENCES "Livros" ("ISBN");
+```
+
+### Inserção de Dados nas tabelas
+#### Tabela Usuários
+```sql
+-- Inserção de dados adicionais na tabela Usuarios
+INSERT INTO Usuarios (id, nome, sobrenome, is_admin, uri_foto, senha, email)
+VALUES
+    (4, 'Usuario3', 'Sobrenome3', false, 'http://urifotousuario3.com', 'hashed_password_usuario3', 'usuario3@example.com'),
+    (5, 'Usuario4', 'Sobrenome4', false, 'http://urifotousuario4.com', 'hashed_password_usuario4', 'usuario4@example.com'),
+    (6, 'Usuario5', 'Sobrenome5', false, 'http://urifotousuario5.com', 'hashed_password_usuario5', 'usuario5@example.com');
+```
+
+#### Tabela Empréstimos
+```sql
+-- Inserção de dados adicionais na tabela Emprestimos
+INSERT INTO Emprestimos (id_usuario, id_item, data_emprestimo, data_devolucao_prevista, status)
+VALUES
+    (4, 3, '2023-04-04', '2023-05-04', true),
+    (5, 1, '2023-04-05', '2023-05-05', false),
+    (6, 2, '2023-04-06', '2023-05-06', true);
+```
+
+#### Tabela CadastroDeItens
+```sql
+-- Inserção de dados adicionais na tabela CadastroDeItens
+INSERT INTO CadastroDeItens (id_item, tipo, data_aquisicao, categoria, descricao, titulo, autor, uri_foto, numero_serie)
+VALUES
+    (4, 'Livro', '2023-04-01', 'Suspense', 'Descrição do Livro 3', 'Livro 3', 'Autor 3', 'http://urifotolivro3.com', null),
+    (5, 'Material Didático', '2023-04-02', 'Ciência', 'Descrição do Material 2', null, null, 'http://urifotomaterial2.com', 345678),
+    (6, 'Livro', '2023-04-03', 'Romance', 'Descrição do Livro 4', 'Livro 4', 'Autor 4', 'http://urifotolivro4.com', null);
+```
+
+#### Tabela Itens
+```sql
+-- Inserção de dados adicionais na tabela Itens
+INSERT INTO Itens (id, id_material, id_isbn, localizacao_fisica, data_aquisicao, categoria, estado_conservacao, descricao)
+VALUES
+    (4, null, 4, 'Estante D', '2023-04-01', 'Suspense', 'Bom', 'Descrição do Livro 3'),
+    (5, 4, null, 'Armário E', '2023-04-02', 'Ciência', 'Ótimo', 'Descrição do Material 2'),
+    (6, null, 5, 'Estante F', '2023-04-03', 'Romance', 'Regular', 'Descrição do Livro 4');
+```
+
+#### Tabela Livros
+```sql
+-- Inserção de dados adicionais na tabela Livros
+INSERT INTO Livros (ISBN, autor, titulo, uri_capa_livro)
+VALUES
+    (3, 'Autor 3', 'Livro 3', 'http://uricapalivro3.com'),
+    (4, 'Autor 4', 'Livro 4', 'http://uricapalivro4.com');
+    (5, 'Autor 5', 'Livro 5', 'http://uricapalivro5.com');
+```
+
+#### Tabela MateriaisDidáticos
+```sql
+-- Inserção de dados adicionais na tabela MateriaisDidadicos
+INSERT INTO MateriaisDidaticos (id, uri_foto_material, numero_serie)
+VALUES
+    (3, 'http://urifotomaterial3.com', 567890),
+    (4, 'http://urifotomaterial4.com', 123456);
+    (5, 'http://urifotomaterial5.com', 234567);
+
+```
+
+Estes scripts SQL fornecem uma visão geral das tabelas criadas, suas relações e exemplos de inserções de dados.

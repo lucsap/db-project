@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { KnexModule } from 'nest-knexjs';
 
-
 @Module({
   imports: [
     KnexModule.forRoot({
@@ -13,7 +12,7 @@ import { KnexModule } from 'nest-knexjs';
           user: 'postgres',
           port: 5432,
           password: 'postgres',
-          database: 'db',
+          database: 'postgres',
         },
       },
     }),
