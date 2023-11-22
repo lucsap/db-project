@@ -12,10 +12,11 @@ import { KnexModule } from 'nest-knexjs';
           user: 'postgres',
           port: 5432,
           password: 'postgres',
-          database: 'postgres',
+          database: 'db',
         },
       },
     }),
   ],
 })
+
 export class AppModule {}
