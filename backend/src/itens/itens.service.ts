@@ -1,10 +1,9 @@
 import {
   Injectable,
-  UnauthorizedException,
-  NotFoundException,
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { InjectConnection } from 'nest-knexjs';
 import { Knex } from 'knex';
 import {
   itemDto,
@@ -16,13 +15,15 @@ import * as path from 'path';
 
 @Injectable()
 export class ItensService {
-  constructor(private readonly knex: Knex) {}
+  constructor(@InjectConnection() private readonly knex: Knex) {
+    this.knex = knex;
+  }
 
   async createLivro(
     livroData: livroDto,
     itemData: itemDto,
     imagemCapa?: Express.Multer.File,
-  ): Promise<any> {
+  ) {
     if (!itemData.nome) {
       throw new BadRequestException('Título não informado');
     }
@@ -69,7 +70,11 @@ export class ItensService {
     }
   }
 
-  async createMateriaisDidaticos(materiaisData: materiaisDidaticosDto, itemData: itemDto; imagemCapa?: Express.Multer.File): Promise<any> {
+  async createMateriaisDidaticos(
+    materiaisData: materiaisDidaticosDto,
+    itemData: itemDto,
+    imagemCapa?: Express.Multer.File,
+  ) {
     if (!itemData.nome) {
       throw new BadRequestException('Título não informado');
     }
@@ -83,10 +88,10 @@ export class ItensService {
     RETURNING id
   `;
 
-   const materiaisQuery = `
+    const materiaisQuery = `
     INSERT INTO materiaisDidaticos (uri_foto, numero_serie, item_id)
     VALUES (?, ?, ?)
-   `
+   `;
     const itemValues = [
       itemData.nome,
       itemData.descricao || '',
@@ -107,18 +112,22 @@ export class ItensService {
       materiaisValues[0] = imagemBuffer;
       fs.unlinkSync(caminhoDestino); //deleta a imagem do servidor
     }
-    const resultadoMateriais = await this.knex.raw(materiaisQuery, materiaisValues);
+    const resultadoMateriais = await this.knex.raw(
+      materiaisQuery,
+      materiaisValues,
+    );
     if (resultadoMateriais) {
       return { success: true };
     } else {
-      throw new InternalServerErrorException(`Falha ao criar materiais didáticos`);
+      throw new InternalServerErrorException(
+        `Falha ao criar materiais didáticos`,
+      );
     }
-  };
+  }
 
-  async findAllItems(): Promise<any[]> {
+  async findAllItems() {
     const query = `
     SELECT * FROM itens`;
-    const result = await this.knex.raw(query);
-    return result.rows;
+    return await this.knex.raw(query);
   }
 }

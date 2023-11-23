@@ -4,8 +4,6 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ItensModule } from './itens/itens.module';
-import { LivrosModule } from './livros/livros.module';
-import { MateriaisDidaticosModule } from './materiais-didaticos/materiais-didaticos.module';
 
 @Module({
   imports: [
@@ -22,10 +20,8 @@ import { MateriaisDidaticosModule } from './materiais-didaticos/materiais-didati
         },
       },
     }),
-    UsuariosModule,
     ItensModule,
-    LivrosModule,
-    MateriaisDidaticosModule,
+    UsuariosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
