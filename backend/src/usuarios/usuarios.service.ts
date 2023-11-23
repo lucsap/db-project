@@ -8,12 +8,11 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Knex } from 'knex';
-import { loginDto } from './dto/login.dto';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectConnection } from 'nest-knexjs';
 import { JwtService } from '@nestjs/jwt';
-import { log } from 'console';
+
 @Injectable()
 export class UsuariosService {
   constructor(
@@ -22,6 +21,7 @@ export class UsuariosService {
   ) {
     this.knex = knex;
   }
+
   async create(
     createUsuarioDto: CreateUsuarioDto,
     imagemPerfil?: Express.Multer.File,
