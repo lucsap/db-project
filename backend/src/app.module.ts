@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
 import { KnexModule } from 'nest-knexjs';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -16,7 +19,9 @@ import { KnexModule } from 'nest-knexjs';
         },
       },
     }),
+    UsuariosModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
-
 export class AppModule {}
