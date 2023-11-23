@@ -2,12 +2,12 @@ import { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
-    CREATE TABLE "Usuarios"(
+    CREATE TABLE IF NOT EXISTS "Usuarios"(
         "id" int   NOT NULL,
         "nome" varchar(255)   NOT NULL,
         "sobrenome" varchar(255)   NOT NULL,
-        "is_admin" boolean   NOT NULL,
-        "uri_foto" varchar(255)   NOT NULL,
+        "is_admin" boolean DEFAULT FALSE   NOT NULL,
+        "uri_foto" bytea   NOT NULL,
         "senha" varchar(64)   NOT NULL,
         "email" varchar(255)   NOT NULL,
         CONSTRAINT "pk_usuarios" PRIMARY KEY (
@@ -18,7 +18,7 @@ export async function up(knex: Knex): Promise<void> {
         )
     );
 
-    CREATE TABLE "Emprestimos"(
+    CREATE TABLE IF NOT EXISTS "Emprestimos"(
         "id_usuario" int   NOT NULL,
         "id_item" int   NOT NULL,
         "data_emprestimo" date   NOT NULL,
@@ -26,12 +26,12 @@ export async function up(knex: Knex): Promise<void> {
         "status" boolean   NOT NULL
     );
 
-    CREATE TABLE "Devolucoes"(
+    CREATE TABLE IF NOT EXISTS "Devolucoes"(
         "id_usuario" int   NOT NULL,
         "id_item" int   NOT NULL
     );
 
-    CREATE TABLE "CadastroDeItens" (
+    CREATE TABLE IF NOT EXISTS "CadastroDeItens" (
         "id_item" int   NOT NULL,
         "tipo" varchar(255)   NOT NULL,
         "data_aquisicao" date   NOT NULL,
@@ -39,11 +39,11 @@ export async function up(knex: Knex): Promise<void> {
         "descricao" varchar(255)   NOT NULL,
         "titulo" varchar(255)   NOT NULL,
         "autor" varchar(255)   NOT NULL,
-        "uri_foto" varchar(255)   NOT NULL,
+        "uri_foto" bytea   NOT NULL,
         "numero_serie" int   NOT NULL
     );
 
-    CREATE TABLE "Itens" (
+    CREATE TABLE IF NOT EXISTS "Itens" (
         "id" int   NOT NULL,
         "id_material" int   NOT NULL,
         "id_isbn" int   NOT NULL,
@@ -57,17 +57,17 @@ export async function up(knex: Knex): Promise<void> {
          )
     );
 
-    CREATE TABLE "Livros" (
+    CREATE TABLE IF NOT EXISTS "Livros" (
         "ISBN" int   NOT NULL,
         "autor" varchar(255)   NOT NULL,
         "titulo" varchar(255)   NOT NULL,
-        "uri_capa_livro" varchar(255)   NOT NULL,
+        "uri_capa_livro" bytea   NOT NULL,
         CONSTRAINT "pk_livros" PRIMARY KEY (
             "ISBN"
          )
     );
 
-    CREATE TABLE "MateriaisDidaticos" (
+    CREATE TABLE IF NOT EXISTS "MateriaisDidaticos" (
         "id" int   NOT NULL,
         "uri_foto_material" varchar(255)   NOT NULL,
         "numero_serie" int   NOT NULL,
