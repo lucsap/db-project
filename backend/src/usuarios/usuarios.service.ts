@@ -117,7 +117,6 @@ export class UsuariosService {
     return usuario;
   }
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    const usuario = await this.findOne(id);
 
     const updateFields = {};
 
@@ -140,7 +139,7 @@ export class UsuariosService {
       updateFields['role'] = updateUsuarioDto.role;
     }
 
-    const resultado = await this.knex('Usuarios')
+    const resultado = await this.knex('usuarios')
       .where({ id })
       .update(updateFields);
 
