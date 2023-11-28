@@ -2,39 +2,15 @@ import { Knex } from 'knex';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
-  await knex('usuarios').del();
+  await knex.raw(`TRUNCATE TABLE Usuarios CASCADE`)
 
   // Inserts seed entries
-  await knex('usuarios').insert([
-    {
-      id: 1,
-      nome: 'Veigh',
-      sobrenome: 'Faz dinheiro',
-      email: 'fino@email',
-      role: 'admin',
-      uri_foto: 'foto',
-      senha: 'senha',
-      
-    },
-    {
-      id: 2,
-      nome: 'Caio',
-      sobrenome: 'blaque',
-      email: 'segredo@email',
-      role: 'estudante',
-      uri_foto: 'foto',
-      senha: '123',
-
-    },
-    {
-      id: 3,
-      nome: 'matue',
-      sobrenome: 'trinta',
-      email: 'trinta@email',
-      role: 'laboratorio',
-      uri_foto: 'foto',
-      senha: 'luz',
-
-    },
-  ]);
+  await knex.raw(
+    `
+    INSERT INTO Usuarios (id, nome, sobrenome, email, uri_foto, senha) VALUES
+    (1, 'Veigh', 'Faz dinheiro', 'fino@email.com, 'foto', 'senha');
+    (2, 'Caio', 'blaque', 'segredo@email.com', 'foto', '123');
+    (3, 'matue', 'trinta', 'trinta@email.com', 'foto', 'luz');
+    `
+  )
 }
