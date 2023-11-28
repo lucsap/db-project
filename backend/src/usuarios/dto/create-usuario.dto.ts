@@ -4,5 +4,5 @@ export class CreateUsuarioDto {
   email: string;
   uri_foto: string;
   senha: string;
-  is_admin: boolean;
+  role: string;
 }

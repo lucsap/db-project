@@ -2,11 +2,12 @@ import { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
+
     CREATE TABLE IF NOT EXISTS Usuarios(
-        "id" int   NOT NULL,
+        "id" SERIAL   NOT NULL,
         "nome" varchar(255)   NOT NULL,
         "sobrenome" varchar(255)   NOT NULL,
-        "role" ENUM('admin', 'estudante', 'laboratorio') NOT NULL,
+        "role" role NOT NULL,
         "uri_foto" bytea   NOT NULL,
         "senha" varchar(64)   NOT NULL,
         "email" varchar(255)   NOT NULL,
@@ -44,7 +45,7 @@ export async function up(knex: Knex): Promise<void> {
     );
 
     CREATE TABLE IF NOT EXISTS Itens (
-        "id" int   NOT NULL,
+        "id" SERIAL   NOT NULL,
         "id_material" int   NOT NULL,
         "id_isbn" int   NOT NULL,
         "localizacao_fisica" varchar(255)   NOT NULL,
@@ -76,8 +77,6 @@ export async function up(knex: Knex): Promise<void> {
          )
     );
 
-    ALTER TABLE Usuarios
-    ADD COLUMN "role" ENUM('admin', 'estudante', 'laboratorio') NOT NULL;
 
     ALTER TABLE Emprestimos ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
     REFERENCES Usuarios ("id");
@@ -101,6 +100,11 @@ export async function up(knex: Knex): Promise<void> {
 
     ALTER TABLE Itens ADD CONSTRAINT "fk_itens_id_isbn" FOREIGN KEY("id_isbn")
     REFERENCES Livros ("ISBN");
+
+    DROP TYPE IF EXISTS role;
+    CREATE TYPE role AS ENUM ('admin', 'estudante', 'laboratorio');
+    
+
 `)
 }
 

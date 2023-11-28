@@ -44,7 +44,9 @@ export class UsuariosService {
       sobrenome: createUsuarioDto.sobrenome,
       email: createUsuarioDto.email,
       senha: createUsuarioDto.senha,
+      role: createUsuarioDto.role,
       uri_foto: null,
+
     };
     if (imagemPerfil) {
       const caminhoDestino = path.join(
@@ -61,7 +63,9 @@ export class UsuariosService {
       fs.unlinkSync(caminhoDestino); //deleta a imagem do servidor
     }
 
-    const resultado = await this.knex('Usuarios').insert(usuario);
+    const resultado = await this.knex.raw(`INSERT INTO Usuarios (email, nome, senha, sobrenome, uri_foto, role) 
+    VALUES ('${usuario.email}', '${usuario.nome}', '${usuario.senha}', '${usuario.sobrenome}', '${usuario.uri_foto}', '${usuario.role}');
+    `);
 
     if (resultado) {
       return { success: true };
@@ -98,10 +102,7 @@ export class UsuariosService {
     return { token };
   }
   async findAll() {
-    const query = `
-    SELECT * FROM Usuarios
-    `;
-    return await this.knex.raw(query);
+    return await this.knex.raw('SELECT * FROM Usuarios');
   }
   async findOne(id: number) {
     const result = await this.knex.raw('SELECT * FROM Usuarios WHERE id = ?', [
@@ -135,8 +136,8 @@ export class UsuariosService {
     if (updateUsuarioDto.senha !== undefined) {
       updateFields['senha'] = updateUsuarioDto.senha;
     }
-    if (updateUsuarioDto.is_admin !== undefined) {
-      updateFields['is_admin'] = updateUsuarioDto.is_admin;
+    if (updateUsuarioDto.role !== undefined) {
+      updateFields['role'] = updateUsuarioDto.role;
     }
 
     const resultado = await this.knex('Usuarios')
