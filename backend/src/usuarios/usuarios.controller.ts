@@ -8,17 +8,17 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {} 
 
-  @Post('/cadastro')
+  @Post('cadastro')
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuarioDto);
   }
 
-  @Post('/login')
+  @Post('login')
   login(@Body() loginDto: loginDto) {
     return this.usuariosService.login(loginDto.email, loginDto.senha);
   }
 
-  @Get('/usuarios')
+  @Get()
   findAll(){
     return this.usuariosService.findAll();
   }

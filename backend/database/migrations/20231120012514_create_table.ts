@@ -2,7 +2,7 @@ import { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
-    CREATE TABLE IF NOT EXISTS "Usuarios"(
+    CREATE TABLE IF NOT EXISTS Usuarios(
         "id" int   NOT NULL,
         "nome" varchar(255)   NOT NULL,
         "sobrenome" varchar(255)   NOT NULL,
@@ -18,7 +18,7 @@ export async function up(knex: Knex): Promise<void> {
         )
     );
 
-    CREATE TABLE IF NOT EXISTS "Emprestimos"(
+    CREATE TABLE IF NOT EXISTS Emprestimos(
         "id_usuario" int   NOT NULL,
         "id_item" int   NOT NULL,
         "data_emprestimo" date   NOT NULL,
@@ -26,12 +26,12 @@ export async function up(knex: Knex): Promise<void> {
         "status" boolean   NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS "Devolucoes"(
+    CREATE TABLE IF NOT EXISTS Devolucoes(
         "id_usuario" int   NOT NULL,
         "id_item" int   NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS "CadastroDeItens" (
+    CREATE TABLE IF NOT EXISTS CadastroDeItens (
         "id_item" int   NOT NULL,
         "tipo" varchar(255)   NOT NULL,
         "data_aquisicao" date   NOT NULL,
@@ -43,7 +43,7 @@ export async function up(knex: Knex): Promise<void> {
         "numero_serie" int   NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS "Itens" (
+    CREATE TABLE IF NOT EXISTS Itens (
         "id" int   NOT NULL,
         "id_material" int   NOT NULL,
         "id_isbn" int   NOT NULL,
@@ -57,7 +57,7 @@ export async function up(knex: Knex): Promise<void> {
          )
     );
 
-    CREATE TABLE IF NOT EXISTS "Livros" (
+    CREATE TABLE IF NOT EXISTS Livros (
         "ISBN" int   NOT NULL,
         "autor" varchar(255)   NOT NULL,
         "titulo" varchar(255)   NOT NULL,
@@ -67,7 +67,7 @@ export async function up(knex: Knex): Promise<void> {
          )
     );
 
-    CREATE TABLE IF NOT EXISTS "MateriaisDidaticos" (
+    CREATE TABLE IF NOT EXISTS MateriaisDidaticos (
         "id" int   NOT NULL,
         "uri_foto_material" varchar(255)   NOT NULL,
         "numero_serie" int   NOT NULL,
@@ -76,31 +76,31 @@ export async function up(knex: Knex): Promise<void> {
          )
     );
 
-    ALTER TABLE "Usuarios"
+    ALTER TABLE Usuarios
     ADD COLUMN "role" ENUM('admin', 'estudante', 'laboratorio') NOT NULL;
 
-    ALTER TABLE "Emprestimos" ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
-    REFERENCES "Usuarios" ("id");
+    ALTER TABLE Emprestimos ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
+    REFERENCES Usuarios ("id");
 
-    ALTER TABLE "Emprestimos" ADD CONSTRAINT "fk_emprestimos_id_item" FOREIGN KEY("id_item")
-    REFERENCES "Itens" ("id");
+    ALTER TABLE Emprestimos ADD CONSTRAINT "fk_emprestimos_id_item" FOREIGN KEY("id_item")
+    REFERENCES Itens ("id");
 
-    ALTER TABLE "Devolucoes" ADD CONSTRAINT "fk_devolucoes_id_usuario" FOREIGN KEY("id_usuario")
-    REFERENCES "Usuarios" ("id");
+    ALTER TABLE Devolucoes ADD CONSTRAINT "fk_devolucoes_id_usuario" FOREIGN KEY("id_usuario")
+    REFERENCES Usuarios ("id");
 
-    ALTER TABLE "Devolucoes" ADD CONSTRAINT "fk_devolucoes_id_item" FOREIGN KEY("id_item")
-    REFERENCES "Itens" ("id");
+    ALTER TABLE Devolucoes ADD CONSTRAINT "fk_devolucoes_id_item" FOREIGN KEY("id_item")
+    REFERENCES Itens ("id");
 
-    ALTER TABLE "CadastroDeItens" ADD CONSTRAINT "uc_cadastroDeItens_id_item" UNIQUE ("id_item");
+    ALTER TABLE CadastroDeItens ADD CONSTRAINT "uc_cadastroDeItens_id_item" UNIQUE ("id_item");
 
-    ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id" FOREIGN KEY("id")
-    REFERENCES "CadastroDeItens" ("id_item");
+    ALTER TABLE Itens ADD CONSTRAINT "fk_itens_id" FOREIGN KEY("id")
+    REFERENCES CadastroDeItens ("id_item");
 
-    ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_material" FOREIGN KEY("id_material")
-    REFERENCES "MateriaisDidaticos" ("id");
+    ALTER TABLE Itens ADD CONSTRAINT "fk_itens_id_material" FOREIGN KEY("id_material")
+    REFERENCES MateriaisDidaticos ("id");
 
-    ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_isbn" FOREIGN KEY("id_isbn")
-    REFERENCES "Livros" ("ISBN");
+    ALTER TABLE Itens ADD CONSTRAINT "fk_itens_id_isbn" FOREIGN KEY("id_isbn")
+    REFERENCES Livros ("ISBN");
 `)
 }
 
@@ -108,13 +108,13 @@ export async function up(knex: Knex): Promise<void> {
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(
     `
-      DROP TABLE IF EXISTS "Usuarios" CASCADE;
-      DROP TABLE IF EXISTS "Emprestimos" CASCADE;
-      DROP TABLE IF EXISTS "Devolucoes" CASCADE;
-      DROP TABLE IF EXISTS "CadastroDeItens" CASCADE;
-      DROP TABLE IF EXISTS "Itens" CASCADE;
-      DROP TABLE IF EXISTS "Livros" CASCADE;
-      DROP TABLE IF EXISTS "MateriaisDidaticos" CASCADE;
+      DROP TABLE IF EXISTS Usuarios CASCADE;
+      DROP TABLE IF EXISTS Emprestimos CASCADE;
+      DROP TABLE IF EXISTS Devolucoes CASCADE;
+      DROP TABLE IF EXISTS CadastroDeItens CASCADE;
+      DROP TABLE IF EXISTS Itens CASCADE;
+      DROP TABLE IF EXISTS Livros CASCADE;
+      DROP TABLE IF EXISTS MateriaisDidaticos CASCADE;
     `
   )
 }
