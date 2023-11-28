@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
         "id" int   NOT NULL,
         "nome" varchar(255)   NOT NULL,
         "sobrenome" varchar(255)   NOT NULL,
-        "is_admin" boolean DEFAULT FALSE   NOT NULL,
+        "role" ENUM('admin', 'estudante', 'laboratorio') NOT NULL,
         "uri_foto" bytea   NOT NULL,
         "senha" varchar(64)   NOT NULL,
         "email" varchar(255)   NOT NULL,
@@ -75,6 +75,9 @@ export async function up(knex: Knex): Promise<void> {
             "id"
          )
     );
+
+    ALTER TABLE "Usuarios"
+    ADD COLUMN "role" ENUM('admin', 'estudante', 'laboratorio') NOT NULL;
 
     ALTER TABLE "Emprestimos" ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
     REFERENCES "Usuarios" ("id");

@@ -22,7 +22,7 @@ export class UsuariosService {
     this.knex = knex;
   }
 
-  async create(
+  async create (
     createUsuarioDto: CreateUsuarioDto,
     imagemPerfil?: Express.Multer.File,
   ) {
@@ -72,7 +72,7 @@ export class UsuariosService {
 
   async findByEmail(email: string) {
     const query = `
-    SELECT * FROM usuarios WHERE email = ?
+      SELECT * FROM usuarios WHERE email = ?
     `;
     const values = [email];
     const [usuario] = await this.knex.raw(query, values);
