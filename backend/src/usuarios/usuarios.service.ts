@@ -61,7 +61,7 @@ export class UsuariosService {
       fs.unlinkSync(caminhoDestino); //deleta a imagem do servidor
     }
 
-    const resultado = await this.knex('usuarios').insert(usuario);
+    const resultado = await this.knex('Usuarios').insert(usuario);
 
     if (resultado) {
       return { success: true };
@@ -72,7 +72,7 @@ export class UsuariosService {
 
   async findByEmail(email: string) {
     const query = `
-      SELECT * FROM usuarios WHERE email = ?
+      SELECT * FROM Usuarios WHERE email = ?
     `;
     const values = [email];
     const [usuario] = await this.knex.raw(query, values);
@@ -99,12 +99,12 @@ export class UsuariosService {
   }
   async findAll() {
     const query = `
-    SELECT * FROM usuarios
+    SELECT * FROM Usuarios
     `;
     return await this.knex.raw(query);
   }
   async findOne(id: number) {
-    const result = await this.knex.raw('SELECT * FROM usuarios WHERE id = ?', [
+    const result = await this.knex.raw('SELECT * FROM Usuarios WHERE id = ?', [
       id,
     ]);
     const usuario = result.rows[0]; // Acessar o primeiro resultado, se existir
@@ -139,7 +139,7 @@ export class UsuariosService {
       updateFields['is_admin'] = updateUsuarioDto.is_admin;
     }
 
-    const resultado = await this.knex('usuarios')
+    const resultado = await this.knex('Usuarios')
       .where({ id })
       .update(updateFields);
 
@@ -150,7 +150,7 @@ export class UsuariosService {
     throw new NotFoundException('Usuário não encontrado');
   }
   async remove(id: number) {
-    const query = 'DELETE FROM usuarios WHERE id = ?';
+    const query = 'DELETE FROM Usuarios WHERE id = ?';
     const values = [id];
     const resultado = await this.knex.raw(query, values);
 
