@@ -1,7 +1,10 @@
-import { Knex } from "knex";
+import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
+    DROP TYPE IF EXISTS role;
+    CREATE TYPE role AS ENUM ('admin', 'estudante', 'laboratorio');
+    
 
     CREATE TABLE IF NOT EXISTS Usuarios(
         "id" SERIAL   NOT NULL,
@@ -101,13 +104,9 @@ export async function up(knex: Knex): Promise<void> {
     ALTER TABLE Itens ADD CONSTRAINT "fk_itens_id_isbn" FOREIGN KEY("id_isbn")
     REFERENCES Livros ("ISBN");
 
-    DROP TYPE IF EXISTS role;
-    CREATE TYPE role AS ENUM ('admin', 'estudante', 'laboratorio');
-    
 
-`)
+`);
 }
-
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(
@@ -119,7 +118,6 @@ export async function down(knex: Knex): Promise<void> {
       DROP TABLE IF EXISTS Itens CASCADE;
       DROP TABLE IF EXISTS Livros CASCADE;
       DROP TABLE IF EXISTS MateriaisDidaticos CASCADE;
-    `
-  )
+    `,
+  );
 }
-
