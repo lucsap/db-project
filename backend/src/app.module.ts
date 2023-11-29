@@ -3,7 +3,11 @@ import { KnexModule } from 'nest-knexjs';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ItensModule } from './itens/itens.module';
+import { LivrosController } from './livros/livros.controller';
+import { MateriaisController } from './materiais/materiais.controller';
+import { MateriaisModule } from './materiais/materiais.module';
+import { LivrosModule } from './livros/livros.module';
+import { LivrosService } from './livros/livros.service';
 
 @Module({
   imports: [
@@ -20,10 +24,11 @@ import { ItensModule } from './itens/itens.module';
         },
       },
     }),
-    ItensModule,
     UsuariosModule,
+    MateriaisModule,
+    LivrosModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, LivrosController, MateriaisController],
+  providers: [AppService,LivrosService],
 })
 export class AppModule {}
