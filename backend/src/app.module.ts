@@ -8,6 +8,7 @@ import { MateriaisController } from './materiais/materiais.controller';
 import { MateriaisModule } from './materiais/materiais.module';
 import { LivrosModule } from './livros/livros.module';
 import { LivrosService } from './livros/livros.service';
+import { MateriaisService } from './materiais/materiais.service';
 
 @Module({
   imports: [
@@ -29,6 +30,6 @@ import { LivrosService } from './livros/livros.service';
     LivrosModule,
   ],
   controllers: [AppController, LivrosController, MateriaisController],
-  providers: [AppService,LivrosService],
+  providers: [AppService,LivrosService, MateriaisService],
 })
 export class AppModule {}

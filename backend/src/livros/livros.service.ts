@@ -63,7 +63,7 @@ export class LivrosService {
       VALUES ('${livro.titulo}', '${livro.categoria}', '${livro.descricao}', '${livro.localizacao_fisica}', '${livro.estado_conservacao}', '${livro.autor}')`,
     );
     if (resultado) {
-      return { success: true };
+      return { success: true, message: 'Livro cadastrado com sucesso!' };
     } else {
       throw new InternalServerErrorException('Erro ao criar livro');
     }

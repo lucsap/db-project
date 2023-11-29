@@ -63,7 +63,7 @@ export async function up(knex: Knex): Promise<void> {
         "uri_foto_material" bytea   ,
         "numero_serie" int   NOT NULL,
         "localizacao_fisica" varchar(255)   NOT NULL,
-        "data_aquisicao" date   NOT NULL,
+        "data_aquisicao" date ,
         "categoria" varchar(255)   NOT NULL,
         "estado_conservacao" varchar(255)   NOT NULL,
         "descricao" varchar(255)   NOT NULL
