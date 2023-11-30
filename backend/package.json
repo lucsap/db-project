@@ -37,6 +37,7 @@
     "nest-knexjs": "^0.0.18",
     "nestjs-knex": "^2.0.0",
     "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
