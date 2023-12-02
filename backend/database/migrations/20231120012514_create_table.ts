@@ -6,16 +6,13 @@ export async function up(knex: Knex): Promise<void> {
   CREATE TYPE role AS ENUM ('admin', 'estudante', 'laboratorio');
 
     CREATE TABLE IF NOT EXISTS Usuarios(
-        "id" SERIAL   NOT NULL,
+        "id" SERIAL PRIMARY KEY   NOT NULL,
         "nome" varchar(255)   NOT NULL,
         "sobrenome" varchar(255)   NOT NULL,
         "role" role NOT NULL,
         "uri_foto" bytea   NOT NULL,
         "senha" varchar(64)   NOT NULL,
         "email" varchar(255)   NOT NULL,
-        CONSTRAINT "pk_usuarios" PRIMARY KEY (
-            "id"
-         ),
         CONSTRAINT "uc_usuarios_nome" UNIQUE (
             "nome"
         )
@@ -47,7 +44,7 @@ export async function up(knex: Knex): Promise<void> {
     );
 
     CREATE TABLE IF NOT EXISTS Livros (
-        "isbn" SERIAL   NOT NULL,
+        "isbn" SERIAL PRIMARY KEY   NOT NULL,
         "autor" varchar(255)   NOT NULL,
         "titulo" varchar(255)   NOT NULL,
         "uri_capa_livro" bytea   ,
@@ -58,7 +55,7 @@ export async function up(knex: Knex): Promise<void> {
     );
 
     CREATE TABLE IF NOT EXISTS MateriaisDidaticos (
-        "id" SERIAL   NOT NULL,
+        "id" SERIAL PRIMARY KEY   NOT NULL,
         "nome" varchar(255)   NOT NULL,
         "uri_foto_material" bytea   ,
         "numero_serie" int   NOT NULL,

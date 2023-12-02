@@ -5,11 +5,13 @@ import {
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Knex } from 'knex';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectConnection } from 'nest-knexjs';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuariosService {
@@ -19,62 +21,60 @@ export class UsuariosService {
     this.knex = knex;
   }
 
-  async create (
-    createUsuarioDto: CreateUsuarioDto,
-    imagemPerfil?: Express.Multer.File,
-  ) {
-    if (!createUsuarioDto.email) {
-      throw new BadRequestException('Email não informado');
-    }
-    if (!createUsuarioDto.nome) {
-      throw new BadRequestException('Nome não informado');
-    }
-    if (!createUsuarioDto.sobrenome) {
-      throw new BadRequestException('Sobrenome não informado');
-    }
-    if (!createUsuarioDto.senha) {
-      throw new BadRequestException('Senha não informada');
-    }
-    if (!createUsuarioDto.role) {
-      throw new BadRequestException('Role não informada');
-    }
-    if (!createUsuarioDto.uri_foto) {
-      throw new BadRequestException('Foto não informada');
-    }
+  async create(createUsuarioDto: CreateUsuarioDto, imagemPerfil?: Express.Multer.File) {
+    try {
+      let createdUser = null;
 
-    let usuario = {
-      nome: createUsuarioDto.nome,
-      sobrenome: createUsuarioDto.sobrenome,
-      email: createUsuarioDto.email,
-      senha: createUsuarioDto.senha,
-      role: createUsuarioDto.role,
-      uri_foto: createUsuarioDto.uri_foto,
+      // Start a transaction
+      await this.knex.transaction(async (trx) => {
+        if (!createUsuarioDto.email || !createUsuarioDto.nome || !createUsuarioDto.sobrenome || !createUsuarioDto.senha || !createUsuarioDto.role || !createUsuarioDto.uri_foto) {
+          throw new BadRequestException('Todos os campos são obrigatórios');
+        }
 
-    };
-    if (imagemPerfil) {
-      const caminhoDestino = path.join(
-        __dirname,
-        '../../uploads',
-        imagemPerfil.originalname,
-      );
+        const hashedPassword = await bcrypt.hash(createUsuarioDto.senha, 10);
 
-      fs.writeFileSync(caminhoDestino, imagemPerfil.buffer); //salva a imagem no servidor
+        let usuario = {
+          ...createUsuarioDto,
+          senha: hashedPassword,
+        };
 
-      const imagemBuffer = fs.readFileSync(caminhoDestino); //converte a imagem para um buffer e insere na tabela de usuario
-      usuario = { ...usuario, uri_foto: imagemBuffer };
+        if (imagemPerfil) {
+          const caminhoDestino = path.join(__dirname, '../../uploads', imagemPerfil.originalname);
 
-      fs.unlinkSync(caminhoDestino); //deleta a imagem do servidor
+          fs.writeFileSync(caminhoDestino, imagemPerfil.buffer);
+
+          const imagemBuffer = fs.readFileSync(caminhoDestino);
+          usuario = { ...usuario, uri_foto: imagemBuffer };
+
+          fs.unlinkSync(caminhoDestino);
+        }
+
+        // Insert the user within the transaction
+        const result = await trx.raw(
+          `
+          INSERT INTO Usuarios (email, nome, senha, sobrenome, uri_foto, role) 
+          VALUES (?, ?, ?, ?, ?, ?) RETURNING *
+            `, 
+          [usuario.email, usuario.nome, usuario.senha, usuario.sobrenome, usuario.uri_foto, usuario.role]
+        );
+
+        createdUser = result.rows[0];
+      });
+
+      if (createdUser) {
+        return {
+          usuario: {
+            ...createdUser,
+            senha: undefined,
+          },
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error during user creation:', error);
+      throw new InternalServerErrorException('Falha ao criar usuário');
     }
-
-    const resultado = await this.knex.raw(`INSERT INTO Usuarios (email, nome, senha, sobrenome, uri_foto, role) 
-    VALUES ('${usuario.email}', '${usuario.nome}', '${usuario.senha}', '${usuario.sobrenome}', '${usuario.uri_foto}', '${usuario.role}');
-    `);
-
-    if (resultado) {
-      return { success: true };
-    }
-
-    throw new InternalServerErrorException('Falha ao criar usuário');
   }
 
   async findByEmail(email: string) {
@@ -89,9 +89,15 @@ export class UsuariosService {
   }
 
   async findAll() {
-    const result = await this.knex.raw('SELECT * FROM Usuarios');
-    const usuarios = result.rows;
-    return usuarios
+    try {
+      const result = await this.knex.raw('SELECT * FROM Usuarios');
+      const usuarios = result.rows;
+
+      return usuarios;
+    } catch(error) {
+      console.error('Erro ao buscar usuários');
+      throw new InternalServerErrorException('Erro ao buscar usuários');
+    }
   }
 
   async findOne(id: number) {
@@ -107,44 +113,48 @@ export class UsuariosService {
     return usuario;
   }
 
-  async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
 
-    const knex = this.knex;
+  async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
+    const updateFields = [];
 
     if (updateUsuarioDto.nome !== undefined) {
-      knex.raw('UPDATE Usuarios SET nome = ? WHERE id = ?', [updateUsuarioDto.nome, id]);
+      updateFields.push(`nome = '${updateUsuarioDto.nome}'`);
     }
     if (updateUsuarioDto.sobrenome !== undefined) {
-      knex.raw('UPDATE Usuarios SET sobrenome = ? WHERE id = ?', [updateUsuarioDto.sobrenome, id]);
+      updateFields.push(`sobrenome = '${updateUsuarioDto.sobrenome}'`);
     }
     if (updateUsuarioDto.email !== undefined) {
-      knex.raw('UPDATE Usuarios SET email = ? WHERE id = ?', [updateUsuarioDto.email, id]);
+      updateFields.push(`email = '${updateUsuarioDto.email}'`);
     }
     if (updateUsuarioDto.uri_foto !== undefined) {
-      knex.raw('UPDATE Usuarios SET uri_foto = ? WHERE id = ?', [updateUsuarioDto.uri_foto, id]);
+      updateFields.push(`uri_foto = '${updateUsuarioDto.uri_foto}'`);
     }
     if (updateUsuarioDto.senha !== undefined) {
-      knex.raw('UPDATE Usuarios SET senha = ? WHERE id = ?', [updateUsuarioDto.senha, id]);
+      const hashedPassword = await bcrypt.hash(updateUsuarioDto.senha, 10);
+      updateFields.push(`senha = '${hashedPassword}'`);
     }
     if (updateUsuarioDto.role !== undefined) {
-      knex.raw('UPDATE Usuarios SET role = ? WHERE id = ?', [updateUsuarioDto.role, id]);
+      updateFields.push(`role = '${updateUsuarioDto.role}'`);
     }
 
-    const resultado = await this.knex.raw(
-      'UPDATE Usuarios SET nome = ?, sobrenome = ?, email = ?, uri_foto = ?, senha = ?, role = ? WHERE id = ?',
-        [
-        updateUsuarioDto.nome,
-        updateUsuarioDto.sobrenome,
-        updateUsuarioDto.email,
-        updateUsuarioDto.uri_foto,
-        updateUsuarioDto.senha,
-        updateUsuarioDto.role,
-        id,
-      ]
-    );
+    if (updateFields.length === 0) {
+      // No fields to update, return success
+      return { 
+        success: true,
+        message: "Nenhum campo foi atualizado"
+
+      };
+    }
+
+    const updateQuery = `UPDATE Usuarios SET ${updateFields.join(', ')} WHERE id = ?`;
+    const resultado = await this.knex.raw(updateQuery, [id]);
 
     if (resultado) {
-      return { success: true };
+      return { 
+        success: true,
+        ...updateUsuarioDto,
+        senha: undefined,
+      };
     }
 
     throw new NotFoundException('Usuário não encontrado');

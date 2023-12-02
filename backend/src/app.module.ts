@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { LocalStrategy } from './auth/strategies/local.strategy';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { LocalStrategy } from './auth/strategies/local.strategy';
     MateriaisModule,
     LivrosModule,
     AuthModule,
+    JwtModule
   ],
   controllers: [AppController, LivrosController, MateriaisController, AuthController],
   providers: [AppService, LivrosService, MateriaisService, AuthService, LocalStrategy],

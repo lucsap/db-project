@@ -8,10 +8,10 @@ export async function seed(knex: Knex): Promise<void> {
   // Inserts seed entries
   await knex.raw(
     `
-    INSERT INTO Livros (isbn, titulo, categoria, descricao, localizacao_fisica, estado_conservacao, autor, uri_capa_livro) VALUES
-    (1, 'Viagem ao Desconhecido', 'Aventura', 'Uma emocionante jornada por terras misteriosas', 'Estante A, Prateleira 3', 'Ótimo', 'A. A. Aventureiro', 'viagem_capa.jpg'),
-    (2, 'Segredos do Jardim', 'Romance', 'História de amor entre dois corações perdidos', 'Estante B, Prateleira 1', 'Excelente', 'R. Romântico', 'jardim_capa.jpg'),
-    (3, 'Descobrindo o Universo', 'Ciência', 'Exploração das maravilhas do cosmos e das estrelas', 'Estante C, Prateleira 2', 'Bom', 'C. Cientista', 'universo_capa.jpg');
+    INSERT INTO Livros (titulo, categoria, descricao, localizacao_fisica, estado_conservacao, autor, uri_capa_livro) VALUES
+    ('Viagem ao Desconhecido', 'Aventura', 'Uma emocionante jornada por terras misteriosas', 'Estante A, Prateleira 3', 'Ótimo', 'A. A. Aventureiro', 'viagem_capa.jpg'),
+    ('Segredos do Jardim', 'Romance', 'História de amor entre dois corações perdidos', 'Estante B, Prateleira 1', 'Excelente', 'R. Romântico', 'jardim_capa.jpg'),
+    ('Descobrindo o Universo', 'Ciência', 'Exploração das maravilhas do cosmos e das estrelas', 'Estante C, Prateleira 2', 'Bom', 'C. Cientista', 'universo_capa.jpg');
     `
   )
 }
