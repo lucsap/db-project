@@ -9,6 +9,10 @@ import { MateriaisModule } from './materiais/materiais.module';
 import { LivrosModule } from './livros/livros.module';
 import { LivrosService } from './livros/livros.service';
 import { MateriaisService } from './materiais/materiais.service';
+import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { LocalStrategy } from './auth/strategies/local.strategy';
 
 @Module({
   imports: [
@@ -28,8 +32,9 @@ import { MateriaisService } from './materiais/materiais.service';
     UsuariosModule,
     MateriaisModule,
     LivrosModule,
+    AuthModule,
   ],
-  controllers: [AppController, LivrosController, MateriaisController],
-  providers: [AppService,LivrosService, MateriaisService],
+  controllers: [AppController, LivrosController, MateriaisController, AuthController],
+  providers: [AppService, LivrosService, MateriaisService, AuthService, LocalStrategy],
 })
 export class AppModule {}
