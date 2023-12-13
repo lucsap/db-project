@@ -12,6 +12,16 @@ export default function Borrow() {
             "title": "Poemas de Amor",
             "author": "Vinicius de Moraes",
             "image": "https://iili.io/Juxnkl9.jpg"
+        },
+        {
+            "title": "Hoje eu mato o Ladeira",
+            "author": "Ana Beatriz",
+            "image": "https://iili.io/Juxnkl9.jpg"
+        },
+        {
+            "title": "Aaaaa não sie mais nada",
+            "author": "Desconhecido",
+            "image": "https://iili.io/Juxnkl9.jpg"
         }
     ]
 
