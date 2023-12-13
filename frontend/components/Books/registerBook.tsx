@@ -1,6 +1,6 @@
 import styles from '../../pages/styles.module.css'
 
-export default function Books() {
+export default function FormBooks() {
     return (
         <div className={styles.formContainer}>
             <h4>Você está fazendo cadastro de: Livros</h4>

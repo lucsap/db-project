@@ -1,6 +1,6 @@
 import styles from '../../pages/styles.module.css'
 
-export default function BorrowBook({title, image, author, ...props}) {
+export default function Books({title, image, author, ...props}) {
     return (
         <button className={styles.cardContainer} {...props}>
             <div className={styles.cardImg}>

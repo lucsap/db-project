@@ -1,8 +1,8 @@
 import React from 'react';
 import Layout from './Layout/layout';
 import styles from './styles.module.css';
-import Books from '../components/Books/registerBook';
-import Materials from '../components/Materials/registerMaterials';
+import FormBooks from '../components/Books/registerBook';
+import FormMaterials from '../components/Materials/registerMaterials';
 
 export default function Register() {
   const type = 'books'
@@ -17,9 +17,9 @@ export default function Register() {
         </h4>
       </div>
       {type === 'books' ? (
-        <Books />
+        <FormBooks />
       ) : (
-        <Materials />
+        <FormMaterials />
       )}
       <div className={styles.btnReg}>
         <button className={styles.btnPrimary} >

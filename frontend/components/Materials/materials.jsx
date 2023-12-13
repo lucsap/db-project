@@ -1,6 +1,6 @@
 import styles from '../../pages/styles.module.css'
 
-export default function BorrowMaterials({category, image, description, ...props}) {
+export default function Materials({category, image, description, ...props}) {
     return (
         <button className={styles.cardContainer} {...props}>
             <div className={styles.cardImg}>

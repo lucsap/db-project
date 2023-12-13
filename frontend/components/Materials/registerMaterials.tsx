@@ -1,6 +1,6 @@
 import styles from '../../pages/styles.module.css'
 
-export default function Materials() {
+export default function FormMaterials() {
     return (
         <div className={styles.formContainer}>
             <h4>Você está fazendo cadastro de: Materiais</h4>

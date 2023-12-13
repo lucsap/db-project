@@ -22,6 +22,6 @@
       "@/*": ["./pages/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Books/borrowBook.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Books/books.jsx"],
   "exclude": ["node_modules"]
 }

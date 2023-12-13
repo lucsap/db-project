@@ -4,8 +4,9 @@ import styles from './styles.module.css';
 import Books from '../components/Books/books'
 import Materials from '../components/Materials/materials'
 
-export default function Borrow() {
+export default function Return() {
 
+    //pegar livros e materiais do back que estejam emprestados
     //temporário
     const books = [
         {
@@ -14,7 +15,7 @@ export default function Borrow() {
             "image": "https://iili.io/Juxnkl9.jpg"
         }
     ]
-
+    
     const materials = [
         {
             "category": "Computadores",
@@ -25,7 +26,7 @@ export default function Borrow() {
     const type = 'livros'
     // const type = 'materiais'
     //////////////////////////////////////////////
-
+    
     const [book, setBook] = useState({})
     const [material, setMaterial] = useState({})
 
@@ -38,11 +39,11 @@ export default function Borrow() {
     return (
         <Layout>
         <div className={styles.personalBox}>
-          <h3>Empréstimo de Livros e Materiais</h3>
+          <h3>Devolução de Livros e Materiais</h3>
           <h4>
-            Olá estudante! Aqui você pode encontrar os livros e materiais que estão disponíveis na plataforma.
+            Olá! Aqui você pode devolver qualquer livro ou material que pegou emprestado.
           </h4>
-          <h5>Você está vendo todos os {type} disponíveis</h5>
+          <h5>Você está vendo todos os {type} emprestados</h5>
         </div>
         {type === 'livros' ? (
             <ul className={styles.listContainer}>
@@ -59,9 +60,9 @@ export default function Borrow() {
         )}
         <div className={styles.btnReg}>
            <button className={styles.btnPrimary} onClick={() => sendReq()}>
-                Solicitar Empréstimo
+                Devolver
           </button>
         </div>
-      </Layout>
+        </Layout>
     )
 }
