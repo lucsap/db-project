@@ -12,22 +12,20 @@ export default function Login() {
                 </h4>
 
                 <div className={styles.formContainer}>
-                    <div className={styles.formGrup}>
-                        <div className={styles.formInfos}>
-                            <label className={styles.formLabel}>Email</label>
-                            <input
-                                className={styles.formInput}
-                                name='email'
-                            />
-                        </div>
-                        <div className={styles.formInfos}>
-                            <label className={styles.formLabel}>Senha</label>
-                            <input
-                                className={styles.formInput}
-                                type='password'
-                                name='senha'
-                            />
-                        </div>
+                    <div className={styles.formInfos}>
+                        <label className={styles.formLabel}>Email</label>
+                        <input
+                            className={styles.formInput}
+                            name='email'
+                        />
+                    </div>
+                    <div className={styles.formInfos}>
+                        <label className={styles.formLabel}>Senha</label>
+                        <input
+                            className={styles.formInput}
+                            type='password'
+                            name='senha'
+                        />
                     </div>
                     <div className={styles.btnLogin}>
                         <button className={styles.btnPrimary} >
