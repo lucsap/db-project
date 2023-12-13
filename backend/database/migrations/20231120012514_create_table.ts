@@ -1,24 +1,30 @@
-import { Knex } from "knex";
+import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
-    CREATE TABLE IF NOT EXISTS "Usuarios"(
-        "id" int   NOT NULL,
+  DROP TYPE IF EXISTS role;
+  CREATE TYPE role AS ENUM ('admin', 'estudante', 'laboratorio');
+
+
+    CREATE TABLE IF NOT EXISTS Usuarios(
+        "id" SERIAL PRIMARY KEY   NOT NULL,
         "nome" varchar(255)   NOT NULL,
         "sobrenome" varchar(255)   NOT NULL,
-        "is_admin" boolean DEFAULT FALSE   NOT NULL,
+        "role" role NOT NULL,
         "uri_foto" bytea   NOT NULL,
         "senha" varchar(64)   NOT NULL,
         "email" varchar(255)   NOT NULL,
-        CONSTRAINT "pk_usuarios" PRIMARY KEY (
-            "id"
-         ),
         CONSTRAINT "uc_usuarios_nome" UNIQUE (
             "nome"
         )
     );
 
-    CREATE TABLE IF NOT EXISTS "Emprestimos"(
+    CREATE TABLE IF NOT EXISTS Categorias (
+      "id_categoria" SERIAL PRIMARY KEY,
+      "nome" varchar(255) NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS Emprestimos(
         "id_usuario" int   NOT NULL,
         "id_item" int   NOT NULL,
         "data_emprestimo" date   NOT NULL,
@@ -26,93 +32,62 @@ export async function up(knex: Knex): Promise<void> {
         "status" boolean   NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS "Devolucoes"(
+    CREATE TABLE IF NOT EXISTS Devolucoes(
         "id_usuario" int   NOT NULL,
         "id_item" int   NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS "CadastroDeItens" (
-        "id_item" int   NOT NULL,
-        "tipo" varchar(255)   NOT NULL,
-        "data_aquisicao" date   NOT NULL,
-        "categoria" varchar(255)   NOT NULL,
-        "descricao" varchar(255)   NOT NULL,
-        "titulo" varchar(255)   NOT NULL,
-        "autor" varchar(255)   NOT NULL,
-        "uri_foto" bytea   NOT NULL,
-        "numero_serie" int   NOT NULL
+    CREATE TABLE IF NOT EXISTS CadastroDeItens (
+      "id_item" SERIAL PRIMARY KEY,
+      "tipo" varchar(255)   NOT NULL,
+      "data_aquisicao" date   NOT NULL,
+      "id_categoria" int   NOT NULL,
+      "descricao" varchar(255)   NOT NULL,
+      "uri_foto" bytea   NOT NULL,
+      CONSTRAINT "fk_cadastro_itens_categoria" FOREIGN KEY("id_categoria")
+      REFERENCES Categorias ("id_categoria")
     );
 
-    CREATE TABLE IF NOT EXISTS "Itens" (
-        "id" int   NOT NULL,
-        "id_material" int   NOT NULL,
-        "id_isbn" int   NOT NULL,
+    CREATE TABLE IF NOT EXISTS Livros (
+        "id_item" int PRIMARY KEY   NOT NULL,
+        "isbn" SERIAL PRIMARY KEY   NOT NULL,
+        "autor" varchar(255)   NOT NULL,
+        "titulo" varchar(255)   NOT NULL,
+        "uri_capa_livro" bytea   ,
         "localizacao_fisica" varchar(255)   NOT NULL,
-        "data_aquisicao" date   NOT NULL,
-        "categoria" varchar(255)   NOT NULL,
         "estado_conservacao" varchar(255)   NOT NULL,
-        "descricao" varchar(255)   NOT NULL,
-        CONSTRAINT "pk_itens" PRIMARY KEY (
-            "id"
-         )
     );
 
-    CREATE TABLE IF NOT EXISTS "Livros" (
-        "ISBN" int   NOT NULL,
-        "autor" varchar(255)   NOT NULL,
-        "titulo" varchar(255)   NOT NULL,
-        "uri_capa_livro" bytea   NOT NULL,
-        CONSTRAINT "pk_livros" PRIMARY KEY (
-            "ISBN"
-         )
-    );
-
-    CREATE TABLE IF NOT EXISTS "MateriaisDidaticos" (
-        "id" int   NOT NULL,
-        "uri_foto_material" varchar(255)   NOT NULL,
+    CREATE TABLE IF NOT EXISTS MateriaisDidaticos (
+        "id" SERIAL PRIMARY KEY   NOT NULL,
+        "id_item" varchar(255)   NOT NULL,
+        "uri_foto_material" bytea   ,
         "numero_serie" int   NOT NULL,
-        CONSTRAINT "pk_materiaisDidadicos" PRIMARY KEY (
-            "id"
-         )
+        "localizacao_fisica" varchar(255)   NOT NULL,
+        "data_aquisicao" date ,
     );
 
-    ALTER TABLE "Emprestimos" ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
-    REFERENCES "Usuarios" ("id");
+    ALTER TABLE Emprestimos ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
+    REFERENCES Usuarios ("id");
 
-    ALTER TABLE "Emprestimos" ADD CONSTRAINT "fk_emprestimos_id_item" FOREIGN KEY("id_item")
-    REFERENCES "Itens" ("id");
+    ALTER TABLE Devolucoes ADD CONSTRAINT "fk_devolucoes_id_usuario" FOREIGN KEY("id_usuario")
+    REFERENCES Usuarios ("id");
 
-    ALTER TABLE "Devolucoes" ADD CONSTRAINT "fk_devolucoes_id_usuario" FOREIGN KEY("id_usuario")
-    REFERENCES "Usuarios" ("id");
+    ALTER TABLE CadastroDeItens ADD CONSTRAINT "fk_cadastro_itens_categoria" FOREIGN KEY("id_categoria")
+    REFERENCES Categorias ("id_categoria");
 
-    ALTER TABLE "Devolucoes" ADD CONSTRAINT "fk_devolucoes_id_item" FOREIGN KEY("id_item")
-    REFERENCES "Itens" ("id");
-
-    ALTER TABLE "CadastroDeItens" ADD CONSTRAINT "uc_cadastroDeItens_id_item" UNIQUE ("id_item");
-
-    ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id" FOREIGN KEY("id")
-    REFERENCES "CadastroDeItens" ("id_item");
-
-    ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_material" FOREIGN KEY("id_material")
-    REFERENCES "MateriaisDidaticos" ("id");
-
-    ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_isbn" FOREIGN KEY("id_isbn")
-    REFERENCES "Livros" ("ISBN");
-`)
+    ALTER TABLE Livros ADD CONSTRAINT "uc_livros_isbn" UNIQUE ("isbn");
+`);
 }
-
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(
     `
-      DROP TABLE IF EXISTS "Usuarios" CASCADE;
-      DROP TABLE IF EXISTS "Emprestimos" CASCADE;
-      DROP TABLE IF EXISTS "Devolucoes" CASCADE;
-      DROP TABLE IF EXISTS "CadastroDeItens" CASCADE;
-      DROP TABLE IF EXISTS "Itens" CASCADE;
-      DROP TABLE IF EXISTS "Livros" CASCADE;
-      DROP TABLE IF EXISTS "MateriaisDidaticos" CASCADE;
-    `
-  )
+      DROP TABLE IF EXISTS Usuarios CASCADE;
+      DROP TABLE IF EXISTS Emprestimos CASCADE;
+      DROP TABLE IF EXISTS Devolucoes CASCADE;
+      DROP TABLE IF EXISTS Livros CASCADE;
+      DROP TABLE IF EXISTS MateriaisDidaticos CASCADE;
+    `,
+  );
 }
-

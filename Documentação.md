@@ -8,7 +8,7 @@ author:
   - Thiago Silva Ribeiro - 202037702
 group: 1
 CRediT: [Conceito e atribuição de contribuições individuais]
-date: 16/11/2023
+date: 30/11/2023
 ---
 
 <div align="center">
@@ -29,12 +29,12 @@ date: 16/11/2023
 
 ## CRediT (Contributor Roles Taxonomy):
 
-- **Gustavo** configuração do docker, configuração do backend e documentação dos mesmos, configuração e instalação do frontend, criação dos scripts SQL.
+- **Gustavo** configuração do docker, configuração do backend e documentação dos mesmos, configuração e instalação do frontend, criação dos scripts SQL, autenticação e gerenciamento de rotas e permissões.
 - **Lucas** criação do repositório, instalação do nvm e do nodejs, e documentação do mesmo.
 - **Ana Beatriz** instalação do postgresql e configuração do mesmo.
-- **Thiago** criação do modelo de banco de dados e documentação do mesmo.
+- **Thiago** criação do modelo de banco de dados e documentação do mesmo, criação dos CRUDS e teste de rotas.
 
-## Data da Versão Atual: 16/11/2023
+## Data da Versão Atual: 30/11/2023
 
 ---
 
@@ -435,3 +435,32 @@ VALUES
 ```
 
 Estes scripts SQL fornecem uma visão geral das tabelas criadas, suas relações e exemplos de inserções de dados.
+
+### Criação da camada de persistência.
+As tecnologias utilizadas foram **Nestjs** js que é um framework de nodejs e **Knexjs** que é um query builder para SQL, dito isso, os CRUDS foram criados com SQL puro, tanto migrations quanto as seeds também, o knexjs possui um método `knex.raw` que permite colocar queries em SQL puro dentro de um objeto javascript então assim foi feito os CRUDS, Migrations e as Seeds.
+
+##### Exemplos:
+**Assim foi feito a migração das tabelas de usuários**
+<div align="center">
+    <img src="migration.png" alt="migrations das tabelas"/>
+</div>
+
+
+**E assim foi feito a criação da seed de usuarios**
+<div align="center">
+    <img src="seed.png" alt="seed de usuários"/>
+</div>
+
+#### CRUD de usuários
+No controller de usuários que é onde gerenciamos as rotas e recebemos as requisições para darmos alguma resposta pro servidor chamando os métodos criados na service de usuários possui essa estrutura:
+<div align="center">
+    <img src="controller_users.png" alt="controller de usuários" />
+</div>
+
+#### Método Create
+**Aqui está um exemplo do método create de usuários**
+<div>
+<img src="metodo_create.png" alt="metodo create do CRUD de usuários" />
+</div>
+
+Com isso temos uma ideia de como está sendo feito a camada de persistência do sistema, para ter uma visão completa só acessar nosso repositório no [**Github**](https://github.com/lucsap/db-project/tree/main/backend)

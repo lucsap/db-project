@@ -2,109 +2,106 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {
   Injectable,
-  UnauthorizedException,
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Knex } from 'knex';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectConnection } from 'nest-knexjs';
-import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectConnection() private readonly knex: Knex,
-    private readonly jwtService: JwtService,
   ) {
     this.knex = knex;
   }
 
-  async create(
-    createUsuarioDto: CreateUsuarioDto,
-    imagemPerfil?: Express.Multer.File,
-  ) {
-    if (!createUsuarioDto.email) {
-      throw new BadRequestException('Email não informado');
+  async create(createUsuarioDto: CreateUsuarioDto, imagemPerfil?: Express.Multer.File) {
+    try {
+      let createdUser = null;
+
+      // Start a transaction
+      await this.knex.transaction(async (trx) => {
+        if (!createUsuarioDto.email || !createUsuarioDto.nome || !createUsuarioDto.sobrenome || !createUsuarioDto.senha || !createUsuarioDto.role || !createUsuarioDto.uri_foto) {
+          throw new BadRequestException('Todos os campos são obrigatórios');
+        }
+
+        const hashedPassword = await bcrypt.hash(createUsuarioDto.senha, 10);
+
+        let usuario = {
+          ...createUsuarioDto,
+          senha: hashedPassword,
+        };
+
+        if (imagemPerfil) {
+          const caminhoDestino = path.join(__dirname, '../../uploads', imagemPerfil.originalname);
+
+          fs.writeFileSync(caminhoDestino, imagemPerfil.buffer);
+
+          const imagemBuffer = fs.readFileSync(caminhoDestino);
+          usuario = { ...usuario, uri_foto: imagemBuffer };
+
+          fs.unlinkSync(caminhoDestino);
+        }
+
+        // Insert the user within the transaction
+        const result = await trx.raw(
+          `
+          INSERT INTO Usuarios (email, nome, senha, sobrenome, uri_foto, role) 
+          VALUES (?, ?, ?, ?, ?, ?) RETURNING *
+            `, 
+          [usuario.email, usuario.nome, usuario.senha, usuario.sobrenome, usuario.uri_foto, usuario.role]
+        );
+
+        createdUser = result.rows[0];
+      });
+
+      if (createdUser) {
+        return {
+          usuario: {
+            ...createdUser,
+            senha: undefined,
+          },
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error during user creation:', error);
+      throw new InternalServerErrorException('Falha ao criar usuário');
     }
-    if (!createUsuarioDto.nome) {
-      throw new BadRequestException('Nome não informado');
-    }
-    if (!createUsuarioDto.sobrenome) {
-      throw new BadRequestException('Sobrenome não informado');
-    }
-    if (!createUsuarioDto.senha) {
-      throw new BadRequestException('Senha não informada');
-    }
-
-    let usuario = {
-      nome: createUsuarioDto.nome,
-      sobrenome: createUsuarioDto.sobrenome,
-      email: createUsuarioDto.email,
-      senha: createUsuarioDto.senha,
-      uri_foto: null,
-    };
-    if (imagemPerfil) {
-      const caminhoDestino = path.join(
-        __dirname,
-        '../../uploads',
-        imagemPerfil.originalname,
-      );
-
-      fs.writeFileSync(caminhoDestino, imagemPerfil.buffer); //salva a imagem no servidor
-
-      const imagemBuffer = fs.readFileSync(caminhoDestino); //converte a imagem para um buffer e insere na tabela de usuario
-      usuario = { ...usuario, uri_foto: imagemBuffer };
-
-      fs.unlinkSync(caminhoDestino); //deleta a imagem do servidor
-    }
-
-    const resultado = await this.knex('usuarios').insert(usuario);
-
-    if (resultado) {
-      return { success: true };
-    }
-
-    throw new InternalServerErrorException('Falha ao criar usuário');
   }
 
   async findByEmail(email: string) {
-    const query = `
-    SELECT * FROM usuarios WHERE email = ?
-    `;
-    const values = [email];
-    const [usuario] = await this.knex.raw(query, values);
-    if (!usuario) {
-      throw new NotFoundException('Usuário não encontrado');
+    try {
+      const result = await this.knex.raw('SELECT * FROM Usuarios WHERE email = ?', [ email ]);
+      const usuario = result.rows[0]; // Acessar o primeiro resultado, se existir
+      return usuario;
+    } catch (error) {
+      console.error('Erro ao buscar usuário');
+      throw new InternalServerErrorException('Erro ao buscar usuário');
     }
-    return usuario;
   }
-  async validatePassword(email: string, senha: string) {
-    const usuario = await this.findByEmail(email);
 
-    if (usuario && usuario.senha === senha) {
-      return true;
-    }
-    throw new UnauthorizedException('Email ou senha incorretos');
-  }
-  async login(email: string, senha: string) {
-    const usuario = await this.findByEmail(email);
-
-    const payload = { email: usuario.email, sub: usuario.id };
-    const token = this.jwtService.sign(payload);
-
-    return { token };
-  }
   async findAll() {
-    const query = `
-    SELECT * FROM usuarios
-    `;
-    return await this.knex.raw(query);
+    try {
+      const result = await this.knex.raw('SELECT * FROM Usuarios');
+      const usuarios = result.rows;
+
+      return usuarios;
+    } catch(error) {
+      console.error('Erro ao buscar usuários');
+      throw new InternalServerErrorException('Erro ao buscar usuários');
+    }
   }
+
   async findOne(id: number) {
-    const result = await this.knex.raw('SELECT * FROM usuarios WHERE id = ?', [
+    const result = await this.knex.raw('SELECT * FROM Usuarios WHERE id = ?', [
       id,
     ]);
     const usuario = result.rows[0]; // Acessar o primeiro resultado, se existir
@@ -115,42 +112,56 @@ export class UsuariosService {
 
     return usuario;
   }
-  async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    const usuario = await this.findOne(id);
 
-    const updateFields = {};
+
+  async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
+    const updateFields = [];
 
     if (updateUsuarioDto.nome !== undefined) {
-      updateFields['nome'] = updateUsuarioDto.nome;
+      updateFields.push(`nome = '${updateUsuarioDto.nome}'`);
     }
     if (updateUsuarioDto.sobrenome !== undefined) {
-      updateFields['sobrenome'] = updateUsuarioDto.sobrenome;
+      updateFields.push(`sobrenome = '${updateUsuarioDto.sobrenome}'`);
     }
     if (updateUsuarioDto.email !== undefined) {
-      updateFields['email'] = updateUsuarioDto.email;
+      updateFields.push(`email = '${updateUsuarioDto.email}'`);
     }
     if (updateUsuarioDto.uri_foto !== undefined) {
-      updateFields['uri_foto'] = updateUsuarioDto.uri_foto;
+      updateFields.push(`uri_foto = '${updateUsuarioDto.uri_foto}'`);
     }
     if (updateUsuarioDto.senha !== undefined) {
-      updateFields['senha'] = updateUsuarioDto.senha;
+      const hashedPassword = await bcrypt.hash(updateUsuarioDto.senha, 10);
+      updateFields.push(`senha = '${hashedPassword}'`);
     }
-    if (updateUsuarioDto.is_admin !== undefined) {
-      updateFields['is_admin'] = updateUsuarioDto.is_admin;
+    if (updateUsuarioDto.role !== undefined) {
+      updateFields.push(`role = '${updateUsuarioDto.role}'`);
     }
 
-    const resultado = await this.knex('usuarios')
-      .where({ id })
-      .update(updateFields);
+    if (updateFields.length === 0) {
+      // No fields to update, return success
+      return { 
+        success: true,
+        message: "Nenhum campo foi atualizado"
+
+      };
+    }
+
+    const updateQuery = `UPDATE Usuarios SET ${updateFields.join(', ')} WHERE id = ?`;
+    const resultado = await this.knex.raw(updateQuery, [id]);
 
     if (resultado) {
-      return { success: true };
+      return { 
+        success: true,
+        ...updateUsuarioDto,
+        senha: undefined,
+      };
     }
 
     throw new NotFoundException('Usuário não encontrado');
   }
+
   async remove(id: number) {
-    const query = 'DELETE FROM usuarios WHERE id = ?';
+    const query = 'DELETE FROM Usuarios WHERE id = ?';
     const values = [id];
     const resultado = await this.knex.raw(query, values);
 
