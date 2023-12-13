@@ -1,0 +1,44 @@
+.welcomeScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.welcomeLogo {
+  height: 2.4rem;
+  width: auto;
+}
+
+.h1 {
+  font-size: 1.7em;
+  font-weight: 700;
+}
+
+.h2 {
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+.btnPrimary {
+  font-size: 1.2em;
+  font-weight: 700;
+  border-radius: 12px;
+  height: 2.4rem;
+  border: none;
+  color: #ffffff;
+  background-color: var(--blue);
+  background-color: #ff971d;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  margin-bottom: 0.5em;
+}
+
+.btnContainer {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+}
