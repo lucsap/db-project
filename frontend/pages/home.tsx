@@ -2,8 +2,14 @@ import React from 'react';
 import styles from './styles.module.css'
 import Image from 'next/image';
 import Logo from '../assets/logo.svg'
+import { useRouter } from 'next/router';
 
 export default function HomePage() {
+    const router = useRouter();
+
+    const handleClick = () => {
+        router.push('/login');
+    };
 
     return (
         <section className={styles.welcomeScreen}>
@@ -15,11 +21,11 @@ export default function HomePage() {
                 </h2>
             </div>
             <div className={styles.btnContainer}>
-                <button className={styles.btnPrimary}
+                <button onClick={handleClick} className={styles.btnPrimary}
                 >
                     sou admin
                 </button>
-                <button className={styles.btnPrimary}
+                <button onClick={handleClick} className={styles.btnPrimary}
                 >
                     sou estudante
                 </button>
