@@ -1,0 +1,17 @@
+.headerContainer {
+  height: 80px;
+  display: flex;
+  background-color: #ff971d;
+}
+
+.logoContainer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+  padding: 2em;
+}
+
+.logosContainer > img {
+  height: 20px;
+}
