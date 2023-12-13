@@ -7,6 +7,7 @@ import {useState} from 'react';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [isSubmiting, setIsSubmiting] = useState(false);
 
     const notify = () => toast("Email ou Senha invalidos !")
 
@@ -21,6 +22,9 @@ export default function Login() {
     };
 
     const handleSubmit = async (event:any) => {
+        if(isSubmiting){
+            return;
+        }
         event.preventDefault();
         
         const data = {
@@ -29,11 +33,13 @@ export default function Login() {
         };
 
         try {
+            setIsSubmiting(true);
             const response = await fetch('http://localhost:3001/login', {
             method: 'POST',
-            // headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
             });
+            
 
         if (response.ok) {
             console.log(response)
@@ -42,13 +48,18 @@ export default function Login() {
             router.push('/home');
         }
         else {
-            console.log(response)
+            setIsSubmiting(false);
             notify();
         }
         } catch (error) {
-            
+            setIsSubmiting(false);
             console.log(error);
-        }
+        } finally {
+            setTimeout(() => {
+                setIsSubmiting(false);
+              }, 2000)
+        };
+
     };
 
     return (
@@ -86,8 +97,8 @@ export default function Login() {
                         />
                     </div>
                     <div className={styles.btnLogin}>
-                        <button type="submit" className={styles.btnPrimary} >
-                            Continuar
+                        <button type="submit" className={styles.btnPrimary} disabled={isSubmiting} >
+                        {isSubmiting ? 'Entrando...' : 'Entrar'}
                         </button>
                     </div>
                 </form>
