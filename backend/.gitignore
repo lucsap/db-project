@@ -1,11 +1,7 @@
 # compiled output
 /dist
 /node_modules
-<<<<<<< Updated upstream
-/.env
-=======
 .env
->>>>>>> Stashed changes
 
 # Logs
 logs
