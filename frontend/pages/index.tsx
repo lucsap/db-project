@@ -1,14 +1,18 @@
 import React from 'react';
 import Layout from './Layout/layout';
-import HomePage from './Home/home';
-import Login from './Login/login';
-import Register from './Register/register';
+import HomePage from './home';
+import Login from './login';
+import Register from './register';
 
 const App: React.FC = () => {
   return (
-    // <Layout>
+    <>
+      {/* <Layout> */}
       <HomePage />
-    // </Layout>
+      <Login />
+      <Register />
+      {/* </Layout> */}
+    </>
   );
 };
 
