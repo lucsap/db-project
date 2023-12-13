@@ -1,8 +1,8 @@
 import React from 'react';
 import Layout from './Layout/layout';
 import styles from './styles.module.css';
-import Books from '../components/Books/books';
-import Materials from '../components/Materials/materials';
+import Books from '../components/Books/registerBook';
+import Materials from '../components/Materials/registerMaterials';
 
 export default function Register() {
   const type = 'books'
