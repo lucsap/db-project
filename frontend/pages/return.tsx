@@ -24,7 +24,9 @@ export default function Return() {
         description: string;
         image: string;
     }
-    
+
+    const [livro, setBook] = useState({})
+    const [material, setMaterial] = useState({})
     const [selectedLivro, setSelectedLivro] = useState<Livro | null>(null); // Livro selecionado para abrir o modal
     const [livros, setLivros] = useState<Livro[]>([]);
     const [materiais, setMateriais] = useState<Materiais[]>([]);
@@ -83,9 +85,6 @@ export default function Return() {
     ]
     const type = 'livros'
     // const type = 'materiais'
-
-    const [livro, setBook] = useState({})
-    const [material, setMaterial] = useState({})
 
     const sendReq = () => {
         //Enviar pro back aqui
