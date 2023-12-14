@@ -5,7 +5,6 @@ import {
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Knex } from 'knex';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
@@ -27,7 +26,7 @@ export class UsuariosService {
 
       // Start a transaction
       await this.knex.transaction(async (trx) => {
-        if (!createUsuarioDto.email || !createUsuarioDto.nome || !createUsuarioDto.sobrenome || !createUsuarioDto.senha || !createUsuarioDto.role || !createUsuarioDto.uri_foto) {
+        if (!createUsuarioDto.email || !createUsuarioDto.nome || !createUsuarioDto.sobrenome || !createUsuarioDto.senha) {
           throw new BadRequestException('Todos os campos são obrigatórios');
         }
 
@@ -38,24 +37,13 @@ export class UsuariosService {
           senha: hashedPassword,
         };
 
-        if (imagemPerfil) {
-          const caminhoDestino = path.join(__dirname, '../../uploads', imagemPerfil.originalname);
-
-          fs.writeFileSync(caminhoDestino, imagemPerfil.buffer);
-
-          const imagemBuffer = fs.readFileSync(caminhoDestino);
-          usuario = { ...usuario, uri_foto: imagemBuffer };
-
-          fs.unlinkSync(caminhoDestino);
-        }
-
         // Insert the user within the transaction
         const result = await trx.raw(
           `
           INSERT INTO Usuarios (email, nome, senha, sobrenome, uri_foto, role) 
           VALUES (?, ?, ?, ?, ?, ?) RETURNING *
             `, 
-          [usuario.email, usuario.nome, usuario.senha, usuario.sobrenome, usuario.uri_foto, usuario.role]
+          [usuario.email, usuario.nome, usuario.senha, usuario.sobrenome]
         );
 
         createdUser = result.rows[0];

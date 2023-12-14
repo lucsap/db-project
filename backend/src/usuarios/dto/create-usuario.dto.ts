@@ -14,13 +14,7 @@ export class CreateUsuarioDto {
   @IsNotEmpty()
   email: string;
 
-
-  uri_foto?: Buffer;
-
   @IsString()
   @IsNotEmpty()
   senha: string;
-
-  @IsString()
-  role: string;
 }
