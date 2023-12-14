@@ -1,32 +1,32 @@
 import styles from '../../pages/styles.module.css'
 
-export default function Materials() {
+export default function FormBooks() {
     return (
         <div className={styles.formContainer}>
-            <h4>Você está fazendo cadastro de: Materiais</h4>
+            <h4>Você está fazendo cadastro de: Livros</h4>
             <div className={styles.align}>
+                <div className={styles.formGrup}>
+                    <div className={styles.formInfos}>
+                        <label className={styles.formLabel}>Título</label>
+                        <input
+                            className={styles.formInput}
+                            name='title'
+                        />
+                    </div>
+                    <div className={styles.formInfos}>
+                        <label className={styles.formLabel}>Autor</label>
+                        <input
+                            className={styles.formInput}
+                            name='author'
+                        />
+                    </div>
+                </div>
                 <div className={styles.formGrup}>
                     <div className={styles.formInfos}>
                         <label className={styles.formLabel}>Descrição</label>
                         <input
                             className={styles.formInput}
                             name='description'
-                        />
-                    </div>
-                    <div className={styles.formInfos}>
-                        <label className={styles.formLabel}>Número de Série</label>
-                        <input
-                            className={styles.formInput}
-                            name='serialNumber'
-                        />
-                    </div>
-                </div>
-                <div className={styles.formGrup}>
-                    <div className={styles.formInfos}>
-                        <label className={styles.formLabel}>Localização Física</label>
-                        <input
-                            className={styles.formInput}
-                            name='location'
                         />
                     </div>
                     <div className={styles.formInfos}>

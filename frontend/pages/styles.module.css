@@ -129,3 +129,82 @@
   flex-direction: column;
   width: 23%;
 }
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  list-style-type: none;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--Stroke, #d9d9d9);
+  cursor: pointer;
+  background-color: #ffff;
+  margin: 10px;
+}
+
+.cardImg {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardInfos {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardImg img {
+  width: 10vw;
+  padding: 10px;
+}
+
+.cardName {
+  color: #000;
+  font-family: Roboto;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 5px;
+}
+
+.cardValue {
+  color: #000;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.cardContainer:hover {
+  background-color: #f3f3f3;
+  transition: 100ms ease-in-out;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 12px;
+  row-gap: 8px;
+  justify-content: center;
+}
+
+.cardContainer:focus {
+  background-color: #ffae51;
+  color: aliceblue;
+}
+
+
+
