@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import styles from './styles.module.css'
-import { useRouter } from 'next/router';
+import React, {useEffect, useState} from 'react';
 import Layout from './Layout/layout';
-import Books from '../components/Books/books';
-import Materials from '../components/Materials/materials';
+import styles from './styles.module.css';
+import Books from '../components/Books/books'
+import Materials from '../components/Materials/materials'
 import Modal from '../components/Modal/modal';
 
-export default function HomePage() {
+export default function Return() {
 
     interface Livro {
         isbn: string;
@@ -67,28 +66,16 @@ export default function HomePage() {
     };
 
 
-    const router = useRouter();
-    const user = 'Fulano'
-
-    //temporario
+    //pegar livros e materiais do back que estejam emprestados
+    //temporário
     const books = [
         {
             "title": "Poemas de Amor",
             "author": "Vinicius de Moraes",
             "image": "https://iili.io/Juxnkl9.jpg"
-        },
-        {
-            "title": "Hoje eu mato o Ladeira",
-            "author": "Ana Beatriz",
-            "image": "https://iili.io/Juxnkl9.jpg"
-        },
-        {
-            "title": "Aaaaa não sie mais nada",
-            "author": "Desconhecido",
-            "image": "https://iili.io/Juxnkl9.jpg"
         }
     ]
-
+    
     const materials = [
         {
             "category": "Computadores",
@@ -96,19 +83,27 @@ export default function HomePage() {
             "image": "https://iili.io/Juxkncl.jpg"
         }
     ]
+    const type = 'livros'
+    // const type = 'materiais'
+
+    const sendReq = () => {
+        //Enviar pro back aqui
+
+        console.log(livro)
+        console.log(material)
+    }
 
     return (
         <Layout>
-            <div className={styles.personalBox}>
-                <h3>Olá {user}</h3>
-                <h4>
-                    Esses são todos os livros e materiais que você tem no momento.
-                </h4>
-            </div>
-            <div className={styles.dataContainer}>
-                <div className={styles.infos}>
-                    <h5>Seus livros</h5>
-                    <ul className={styles.listContainer}>
+        <div className={styles.personalBox}>
+        <h3>Devolução de Livros e Materiais</h3>
+        <h4>
+            Olá! Aqui você pode devolver qualquer livro ou material que pegou emprestado.
+            </h4>
+            <h5>Você está vendo todos os {type} emprestados</h5>
+        </div>
+        {type === 'livros' ? (
+                <ul className={styles.listContainer}>
                 {livros.map((livro) => (
                     <li key={livro.isbn}>
                         <Books
@@ -135,21 +130,19 @@ export default function HomePage() {
                     </li>
                 ))}
             </ul>
-                </div>
-                <div className={styles.infos}>
-                    <h5>Seus materiais</h5>
-                    <ul className={styles.listContainer}>
-                        {materials.map((material, index) => (
-                            <Materials 
-                            key={index}
-                            category={material.category} 
-                            description={material.description} 
-                            image={material.image} 
-                            onClick={() => setMaterial(material)} />
-                        ))}
-                    </ul>
-                </div>
-            </div>
+            ) : (
+            <ul className={styles.listContainer}>
+
+                {materials.map((material, index) => (
+                    <Materials key={index} category={material.category} description={material.description} image={material.image} onClick={() => setMaterial(material)} />
+                ))}
+            </ul>
+        )}
+        <div className={styles.btnReg}>
+        <button className={styles.btnPrimary} onClick={() => sendReq()}>
+                Devolver
+        </button>
+        </div>
         </Layout>
-    );
+    )
 }

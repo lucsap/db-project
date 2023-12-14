@@ -1,17 +1,26 @@
 import React from 'react';
-import Layout from './Layout/layout';
-import HomePage from './home';
+import Landing from './landing';
 import Login from './login';
 import Register from './register';
+import Borrow from './borrow';
+import Return from './return';
+import Search from './search';
+import SignUp from './signup';
+import HomePage from './home';
+
 
 const App: React.FC = () => {
   return (
     <>
-      {/* <Layout> */}
-      <HomePage />
+      <Landing />
       <Login />
       <Register />
-      {/* </Layout> */}
+      <Borrow />
+      <Return />
+      <Search />
+      <SignUp />
+      <HomePage />
+
     </>
   );
 };
