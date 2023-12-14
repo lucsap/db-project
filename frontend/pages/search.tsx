@@ -34,7 +34,6 @@ export default function Search() {
     ]
     const type = 'livros'
     // const type = 'materiais'
-    //////////////////////////////////////////////////////////////
 
     const [isSearch, setIsSearch] = useState(false)
     const sendReq = () => {

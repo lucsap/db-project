@@ -8,6 +8,7 @@ import Search from './search';
 import SignUp from './signup';
 import HomePage from './home';
 
+
 const App: React.FC = () => {
   return (
     <>
@@ -19,6 +20,7 @@ const App: React.FC = () => {
       <Search />
       <SignUp />
       <HomePage />
+
     </>
   );
 };
