@@ -90,7 +90,8 @@ export default function Borrow() {
     }
 
     return (
-        <Layout>
+        // <Layout>
+        <>
         <div className={styles.personalBox}>
             <h3>Empréstimo de Livros e Materiais</h3>
             <h4>
@@ -138,6 +139,7 @@ export default function Borrow() {
                 Solicitar Empréstimo
             </button>
         </div>
-    </Layout>
+        </>
+    // </Layout>
     )
 }
