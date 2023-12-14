@@ -41,7 +41,8 @@ export default function SignUp() {
             email: email,
             senha: senha,
             nome: nome,
-            sobrenome: sobrenome
+            sobrenome: sobrenome,
+            role: 'estudante',
         };
 
         try {
