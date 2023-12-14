@@ -7,6 +7,7 @@ import Return from './return';
 import Search from './search';
 import SignUp from './signup';
 
+
 const App: React.FC = () => {
   return (
     <>
@@ -17,6 +18,7 @@ const App: React.FC = () => {
       <Return />
       <Search />
       <SignUp />
+
     </>
   );
 };
