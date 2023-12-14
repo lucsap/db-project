@@ -10,7 +10,7 @@ function Header({ }) {
     const [stay, setStay] = useState(false);
 
     const handleoption = () => {
-        setStay(true);
+        setStay(!stay);
     }
 
     const handleLogOut = () => {
@@ -18,11 +18,6 @@ function Header({ }) {
         router.push("/landing");
     };
 
-    const handleStay = () => {
-        console.log("stay");
-        router.push('/home');
-    };
-    
     return (
         <header className={styles.headerContainer}>
             <div className={styles.logoContainer} >
@@ -34,8 +29,8 @@ function Header({ }) {
             {stay && (
                 <PopUp isOpen={true} onClose={() => setStay(false)}>
                     <div className={styles.buttonsWrapper}>
-                        <button onClick={() => handleLogOut} className={styles.btnPrimary}>Sim, sair da minha conta</button>
-                        <button onClick={() => handleStay} className={styles.outlineBtn}>Não, quero ficar</button>
+                        <button onClick={handleLogOut} className={styles.btnPrimary}>Sim, sair da minha conta</button>
+                        <button onClick={handleoption} className={styles.outlineBtn}>Não, quero ficar</button>
                     </div>
                 </PopUp>
             )}
