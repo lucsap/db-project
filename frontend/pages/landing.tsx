@@ -15,7 +15,7 @@ export default function Landing() {
         <section className={styles.welcomeScreen}>
             <Image src={Logo} alt="logo" className="welcomeLogo" />
             <div>
-                <h1 className={styles.h1}>Bem Vindos brancos retintos!</h1>
+                <h1 className={styles.h1}>Sejam Bem Vindos</h1>
                 <h2 className={styles.h2}>
                     Uma plataforma dedicada aos amantes de leitura
                 </h2>
