@@ -1,6 +1,25 @@
-import styles from '../../pages/styles.module.css'
+import styles from '../../pages/globals.module.css'
 
 export default function FormBooks() {
+
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        const data = {
+            titulo: event.target.titulo.value,
+            categoria: event.target.categoria.value,
+            descricao: event.target.descricao.value,
+            localizacao_fisica: event.target.localizacao_fisica.value,
+            estado_conservacao: event.target.estado_conservacao.value,
+            autor: event.target.autor.value,
+        }
+        try {
+            const response = await fetch(`http://localhost:3001/livros/cadastro`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        })}
+    
+
+
     return (
         <div className={styles.formContainer}>
             <h4>Você está fazendo cadastro de: Livros</h4>

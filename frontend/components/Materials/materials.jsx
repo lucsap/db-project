@@ -1,4 +1,4 @@
-import styles from '../../pages/globals.css'
+import styles from '../../pages/globals.module.css'
 
 export default function Materials({category, image, description, ...props}) {
     return (

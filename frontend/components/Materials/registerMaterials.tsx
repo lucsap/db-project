@@ -1,4 +1,4 @@
-import styles from '../../pages/styles.module.css'
+import styles from '../../pages/globals.module.css'
 
 export default function FormMaterials() {
     return (
