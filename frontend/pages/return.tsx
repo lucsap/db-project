@@ -6,6 +6,7 @@ import Materials from '../components/Materials/materials'
 import Modal from '../components/Modal/modal';
 
 export default function Return() {
+
     interface Livro {
         isbn: string;
         titulo: string;
@@ -82,12 +83,13 @@ export default function Return() {
     ]
     const type = 'livros'
     // const type = 'materiais'
-    
+
     const [livro, setBook] = useState({})
     const [material, setMaterial] = useState({})
 
     const sendReq = () => {
         //Enviar pro back aqui
+
         console.log(livro)
         console.log(material)
     }
@@ -131,6 +133,7 @@ export default function Return() {
             </ul>
             ) : (
             <ul className={styles.listContainer}>
+
                 {materials.map((material, index) => (
                     <Materials key={index} category={material.category} description={material.description} image={material.image} onClick={() => setMaterial(material)} />
                 ))}
