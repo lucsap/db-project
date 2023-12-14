@@ -114,15 +114,9 @@ export class UsuariosService {
     if (updateUsuarioDto.email !== undefined) {
       updateFields.push(`email = '${updateUsuarioDto.email}'`);
     }
-    if (updateUsuarioDto.uri_foto !== undefined) {
-      updateFields.push(`uri_foto = '${updateUsuarioDto.uri_foto}'`);
-    }
     if (updateUsuarioDto.senha !== undefined) {
       const hashedPassword = await bcrypt.hash(updateUsuarioDto.senha, 10);
       updateFields.push(`senha = '${hashedPassword}'`);
-    }
-    if (updateUsuarioDto.role !== undefined) {
-      updateFields.push(`role = '${updateUsuarioDto.role}'`);
     }
 
     if (updateFields.length === 0) {
