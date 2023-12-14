@@ -1,10 +1,58 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from './Layout/layout';
 import styles from './styles.module.css';
 import Books from '../components/Books/books'
 import Materials from '../components/Materials/materials'
 
 export default function Return() {
+    interface Livro {
+        isbn: string;
+        titulo: string;
+        autor: string;
+        editora: string;
+        ano: string;
+        categoria: string;
+        estado_conservacao: string;
+        localizacao_fisica: string;
+        image: string;
+    }
+    interface Materiais {
+        id: string;
+        category: string;
+        description: string;
+        image: string;
+    }
+
+    const [livros, setLivros] = useState<Livro[]>([]);
+    const [materiais, setMateriais] = useState<Materiais[]>([]);
+
+    const bookRequest = async () => {
+        const token = localStorage.getItem('@token');
+        const response = await fetch('http://localhost:3001/livros', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        });
+        const data = await response.json();
+        
+        setLivros(data.rows);
+    };
+
+    const materialRequest = async () => {
+        const token = localStorage.getItem('@token');
+        const response = await fetch('http://localhost:3001/materiais', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        });
+        const data = await response.json();
+        
+        setMateriais(data.rows);
+    }
+    
+    useEffect(() => {
+        bookRequest();
+        materialRequest();
+    }, []); 
+    
 
     //pegar livros e materiais do back que estejam emprestados
     //temporário
@@ -25,14 +73,13 @@ export default function Return() {
     ]
     const type = 'livros'
     // const type = 'materiais'
-    //////////////////////////////////////////////
     
-    const [book, setBook] = useState({})
+    const [livro, setBook] = useState({})
     const [material, setMaterial] = useState({})
 
     const sendReq = () => {
         //Enviar pro back aqui
-        console.log(book)
+        console.log(livro)
         console.log(material)
     }
 
@@ -47,14 +94,18 @@ export default function Return() {
         </div>
         {type === 'livros' ? (
             <ul className={styles.listContainer}>
-                {books.map((book) => (
-                    <Books title={book.title} author={book.author} image={book.image} onClick={() => setBook(book)} />
+                {livros.map((livro, index) => (
+                    <Books 
+                    key={index}
+                    title={livro.titulo} 
+                    author={livro.autor} 
+                    image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'} onClick={() => setBook(livro)} />
                 ))}
             </ul>
             ) : (
             <ul className={styles.listContainer}>
-                {materials.map((material) => (
-                    <Materials category={material.category} description={material.description} image={material.image} onClick={() => setMaterial(material)} />
+                {materials.map((material, index) => (
+                    <Materials key={index} category={material.category} description={material.description} image={material.image} onClick={() => setMaterial(material)} />
                 ))}
             </ul>
         )}
