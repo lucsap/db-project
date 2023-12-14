@@ -1,6 +1,8 @@
 .headerContainer {
   height: 80px;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   background-color: #ff971d;
 }
 
@@ -14,4 +16,69 @@
 
 .logosContainer > img {
   height: 20px;
+}
+
+.logoutContainer{
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+  padding: 2em;
+}
+
+.buttonLogOut{
+  font-size: 1em;
+  font-weight: 700;
+  border-radius: 10px;
+  height: 2.4rem;
+  border-radius: 10px;
+  border: none;
+  background-color: #FF971D;
+  color: #ffffff;
+  cursor: pointer;
+  margin-bottom: 0.5em;
+
+}
+
+.buttonsWrapper{
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.outlineBtn{
+  font-size: 1em;
+  font-weight: 700;
+  border-radius: 10px;
+  height: 2.4rem;
+  border-radius: 10px;
+  border: 1px solid #FF971D;
+  color: #FF971D;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  margin-bottom: 0.5em;
+}
+
+.outlineBtn:hover{
+  background-color: #fff5e9;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+.btnPrimary {
+  font-size: 1em;
+  font-weight: 700;
+  border-radius: 10px;
+  height: 2.4rem;
+  border: none;
+  color: #ffffff;
+  background-color: #ff971d;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  margin-bottom: 0.5em;
+}
+
+.btnPrimary:hover {
+  background-color: #ffd29e;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
 }
