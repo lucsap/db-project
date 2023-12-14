@@ -28,7 +28,8 @@ export async function up(knex: Knex): Promise<void> {
       "numero_serie" int NOT NULL,
       "estado_conservacao" varchar(255) NOT NULL,
       "localizacao_fisica" varchar(255) NOT NULL,
-      "data_aquisicao" date DEFAULT CURRENT_DATE
+      "data_aquisicao" date DEFAULT CURRENT_DATE,
+      "disponivel" boolean DEFAULT TRUE NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS Livros (
@@ -40,11 +41,12 @@ export async function up(knex: Knex): Promise<void> {
       "uri_capa_livro" bytea,
       "localizacao_fisica" varchar(255) NOT NULL,
       "estado_conservacao" varchar(255) NOT NULL,
+      "disponivel" boolean DEFAULT TRUE NOT NULL,
       CONSTRAINT "uc_livros_isbn" UNIQUE ("isbn")
     );
 
-
     CREATE TABLE IF NOT EXISTS Emprestimos (
+      "id" SERIAL PRIMARY KEY,
       "id_usuario" int NOT NULL,
       "id_item" int,
       "data_emprestimo" date DEFAULT CURRENT_DATE,

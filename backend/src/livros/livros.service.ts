@@ -70,7 +70,9 @@ export class LivrosService {
   }
 
   async findAll() {
-    return await this.knex.raw(`SELECT * FROM Livros`);
+    const data = await this.knex.raw(`SELECT * FROM Livros`);
+
+    return data.rows;
   }
 
   async findOne(isbn: number) {
