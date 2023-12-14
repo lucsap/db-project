@@ -20,7 +20,7 @@ export class UsuariosService {
     this.knex = knex;
   }
 
-  async create(createUsuarioDto: CreateUsuarioDto) {
+  async create(createUsuarioDto: CreateUsuarioDto, imagemPerfil?: Express.Multer.File) {
     try {
       let createdUser = null;
 
@@ -40,11 +40,12 @@ export class UsuariosService {
         // Insert the user within the transaction
         const result = await trx.raw(
           `
-          INSERT INTO Usuarios (email, nome, senha, sobrenome) 
-          VALUES (?, ?, ?, ?) RETURNING *
+          INSERT INTO Usuarios (email, nome, senha, sobrenome, uri_foto, role) 
+          VALUES (?, ?, ?, ?, ?, ?) RETURNING *
             `, 
           [usuario.email, usuario.nome, usuario.senha, usuario.sobrenome]
         );
+
         createdUser = result.rows[0];
       });
 
