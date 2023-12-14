@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import styles from './styles.module.css'
+import styles from './index.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useState } from 'react';

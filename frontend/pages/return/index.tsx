@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import Layout from './Layout/layout';
-import styles from './styles.module.css';
-import Books from '../components/Books/books'
-import Materials from '../components/Materials/materials'
-import Modal from '../components/Modal/modal';
+import styles from './index.module.css';
+import Books from '../../components/Books/books'
+import Materials from '../../components/Materials/materials'
+import Modal from '../../components/Modal/modal';
 
 export default function Return() {
 
@@ -18,6 +17,7 @@ export default function Return() {
         localizacao_fisica: string;
         image: string;
     }
+
     interface Materiais {
         id: string;
         category: string;
@@ -94,7 +94,7 @@ export default function Return() {
     }
 
     return (
-        <Layout>
+      <>
         <div className={styles.personalBox}>
         <h3>Devolução de Livros e Materiais</h3>
         <h4>
@@ -143,6 +143,6 @@ export default function Return() {
                 Devolver
         </button>
         </div>
-        </Layout>
+        </>
     )
 }

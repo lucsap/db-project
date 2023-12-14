@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import Layout from './Layout/layout';
 import styles from './styles.module.css';
-import Books from '../components/Books/books'
-import Materials from '../components/Materials/materials'
+import Books from '../../components/Books/books'
+import Materials from '../../components/Materials/materials'
 
 export default function Search() {
-
     //temporário
     const books = [
         {
@@ -42,7 +40,7 @@ export default function Search() {
     }
 
     return (
-        <Layout>
+        <>
             <div className={styles.personalBox}>
                 <h3>Pesquisa de Livros e Materiais</h3>
                 <h4>
@@ -76,6 +74,6 @@ export default function Search() {
                     <h5>Nenhum resultado encontrado</h5>
                 </>
             )}
-        </Layout>
+        </>
     )
 }

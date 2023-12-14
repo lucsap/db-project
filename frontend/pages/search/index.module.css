@@ -1,0 +1,42 @@
+.personalBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+.formInput {
+  border-color: #ff971d;
+  border-radius: 7px;
+  height: 35px;
+  width: 300px;
+}
+
+.btnPrimary {
+  font-size: 1.2em;
+  font-weight: 700;
+  border-radius: 12px;
+  height: 2.4rem;
+  border: none;
+  color: #ffffff;
+  background-color: #ff971d;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  margin-bottom: 0.5em;
+}
+
+.btnPrimary:hover {
+  background-color: #e9830e;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 12px;
+  row-gap: 8px;
+  justify-content: center;
+}

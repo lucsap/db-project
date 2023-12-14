@@ -1,0 +1,33 @@
+.personalBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+.btnReg {
+  margin-top: 3em;
+  margin-bottom: 2.5em;
+  display: flex;
+  flex-direction: column;
+  width: 23%;
+}
+
+.btnPrimary {
+  font-size: 1.2em;
+  font-weight: 700;
+  border-radius: 12px;
+  height: 2.4rem;
+  border: none;
+  color: #ffffff;
+  background-color: #ff971d;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  margin-bottom: 0.5em;
+}
+
+.btnPrimary:hover {
+  background-color: #e9830e;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
+}

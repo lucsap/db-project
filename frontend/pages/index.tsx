@@ -1,28 +1,35 @@
 import React from 'react';
-import Landing from './landing';
-import Login from './login';
-import Register from './register';
-import Borrow from './borrow';
-import Return from './return';
-import Search from './search';
-import SignUp from './signup';
-import HomePage from './home';
+import styles from './index.module.css';
+import Image from 'next/image';
+import Logo from '../assets/logo.svg'
+import { useRouter } from 'next/router';
 
+export default function Landing() {
+    const router = useRouter();
 
-const App: React.FC = () => {
-  return (
-    <>
-      <Landing />
-      <Login />
-      <Register />
-      <Borrow />
-      <Return />
-      <Search />
-      <SignUp />
-      <HomePage />
+    const handleClick = () => {
+        router.push('/login');
+    };
 
-    </>
-  );
-};
-
-export default App;
+    return (
+        <section className={styles.welcomeScreen}>
+            <Image src={Logo} alt="logo" className="welcomeLogo" />
+            <div>
+                <h1 className={styles.h1}>Sejam Bem Vindos</h1>
+                <h2 className={styles.h2}>
+                    Uma plataforma dedicada aos amantes de leitura
+                </h2>
+            </div>
+            <div className={styles.btnContainer}>
+                <button onClick={handleClick} className={styles.btnPrimary}
+                >
+                    sou admin
+                </button>
+                <button onClick={handleClick} className={styles.btnPrimary}
+                >
+                    sou estudante
+                </button>
+            </div>
+        </section>
+    );
+}

@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import Layout from './Layout/layout';
-import styles from './styles.module.css';
-import Books from '../components/Books/books'
-import Materials from '../components/Materials/materials'
-import Modal from '../components/Modal/modal';
+import styles from './index.module.css';
+import Books from '../../components/Books/books'
+import Materials from '../../components/Materials/materials'
+import Modal from '../../components/Modal/modal';
 
 export default function Borrow() {
 
@@ -85,12 +84,12 @@ export default function Borrow() {
 
     const sendReq = () => {
         //Enviar pro back aqui
-        console.log(book)
+        console.log(books)
         console.log(material)
     }
 
     return (
-        <Layout>
+      <div className={styles.pageContainer}>
         <div className={styles.personalBox}>
             <h3>Empréstimo de Livros e Materiais</h3>
             <h4>
@@ -138,6 +137,6 @@ export default function Borrow() {
                 Solicitar Empréstimo
             </button>
         </div>
-    </Layout>
+        </div>
     )
 }

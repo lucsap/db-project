@@ -1,4 +1,4 @@
-import styles from '../../pages/styles.module.css'
+import styles from '../../pages/globals.css'
 
 export default function Books({title, image, author, ...props}) {
     return (

@@ -1,10 +1,7 @@
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Cards from '../components/Modal/modal';
-import styles from './styles.module.css';
-import Books from '../components/Books/books';
-import Layout from './Layout/layout';
-import Modal from '../components/Modal/modal';
+import styles from './index.module.css';
+import Books from '../../components/Books/books';
+import Modal from '../../components/Modal/modal';
 
 export default function Livros() {
     interface Livro {
@@ -45,7 +42,6 @@ export default function Livros() {
     };
 
     return (
-        <Layout>
             <div>
                 <ul className={styles.listContainer}>
                     {livros.map((livro) => (
@@ -75,6 +71,5 @@ export default function Livros() {
                     ))}
                 </ul>
             </div>
-        </Layout>
     );
 };

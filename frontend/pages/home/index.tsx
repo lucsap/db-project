@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import styles from './styles.module.css'
+import styles from './index.module.css'
 import { useRouter } from 'next/router';
-import Layout from './Layout/layout';
-import Books from '../components/Books/books';
-import Materials from '../components/Materials/materials';
-import Modal from '../components/Modal/modal';
+import Books from '../../components/Books/books';
+import Materials from '../../components/Materials/materials';
+import Modal from '../../components/Modal/modal';
 
 export default function HomePage() {
 
@@ -98,7 +97,7 @@ export default function HomePage() {
     ]
 
     return (
-        <Layout>
+        <>
             <div className={styles.personalBox}>
                 <h3>Olá {user}</h3>
                 <h4>
@@ -150,6 +149,6 @@ export default function HomePage() {
                     </ul>
                 </div>
             </div>
-        </Layout>
+        </>
     );
 }
