@@ -5,6 +5,7 @@ import Books from '../components/Books/books'
 import Materials from '../components/Materials/materials'
 
 export default function Return() {
+
     interface Livro {
         isbn: string;
         titulo: string;
@@ -73,12 +74,13 @@ export default function Return() {
     ]
     const type = 'livros'
     // const type = 'materiais'
-    
+
     const [livro, setBook] = useState({})
     const [material, setMaterial] = useState({})
 
     const sendReq = () => {
         //Enviar pro back aqui
+
         console.log(livro)
         console.log(material)
     }
@@ -94,6 +96,7 @@ export default function Return() {
         </div>
         {type === 'livros' ? (
             <ul className={styles.listContainer}>
+
                 {livros.map((livro, index) => (
                     <Books 
                     key={index}
@@ -104,6 +107,7 @@ export default function Return() {
             </ul>
             ) : (
             <ul className={styles.listContainer}>
+
                 {materials.map((material, index) => (
                     <Materials key={index} category={material.category} description={material.description} image={material.image} onClick={() => setMaterial(material)} />
                 ))}
