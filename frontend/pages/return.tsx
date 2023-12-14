@@ -3,6 +3,7 @@ import Layout from './Layout/layout';
 import styles from './styles.module.css';
 import Books from '../components/Books/books'
 import Materials from '../components/Materials/materials'
+import Modal from '../components/Modal/modal';
 
 export default function Return() {
     interface Livro {
@@ -22,7 +23,8 @@ export default function Return() {
         description: string;
         image: string;
     }
-
+    
+    const [selectedLivro, setSelectedLivro] = useState<Livro | null>(null); // Livro selecionado para abrir o modal
     const [livros, setLivros] = useState<Livro[]>([]);
     const [materiais, setMateriais] = useState<Materiais[]>([]);
 
@@ -52,7 +54,14 @@ export default function Return() {
         bookRequest();
         materialRequest();
     }, []); 
-    
+    const openModal = (livro: Livro) => {
+        setSelectedLivro(livro);
+    };
+
+    const closeModal = () => {
+        setSelectedLivro(null);
+    };
+
 
     //pegar livros e materiais do back que estejam emprestados
     //temporário
@@ -86,20 +95,38 @@ export default function Return() {
     return (
         <Layout>
         <div className={styles.personalBox}>
-          <h3>Devolução de Livros e Materiais</h3>
-          <h4>
+        <h3>Devolução de Livros e Materiais</h3>
+        <h4>
             Olá! Aqui você pode devolver qualquer livro ou material que pegou emprestado.
-          </h4>
-          <h5>Você está vendo todos os {type} emprestados</h5>
+            </h4>
+            <h5>Você está vendo todos os {type} emprestados</h5>
         </div>
         {type === 'livros' ? (
-            <ul className={styles.listContainer}>
-                {livros.map((livro, index) => (
-                    <Books 
-                    key={index}
-                    title={livro.titulo} 
-                    author={livro.autor} 
-                    image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'} onClick={() => setBook(livro)} />
+                <ul className={styles.listContainer}>
+                {livros.map((livro) => (
+                    <li key={livro.isbn}>
+                        <Books
+                            onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
+                            title={livro.titulo}
+                            author={livro.autor}
+                            image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                        />
+                        {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
+                            <Modal
+                                isOpen={true}
+                                onClose={closeModal}
+                                titulo={selectedLivro.titulo}
+                                categoria={selectedLivro.categoria}
+                                autor={selectedLivro.autor}
+                                editora={selectedLivro.editora}
+                                ano={selectedLivro.ano}
+                                estado_conservacao={selectedLivro.estado_conservacao}
+                                localizacao_fisica={selectedLivro.localizacao_fisica}
+                                isbn={selectedLivro.isbn}
+                                image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                            />
+                        )}
+                    </li>
                 ))}
             </ul>
             ) : (
@@ -110,9 +137,9 @@ export default function Return() {
             </ul>
         )}
         <div className={styles.btnReg}>
-           <button className={styles.btnPrimary} onClick={() => sendReq()}>
+        <button className={styles.btnPrimary} onClick={() => sendReq()}>
                 Devolver
-          </button>
+        </button>
         </div>
         </Layout>
     )
