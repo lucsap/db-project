@@ -4,7 +4,8 @@ export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
     CREATE TABLE IF NOT EXISTS Roles (
       "id" SERIAL PRIMARY KEY,
-      "nome" varchar(255) NOT NULL
+      "nome" varchar(255) NOT NULL,
+      CONSTRAINT "uc_roles_nome" UNIQUE ("nome")
     );
 
     CREATE TABLE IF NOT EXISTS Usuarios (
@@ -37,20 +38,23 @@ export async function up(knex: Knex): Promise<void> {
       "descricao" varchar(255) NOT NULL,
       "autor" varchar(255) NOT NULL,
       "titulo" varchar(255) NOT NULL,
-      "data_aquisicao" date DEFAULT CURRENT_DATE,
       "uri_capa_livro" bytea,
       "localizacao_fisica" varchar(255) NOT NULL,
       "estado_conservacao" varchar(255) NOT NULL,
+<<<<<<< Updated upstream
+=======
+      "data_aquisicao" date DEFAULT CURRENT_DATE,
+>>>>>>> Stashed changes
       CONSTRAINT "uc_livros_isbn" UNIQUE ("isbn")
     );
 
     CREATE TABLE IF NOT EXISTS Emprestimos (
       "id" SERIAL PRIMARY KEY,
       "id_usuario" int NOT NULL,
-      "id_item" int,
+      "id_item" int NOT NULL,
       "data_emprestimo" date DEFAULT CURRENT_DATE,
       "data_devolucao_prevista" date,
-      "status_devolucao" boolean DEFAULT FALSE NOT NULL,
+      "status" boolean DEFAULT FALSE NOT NULL,
       "data_devolucao" date DEFAULT NULL,
       CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY ("id_usuario") REFERENCES Usuarios ("id"),
       CONSTRAINT "fk_emprestimos_id_item" FOREIGN KEY ("id_item") REFERENCES MateriaisDidaticos ("id"),
@@ -63,11 +67,11 @@ export async function up(knex: Knex): Promise<void> {
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(
     `
+      DROP TABLE IF EXISTS Roles CASCADE;
       DROP TABLE IF EXISTS Usuarios CASCADE;
       DROP TABLE IF EXISTS Emprestimos CASCADE;
       DROP TABLE IF EXISTS Livros CASCADE;
       DROP TABLE IF EXISTS MateriaisDidaticos CASCADE;
-      DROP TABLE IF EXISTS Roles CASCADE;
     `,
   );
 }

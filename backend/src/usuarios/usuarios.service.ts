@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import {
   Injectable,
   NotFoundException,
@@ -20,7 +18,7 @@ export class UsuariosService {
     this.knex = knex;
   }
 
-  async create(createUsuarioDto: CreateUsuarioDto, imagemPerfil?: Express.Multer.File) {
+  async create(createUsuarioDto: CreateUsuarioDto) {
     try {
       let createdUser = null;
 

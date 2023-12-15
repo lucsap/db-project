@@ -8,7 +8,21 @@ import { EmprestimoMateriaisDto } from './dto/emprestimo-materiais.dto';
 export class EmprestimosService {
   constructor(@InjectConnection() private readonly knex: Knex) {}
 
-  async emprestimoLivros(emprestimoLivrosDto: EmprestimoLivrosDto) {
+  async emprestimoLivros(req: any, emprestimoLivrosDto: EmprestimoLivrosDto) {
+    const role = req.user;
+
+    if (role.role_id !== 1) {
+      throw new BadRequestException('Somente estudantes podem realizar empréstimos');
+    }
+    
+    let emprestimo = await this.knex.raw(`SELECT * FROM Emprestimos WHERE status_devolucao = true`);
+
+    if (emprestimoLivrosDto.id_item !== null && emprestimoLivrosDto.id_item !== undefined) {
+      emprestimo += ` AND id_item = ${emprestimoLivrosDto.id_item}`
+    } else {
+      emprestimo += ` AND id_item IS NULL`
+    }
+
     const emprestimoExistente = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_item = ${emprestimoLivrosDto.id_item} AND status_devolucao = true`);
 
     if (emprestimoExistente.rows.length > 0) {
@@ -33,10 +47,13 @@ export class EmprestimosService {
     `
 
     await this.knex.raw(sql);
+    const updateLivroSql = `
+      UPDATE Livros SET status_devolucao = true WHERE isbn = ${emprestimoLivrosDto.id_item} `;
+    await this.knex.raw(updateLivroSql);
 
     return {
       ...emprestimoLivrosDto,
-    }
+    };
   }
 
   async emprestimoMateriaisDidaticos(emprestimoMateriaisDto: EmprestimoMateriaisDto) {
@@ -66,6 +83,8 @@ export class EmprestimosService {
 
     await this.knex.raw(sql);
 
+
+
     return {
       ...emprestimoMateriaisDto,
     }
@@ -87,21 +106,36 @@ export class EmprestimosService {
     return emprestimo;
   }
 
-  async returnItem(id: number) {
-    const emprestimo = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id = ${id}`);
+  async returnItem(req: any, updateEmprestimosDto: EmprestimoLivrosDto) {
+    const userId = req.user.id;
 
-    if (!emprestimo) {
-      throw new BadRequestException('Empréstimo não encontrado');
+    // Verifica se o usuário é o proprietário do livro
+    const emprestimo = await this.knex.raw(`
+      SELECT * FROM Emprestimos 
+      WHERE id = ${updateEmprestimosDto.id_item} AND id_usuario = ${userId}
+    `);
+
+    if (emprestimo.rows.length === 0) {
+      throw new BadRequestException('Empréstimo não encontrado ou não pertence a este usuário');
     }
 
-    const sql = `
-      UPDATE Emprestimos SET status_devolucao = false, data_devolucao = CURRENT_TIMESTAMP WHERE id = ${id}
-    `
+    // Atualiza o registro de empréstimo para indicar que foi devolvido
+    const updateEmprestimoSql = `
+      UPDATE Emprestimos SET status_devolucao = false, data_devolucao = CURRENT_TIMESTAMP 
+      WHERE id = ${updateEmprestimosDto.id_item}
+    `;
+    await this.knex.raw(updateEmprestimoSql);
 
-    await this.knex.raw(sql);
+    // Atualiza o status do livro para indicar que está disponível novamente
+    const updateLivroSql = `
+      UPDATE Livros SET status_devolucao = false WHERE isbn = ${updateEmprestimosDto.id_item}
+    `;
+    await this.knex.raw(updateLivroSql);
 
     return {
       success: true,
-    }
+      ...emprestimo,
+    };
   }
+
 }

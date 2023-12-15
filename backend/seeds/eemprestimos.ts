@@ -8,10 +8,10 @@ export async function seed(knex: Knex): Promise<void> {
   // Inserts seed entries
   await knex.raw(
     `
-    INSERT INTO Emprestimos (id_usuario, data_emprestimo, data_devolucao_prevista, status_devolucao) VALUES
-    (1, '2023-01-15', '2023-01-14', true),
-    (2, '2023-02-15', '2023-02-14', false),
-    (3, '2023-03-15', '2023-03-14', true);
+    INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista) VALUES
+    (1, 1, '2023-01-14'),
+    (2, 2, '2023-02-14'),
+    (3, 3, '2023-03-14');
     `
   )
 }
