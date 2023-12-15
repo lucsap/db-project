@@ -1,4 +1,19 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { EmprestimoLivrosDto } from './emprestimo-livros.dto';
+import { IsBoolean, IsDate, IsNotEmpty, IsNumber } from "class-validator";
 
-export class UpdateEmprestimoDto extends PartialType(EmprestimoLivrosDto) {}
+export class EmprestimoMateriaisDto {
+  @IsNumber()
+  @IsNotEmpty()
+  id_item: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  id_usuario: number;
+
+  @IsNotEmpty()
+  @IsDate()
+  data_devolucao_prevista: Date;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  status_devolucao: boolean;
+}

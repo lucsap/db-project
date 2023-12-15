@@ -1,7 +1,6 @@
 import { IsBoolean, IsDate, IsNotEmpty, IsNumber } from "class-validator";
 
 export class EmprestimoLivrosDto { 
-
   @IsNumber()
   @IsNotEmpty()
   id_item: number;
