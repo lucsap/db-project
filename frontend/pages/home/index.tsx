@@ -4,7 +4,8 @@ import { useRouter } from 'next/router';
 import Books from '../../components/Books/books';
 import Materials from '../../components/Materials/materials';
 import Modal from '../../components/Modal/modal';
-import Layout from '../layout';
+import jwt from 'jsonwebtoken';
+
 
 export default function HomePage() {
     interface Livro {
@@ -18,6 +19,7 @@ export default function HomePage() {
         localizacao_fisica: string;
         image: string;
     }
+
     interface Materiais {
         id: string;
         categoria: string;
@@ -28,7 +30,6 @@ export default function HomePage() {
         localizacao_fisica: string;
         numero_serie: string;
         data_aquisicao: string;
-
     }
 
     interface User {
@@ -97,7 +98,7 @@ export default function HomePage() {
     };
 
     return (
-        <Layout>
+      <>
             <div className={styles.personalBox}>
                 <h3>Olá {user.nome}</h3>
                 <h4>
@@ -164,6 +165,6 @@ export default function HomePage() {
                     </ul>
                 </div>
             </div>
-        </Layout>
+            </>
     );
 }

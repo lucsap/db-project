@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useState } from "react";
 import PopUp from "../PopUp/pupup";
 
-function Header({ }) {
+function Header() {
     const router = useRouter();
     const [stay, setStay] = useState(false);
 
