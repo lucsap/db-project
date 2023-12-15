@@ -43,7 +43,10 @@ export class EmprestimosController {
   }
 
   @Patch('livros:id')
-  async returnItem(@Body() updateEmprestimosDto: EmprestimoLivrosDto) {
-    return await this.emprestimosService.returnItem(updateEmprestimosDto);
+  async returnItem(
+    @Body() updateEmprestimosDto: EmprestimoLivrosDto,
+    @Req() req: any,
+  ) {
+    return await this.emprestimosService.returnItem(updateEmprestimosDto, req.user);
   }
 }
