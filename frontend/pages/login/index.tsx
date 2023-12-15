@@ -43,8 +43,11 @@ export default function Login() {
             
 
         if (response.ok) {
-            console.log(response)
-            const { token } = await response.json();
+            const responseData = await response.json();
+
+            const { token, user } = responseData;
+
+            localStorage.setItem('@user', JSON.stringify(user));
             localStorage.setItem('@token', token);
             router.push('/home');
         }
