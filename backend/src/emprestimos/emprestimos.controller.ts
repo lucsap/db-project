@@ -22,11 +22,13 @@ export class EmprestimosController {
     return await this.emprestimosService.emprestimoMateriaisDidaticos(emprestimoMateriaisDto)
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('livros')
   findAllLivros() {
     return this.emprestimosService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('materiais')
   findAllMateriais() {
     return this.emprestimosService.findAll();
@@ -42,11 +44,10 @@ export class EmprestimosController {
     return this.emprestimosService.findOne(+id);
   }
 
-  @Patch('livros:id')
-  async returnItem(
-    @Body() updateEmprestimosDto: EmprestimoLivrosDto,
-    @Req() req: any,
-  ) {
-    return await this.emprestimosService.returnItem(updateEmprestimosDto, req.user);
+  @UseGuards(JwtAuthGuard)
+  @Post('livros/devolucao')
+  async devolucaoLivro(@Req() req: any, @Body() updateEmprestimosDto: EmprestimoLivrosDto) {
+    return await this.emprestimosService.returnItem(req, updateEmprestimosDto);
   }
+
 }
