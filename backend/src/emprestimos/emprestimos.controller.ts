@@ -45,7 +45,7 @@ export class EmprestimosController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('livros/devolucao')
+  @Post('devolucao')
   async devolucaoLivro(@Req() req: any, @Body() updateEmprestimosDto: EmprestimoLivrosDto) {
     return await this.emprestimosService.returnItem(req, updateEmprestimosDto);
   }
