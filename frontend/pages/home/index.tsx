@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 import Books from '../../components/Books/books';
 import Materials from '../../components/Materials/materials';
 import Modal from '../../components/Modal/modal';
+import Layout from '../layout';
 
 export default function HomePage() {
-    
+
     interface Livro {
         isbn: string;
         titulo: string;
@@ -30,7 +31,7 @@ export default function HomePage() {
         data_aquisicao: string;
 
     }
-    
+
     const [selectedMaterial, setSelectedMaterial] = useState<Materiais | null>(null);
     const [selectedLivro, setSelectedLivro] = useState<Livro | null>(null); // Livro selecionado para abrir o modal
     const [livros, setLivros] = useState<Livro[]>([]);
@@ -43,7 +44,7 @@ export default function HomePage() {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         });
         const data = await response.json();
-        
+
         setLivros(data.rows);
     };
 
@@ -54,14 +55,14 @@ export default function HomePage() {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         });
         const data = await response.json();
-        
+
         setMateriais(data);
     }
-    
+
     useEffect(() => {
         bookRequest();
         materialRequest();
-    }, []); 
+    }, []);
     const openModal = (livro: Livro) => {
         setSelectedLivro(livro);
     };
@@ -112,7 +113,7 @@ export default function HomePage() {
     ]
 
     return (
-        <>
+        <Layout>
             <div className={styles.personalBox}>
                 <h3>Olá {user}</h3>
                 <h4>
@@ -123,63 +124,63 @@ export default function HomePage() {
                 <div className={styles.infos}>
                     <h5>Seus livros</h5>
                     <ul className={styles.listContainer}>
-                {livros.map((livro) => (
-                    <li key={livro.isbn}>
-                        <Books
-                            onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
-                            title={livro.titulo}
-                            author={livro.autor}
-                            image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
-                        />
-                        {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
-                            <Modal
-                                type='livro'
-                                isOpen={true}
-                                onClose={closeModal}
-                                titulo={selectedLivro.titulo}
-                                categoria={selectedLivro.categoria}
-                                autor={selectedLivro.autor}
-                                editora={selectedLivro.editora}
-                                ano={selectedLivro.ano}
-                                estado_conservacao={selectedLivro.estado_conservacao}
-                                localizacao_fisica={selectedLivro.localizacao_fisica}
-                                isbn={selectedLivro.isbn}
-                                image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
-                            />
-                        )}
-                    </li>
-                ))}
-            </ul>
+                        {livros.map((livro) => (
+                            <li key={livro.isbn}>
+                                <Books
+                                    onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
+                                    title={livro.titulo}
+                                    author={livro.autor}
+                                    image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                                />
+                                {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
+                                    <Modal
+                                        type='livro'
+                                        isOpen={true}
+                                        onClose={closeModal}
+                                        titulo={selectedLivro.titulo}
+                                        categoria={selectedLivro.categoria}
+                                        autor={selectedLivro.autor}
+                                        editora={selectedLivro.editora}
+                                        ano={selectedLivro.ano}
+                                        estado_conservacao={selectedLivro.estado_conservacao}
+                                        localizacao_fisica={selectedLivro.localizacao_fisica}
+                                        isbn={selectedLivro.isbn}
+                                        image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                                    />
+                                )}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
                 <div className={styles.infos}>
                     <h5>Seus materiais</h5>
                     <ul className={styles.listContainer}>
-                                {materiais.map((material, index) => (
-                                    <Materials
-                                        key={index}
-                                        category={material.nome}
-                                        description={material.descricao}
-                                        image={'https://iili.io/Juxkncl.jpg'}
-                                        onClick={() => openMaterialModal(material)}
-                                    />
-                                ))}
-                                                        {selectedMaterial && (
-                                <Modal
-                                    type='material'
-                                    isOpen={true}
-                                    onClose={closeMaterialModal}
-                                    titulo={selectedMaterial.nome}
-                                    descricao={selectedMaterial.descricao}
-                                    categoria={selectedMaterial.categoria}
-                                    estado_conservacao={selectedMaterial.estado_conservacao}
-                                    localizacao_fisica={selectedMaterial.localizacao_fisica}
-                                    isbn={selectedMaterial.numero_serie}
-                                    image={'https://iili.io/Juxkncl.jpg'}
-                                />
-                                                        )}
+                        {materiais.map((material, index) => (
+                            <Materials
+                                key={index}
+                                category={material.nome}
+                                description={material.descricao}
+                                image={'https://iili.io/Juxkncl.jpg'}
+                                onClick={() => openMaterialModal(material)}
+                            />
+                        ))}
+                        {selectedMaterial && (
+                            <Modal
+                                type='material'
+                                isOpen={true}
+                                onClose={closeMaterialModal}
+                                titulo={selectedMaterial.nome}
+                                descricao={selectedMaterial.descricao}
+                                categoria={selectedMaterial.categoria}
+                                estado_conservacao={selectedMaterial.estado_conservacao}
+                                localizacao_fisica={selectedMaterial.localizacao_fisica}
+                                isbn={selectedMaterial.numero_serie}
+                                image={'https://iili.io/Juxkncl.jpg'}
+                            />
+                        )}
                     </ul>
                 </div>
             </div>
-        </>
+        </Layout>
     );
 }

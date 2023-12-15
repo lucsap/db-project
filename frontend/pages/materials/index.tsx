@@ -3,18 +3,19 @@ import styles from './index.module.css';
 import Modal from '../../components/Modal/modal';
 import Materials from '../../components/Materials/materials';
 
+interface materialProps {
+    id: number,
+    nome: string,
+    editora: string,
+    numero_serie: number,
+    categoria: string,
+    estado_conservacao: string,
+    localizacao_fisica: string,
+}
+
 export default function Materiais() {
-    interface Material {
-        id: number;
-        nome: string;
-        editora: string;
-        numero_serie: number;
-        categoria: string;
-        estado_conservacao: string;
-        localizacao_fisica: string;
-    }
-    const [materiais, setMateriais] = useState<Material[]>([]);
-    const [selectedMaterial, setSelectedMaterial] = useState<Material[]>([]);
+    const [materiais, setMateriais] = useState<Material>([]);
+    const [selectedMaterial, setSelectedMaterial] = useState<Material>([]);
 
     const materialRequest = async () => {
         const token = localStorage.getItem('@token');
@@ -32,7 +33,7 @@ export default function Materiais() {
         materialRequest();
     }, []); 
     
-    const openModal = (material: Material) => {
+    const openModal = (material: any) => {
         setSelectedMaterial(material);
     };
 
@@ -41,7 +42,7 @@ export default function Materiais() {
     };
 
     return (
-            <div>
+            <>
                 <ul className={styles.listContainer}>
                     {materiais.map((material: Material) => (
                         <li key={material.id}>
@@ -68,6 +69,6 @@ export default function Materiais() {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </>
     );
 };
