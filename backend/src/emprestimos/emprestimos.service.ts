@@ -48,7 +48,7 @@ export class EmprestimosService {
 
     await this.knex.raw(sql);
     const updateLivroSql = `
-      UPDATE Livros SET status = true WHERE isbn = ${emprestimoLivrosDto.id_item} `;
+      UPDATE Livros SET disponivel = false WHERE isbn = ${emprestimoLivrosDto.id_item} `;
     await this.knex.raw(updateLivroSql);
 
     return {
@@ -111,7 +111,7 @@ export class EmprestimosService {
     // Verifica se o usuário é o proprietário do livro
     const emprestimo = await this.knex.raw(`
       SELECT * FROM Emprestimos 
-      WHERE id = ${updateEmprestimosDto.id_item} AND id_usuario = ${userId}
+      WHERE id_item = ${updateEmprestimosDto.id_item} AND id_usuario = ${userId}
     `);
 
     if (emprestimo.rows.length === 0) {
@@ -127,13 +127,13 @@ export class EmprestimosService {
 
     // Atualiza o status do livro para indicar que está disponível novamente
     const updateLivroSql = `
-      UPDATE Livros SET status = false WHERE isbn = ${updateEmprestimosDto.id_item}
+      UPDATE Livros SET disponivel = true WHERE isbn = ${updateEmprestimosDto.id_item}
     `;
     await this.knex.raw(updateLivroSql);
 
     return {
       success: true,
-      ...emprestimo,
+      message: 'Livro devolvido com sucesso',
     };
   }
 

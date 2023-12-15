@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards, Patch } from '@nestjs/common';
 import { EmprestimosService } from './emprestimos.service';
 import { EmprestimoLivrosDto } from './dto/emprestimo-livros.dto';
 import { EmprestimoMateriaisDto } from './dto/emprestimo-materiais.dto';
@@ -29,7 +29,7 @@ export class EmprestimosController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('devolucao')
+  @Patch('devolucao')
   async devolucaoLivro(@Req() req: any, @Body() updateEmprestimosDto: EmprestimoLivrosDto) {
     return await this.emprestimosService.returnItem(req, updateEmprestimosDto);
   }
