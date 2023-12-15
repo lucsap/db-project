@@ -30,7 +30,12 @@
   width: 300px;
 }
 
-.formLabel {
+.link {
+  text-decoration: none;
+  color: rgb(0, 96, 141);
+  display: inline-block;
+  padding: 0.5em;
+  font-size: 1em;
 }
 
 .formInfos {
@@ -67,4 +72,3 @@
   width: 50%;
   height: 100vh;
 }
-

@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
-import styles from './index.module.css'
+import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import {useState} from 'react';
+import styles from './index.module.css'
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -95,6 +96,9 @@ export default function Login() {
                             placeholder='********'
                             onChange={handleSenhaChange}
                         />
+                    </div>
+                    <div>
+                        <Link href="/signup" className={styles.link}>Registre-se</Link>
                     </div>
                     <div className={styles.btnLogin}>
                         <button type="submit" className={styles.btnPrimary} disabled={isSubmiting} >
