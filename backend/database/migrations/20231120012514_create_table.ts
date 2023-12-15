@@ -52,7 +52,7 @@ export async function up(knex: Knex): Promise<void> {
       "id_usuario" int NOT NULL,
       "id_item" int NOT NULL,
       "data_emprestimo" date DEFAULT CURRENT_DATE,
-      "data_devolucao_prevista" date,
+      "data_devolucao_prevista" date DEFAULT CURRENT_DATE + 14,
       "status" boolean DEFAULT FALSE,
       "data_devolucao" date DEFAULT NULL,
       CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY ("id_usuario") REFERENCES Usuarios ("id"),
