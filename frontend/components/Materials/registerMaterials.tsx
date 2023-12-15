@@ -34,7 +34,7 @@ export default function FormMaterials() {
         });
         if (response.ok) {
             notify2();
-            router.push('/books');
+            router.push('/materials');
             console.log(response)
         } else {
             console.log('error')
