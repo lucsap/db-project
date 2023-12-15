@@ -26,8 +26,7 @@ export class UsuariosService {
 
       // Start a transaction
       await this.knex.transaction(async (trx) => {
-        if (!createUsuarioDto.email || !createUsuarioDto.nome || !createUsuarioDto.sobrenome || !createUsuarioDto.senha) {
-          throw new BadRequestException('Todos os campos são obrigatórios');
+        if (!createUsuarioDto.email || !createUsuarioDto.nome || !createUsuarioDto.sobrenome || !createUsuarioDto.senha) { throw new BadRequestException('Todos os campos são obrigatórios');
         }
 
         const hashedPassword = await bcrypt.hash(createUsuarioDto.senha, 10);
@@ -40,8 +39,8 @@ export class UsuariosService {
         // Insert the user within the transaction
         const result = await trx.raw(
           `
-          INSERT INTO Usuarios (email, nome, senha, sobrenome, uri_foto, role) 
-          VALUES (?, ?, ?, ?, ?, ?) RETURNING *
+          INSERT INTO Usuarios (email, nome, senha, sobrenome) 
+          VALUES (?, ?, ?, ?) RETURNING *
             `, 
           [usuario.email, usuario.nome, usuario.senha, usuario.sobrenome]
         );
