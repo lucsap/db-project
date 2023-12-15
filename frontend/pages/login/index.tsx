@@ -45,10 +45,10 @@ export default function Login() {
         if (response.ok) {
             const responseData = await response.json();
 
-            const { token, user } = responseData;
+            const { access_token, user } = responseData;
 
             localStorage.setItem('@user', JSON.stringify(user));
-            localStorage.setItem('@token', token);
+            localStorage.setItem('@token', access_token);
             router.push('/home');
         }
         else {

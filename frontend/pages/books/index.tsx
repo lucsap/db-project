@@ -25,6 +25,7 @@ export default function Livros() {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         });
         const data = await response.json();
+        console.log(data);
 
         setLivros(data);
     };
@@ -43,7 +44,7 @@ export default function Livros() {
 
     return (
         <Layout>
-            <ul className={styles.listContainer}>
+            {/* <ul className={styles.listContainer}>
                 {livros.map((livro: Livro) => (
                     <li key={livro.isbn}>
                         <Books
@@ -69,7 +70,7 @@ export default function Livros() {
                         )}
                     </li>
                 ))}
-            </ul>
+            </ul> */}
         </Layout>
     );
 };

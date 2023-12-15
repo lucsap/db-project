@@ -25,7 +25,10 @@ export default function Borrow() {
         image: string;
     }
 
+    const [tipo, setTipo] = useState('livros') // 'livros' ou 'materiais' [temporário
+    const [selectedMaterial, setSelectedMaterial] = useState<Materiais | null>(null);
     const [selectedLivro, setSelectedLivro] = useState<Livro | null>(null); // Livro selecionado para abrir o modal
+    
 
     const openModal = (livro: Livro) => {
         setSelectedLivro(livro);
@@ -42,13 +45,28 @@ export default function Borrow() {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         });
         const data = await response.json();
-        
-        setLivros(data.rows);
+        console.log(data);
+        setLivros(data);
     };
+    const materialRequest = async () => {
+        const token = localStorage.getItem('@token');
+        const response = await fetch('http://localhost:3001/materiais', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        });
+        const data = await response.json();
+
+        setMateriais(data);
+    }
     
     useEffect(() => {
+        materialRequest();    
         bookRequest();
     }, []); 
+
+    const handleTipoChange = (event) => {
+        setTipo(event.target.value);
+    };
 
     //temporário
     const books = [
@@ -78,68 +96,115 @@ export default function Borrow() {
     ]
     const type = 'livros'
     // const type = 'materiais'
-    //////////////////////////////////////////////
-
     const [livros, setLivros] = useState<Livro[]>([])
-    const [material, setMaterial] = useState({})
+    const [materiais, setMateriais] = useState({})
+
+    const openMaterialModal = (material: Materiais) => {
+        setSelectedMaterial(material);
+    };
+
+    const closeMaterialModal = () => {
+        setSelectedMaterial(null);
+    };
 
     const sendReq = () => {
         //Enviar pro back aqui
         console.log(books)
-        console.log(material)
+        console.log(materiais)
     }
-
+    console.log(tipo)
     return (
-<Layout>
-      <div className={styles.pageContainer}>
-        <div className={styles.personalBox}>
-            <h3>Empréstimo de Livros e Materiais</h3>
-            <h4>
-            Olá estudante! Aqui você pode encontrar os livros e materiais que estão disponíveis na plataforma.
-            </h4>
-            <h5>Você está vendo todos os {type} disponíveis</h5>
-        </div>
-        {type === 'livros' ? (
-            <ul className={styles.listContainer}>
-            {livros?.map((livro) => (
-                <li key={livro.isbn}>
-                    <Books
-                        onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
-                        title={livro.titulo}
-                        author={livro.autor}
-                        image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+    <Layout>
+        <div className={styles.pageContainer}>
+            <div className={styles.personalBox}>
+                <h3>Empréstimo de Livros e Materiais</h3>
+                <h4>
+                Olá estudante! Aqui você pode encontrar os livros e materiais que estão disponíveis na plataforma.
+                </h4>
+
+                <div>
+                    <input 
+                        type="radio" 
+                        id="Livros" 
+                        name="tipo" 
+                        value="livros" 
+                        checked={tipo === 'livros'}
+                        onChange={handleTipoChange}
                     />
-                    {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
-                        <Modal
-                            isOpen={true}
-                            onClose={closeModal}
-                            titulo={selectedLivro.titulo}
-                            categoria={selectedLivro.categoria}
-                            autor={selectedLivro.autor}
-                            editora={selectedLivro.editora}
-                            ano={selectedLivro.ano}
-                            estado_conservacao={selectedLivro.estado_conservacao}
-                            localizacao_fisica={selectedLivro.localizacao_fisica}
-                            isbn={selectedLivro.isbn}
+                    <label >Livros</label>
+                    <br />
+                    <input 
+                        type="radio" 
+                        id="Materiai" 
+                        name="tipo" 
+                        value="materiais"
+                        checked={tipo === 'materiais'}
+                        onChange={handleTipoChange}
+                    />
+                    <label >Materiais Didáticos</label>
+                </div>
+
+                <h5>Você está vendo todos os {tipo} disponíveis</h5>
+            </div>
+            {tipo === 'livros' ? (
+                <ul className={styles.listContainer}>
+                {livros.map((livro) => (
+                    <li key={livro.isbn}>
+                        <Books
+                            onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
+                            title={livro.titulo}
+                            author={livro.autor}
                             image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
                         />
-                    )}
-                </li>
-            ))}
-        </ul>
-            ) : (
-            <ul className={styles.listContainer}>
-                {materials.map((material) => (
-                    <Materials category={material.category} description={material.description} image={material.image} onClick={() => setMaterial(material)} />
+                        {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
+                            <Modal
+                                isOpen={true}
+                                onClose={closeModal}
+                                titulo={selectedLivro.titulo}
+                                categoria={selectedLivro.categoria}
+                                autor={selectedLivro.autor}
+                                editora={selectedLivro.editora}
+                                ano={selectedLivro.ano}
+                                estado_conservacao={selectedLivro.estado_conservacao}
+                                localizacao_fisica={selectedLivro.localizacao_fisica}
+                                isbn={selectedLivro.isbn}
+                                image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                            />
+                        )}
+                    </li>
                 ))}
             </ul>
-        )}
-        <div className={styles.btnReg}>
-            <button className={styles.btnPrimary} onClick={() => sendReq()}>
-                Solicitar Empréstimo
-            </button>
-        </div>
-        </div>
-</Layout>
+                ) : ( <ul className={styles.listContainer}>
+                    {materiais.map((material, index) => (
+                        <Materials
+                            key={index}
+                            category={material.nome}
+                            description={material.descricao}
+                            image={'https://iili.io/Juxkncl.jpg'}
+                            onClick={() => openMaterialModal(material)}
+                        />
+                    ))}
+                    {selectedMaterial && (
+                        <Modal
+                            type='material'
+                            isOpen={true}
+                            onClose={closeMaterialModal}
+                            titulo={selectedMaterial.nome}
+                            descricao={selectedMaterial.descricao}
+                            categoria={selectedMaterial.categoria}
+                            estado_conservacao={selectedMaterial.estado_conservacao}
+                            localizacao_fisica={selectedMaterial.localizacao_fisica}
+                            isbn={selectedMaterial.numero_serie}
+                            image={'https://iili.io/Juxkncl.jpg'}
+                        />
+                    )}
+                </ul>)}
+            <div className={styles.btnReg}>
+                <button className={styles.btnPrimary} onClick={() => sendReq()}>
+                    Solicitar Empréstimo
+                </button>
+            </div>
+            </div>
+    </Layout>
     )
 }
