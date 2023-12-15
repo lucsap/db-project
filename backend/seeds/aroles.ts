@@ -8,8 +8,8 @@ export async function seed(knex: Knex): Promise<void> {
   await knex.raw(
     `
     INSERT INTO Roles VALUES
-    (1, 'admin'),
-    (2, 'estudante'),
+    (1, 'estudante'),
+    (2, 'admin'),
     (3, 'membro');
     `
   )
