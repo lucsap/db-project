@@ -1,0 +1,142 @@
+.btnPrimary {
+  background-color: var(--Primary, #ffae51);
+  color: var(--Text, #ffffff);
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 1.2em;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+}
+
+.formInfos {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  align-items: flex-start;
+}
+
+.formGrup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formAuth {
+  padding: 10px;
+}
+
+.h3 {
+  text-align: center;
+}
+
+.h4 {
+  text-align: center;
+  color: black;
+}
+
+.align {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  list-style-type: none;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--Stroke, #d9d9d9);
+  cursor: pointer;
+  background-color: #ffff;
+  margin: 10px;
+}
+
+.cardImg {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnReg {
+  margin-top: 3em;
+  margin-bottom: 2.5em;
+  display: flex;
+  flex-direction: column;
+  width: 23%;
+}
+
+.formInput {
+  border-color: #ff971d;
+  border-radius: 7px;
+  height: 35px;
+  width: 300px;
+}
+
+.cardInfos {
+  width: 150px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardImg img {
+  width: 10vw;
+  padding: 10px;
+}
+
+.cardName {
+  color: #000;
+  font-family: Roboto;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 5px;
+}
+
+.cardValue {
+  color: #000;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.cardContainer:hover {
+  background-color: #f3f3f3;
+  transition: 100ms ease-in-out;
+}
+
+.cardContainer:focus {
+  background-color: #ffae51;
+  color: aliceblue;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.infos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

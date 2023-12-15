@@ -16,7 +16,7 @@ export default function Register() {
             Olá admin! Aqui você pode cadastrar os livros e materiais que serão disponibilizados na plataforma.
           </h4>
         </div>
-        {type === 'books' ? (
+        {type === 'book' ? (
           <FormBooks />
         ) : (
           <FormMaterials />

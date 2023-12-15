@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '../styles.module.css'
+import styles from './styles.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useRouter } from 'next/router';
@@ -117,12 +117,12 @@ export default function FormBooks() {
                         name='location'
                     />
                 </div>
-                <div className={styles.btnReg}>
-                    <button type="submit" className={styles.btnPrimary} >
-                        Cadastrar
-                    </button>
-                </div>
             </form>
+            <div className={styles.btnReg}>
+                <button type="submit" className={styles.btnPrimary} >
+                    Cadastrar
+                </button>
+            </div>
         </div>
     );
 }

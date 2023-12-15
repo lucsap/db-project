@@ -10,6 +10,13 @@
   width: 100%;
 }
 
+.formInfos {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  align-items: flex-start;
+}
+
 .formGrup {
   display: flex;
   flex-direction: column;
@@ -56,6 +63,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.btnReg {
+  margin-top: 3em;
+  margin-bottom: 2.5em;
+  display: flex;
+  flex-direction: column;
+  width: 23%;
+}
+
+.formInput {
+  border-color: #ff971d;
+  border-radius: 7px;
+  height: 35px;
+  width: 300px;
 }
 
 .cardInfos {
@@ -111,4 +133,10 @@
   flex-direction: column;
   align-items: center;
   width: 50%;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
