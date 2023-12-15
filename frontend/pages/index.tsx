@@ -21,12 +21,10 @@ export default function Landing() {
                 </h2>
             </div>
             <div className={styles.btnContainer}>
-                <button onClick={handleClick} className={styles.btnPrimary}
-                >
+                <button onClick={handleClick} className={styles.btnPrimary} >
                     sou admin
                 </button>
-                <button onClick={handleClick} className={styles.btnPrimary}
-                >
+                <button onClick={handleClick} className={styles.btnPrimary} >
                     sou estudante
                 </button>
             </div>
