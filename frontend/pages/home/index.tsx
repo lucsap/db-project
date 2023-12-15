@@ -45,7 +45,7 @@ export default function HomePage() {
         });
         const data = await response.json();
 
-        setLivros(data.rows);
+        setLivros(data);
     };
 
     const materialRequest = async () => {
@@ -63,6 +63,7 @@ export default function HomePage() {
         bookRequest();
         materialRequest();
     }, []);
+
     const openModal = (livro: Livro) => {
         setSelectedLivro(livro);
     };
@@ -134,7 +135,6 @@ export default function HomePage() {
                                 />
                                 {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
                                     <Modal
-                                        type='livro'
                                         isOpen={true}
                                         onClose={closeModal}
                                         titulo={selectedLivro.titulo}
