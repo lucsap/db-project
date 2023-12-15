@@ -1,34 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { EmprestimosService } from './emprestimos.service';
 import { EmprestimoLivrosDto } from './dto/emprestimo-livros.dto';
-import { UpdateEmprestimoLivrosDto } from './dto/update-emprestimo-livros.dto';
+import { EmprestimoMateriaisDto } from './dto/emprestimo-materiais.dto';
 
 @Controller('emprestimo')
 export class EmprestimosController {
   constructor(private readonly emprestimosService: EmprestimosService) {}
 
   @Post('livros')
-  create(@Body() emprestimoLivrosDto: EmprestimoLivrosDto) {
-    return this.emprestimosService.emprestimoLivros(emprestimoLivrosDto);
+  async emprestimosLivrosCreate(@Body() emprestimoLivrosDto: EmprestimoLivrosDto) {
+    return await this.emprestimosService.emprestimoLivros(emprestimoLivrosDto);
   }
 
-  @Get()
-  findAll() {
+  @Post('materiais')
+  async emprestimosMateriaisCreate(@Body() emprestimoMateriaisDto: EmprestimoMateriaisDto) {
+    return await this.emprestimosService.emprestimoMateriaisDidaticos(emprestimoMateriaisDto)
+  }
+
+  @Get('livros')
+  findAllLivros() {
+    return this.emprestimosService.findAll();
+  }
+
+  @Get('materiais')
+  findAllMateriais() {
     return this.emprestimosService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOneLivros(@Param('id') id: string) {
     return this.emprestimosService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEmprestimoLivrosDto: UpdateEmprestimoLivrosDto) {
-    return this.emprestimosService.update(+id, updateEmprestimoLivrosDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.emprestimosService.remove(+id);
+  @Get(':id')
+  findOneMateriais(@Param('id') id: string) {
+    return this.emprestimosService.findOne(+id);
   }
 }

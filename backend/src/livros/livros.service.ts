@@ -9,6 +9,7 @@ import {
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
 import { CreateLivroDto } from './dto/create-livro.dto';
+import { updateLivroDto } from './dto/update-livro.dto';
 
 @Injectable()
 export class LivrosService {
@@ -43,7 +44,6 @@ export class LivrosService {
       categoria: createLivroDto.categoria,
       descricao: createLivroDto.descricao,
       localizacao_fisica: createLivroDto.localizacao_fisica,
-      data_aquisicao: createLivroDto.data_aquisicao,
       estado_conservacao: createLivroDto.estado_conservacao,
       autor: createLivroDto.autor,
       uri_capa_livro: null,
@@ -54,16 +54,24 @@ export class LivrosService {
         '../../uploads',
         imagemLivro.originalname,
       );
+
       fs.writeFileSync(caminhoDestino, imagemLivro.buffer);
       const imagemBuffer = fs.readFileSync(caminhoDestino);
       livro.uri_capa_livro = imagemBuffer.toString('base64');
     }
+
     const resultado = await this.knex.raw(
       `INSERT INTO Livros (titulo, categoria, descricao, localizacao_fisica, estado_conservacao, autor) 
       VALUES ('${livro.titulo}', '${livro.categoria}', '${livro.descricao}', '${livro.localizacao_fisica}', '${livro.estado_conservacao}', '${livro.autor}')`,
     );
+
     if (resultado) {
-      return { success: true, message: 'Livro cadastrado com sucesso!' };
+      return { 
+        ...createLivroDto,
+        success: true, 
+        message: 'Livro cadastrado com sucesso!'
+      };
+
     } else {
       throw new InternalServerErrorException('Erro ao criar livro');
     }
@@ -82,32 +90,29 @@ export class LivrosService {
     if (!livro) {
       throw new NotFoundException('Livro não encontrado');
     }
-    return livro;
+    return livro.rows[0];
   }
 
-  async update(isbn: number, createLivroDto: CreateLivroDto) {
+  async update(isbn: number, updateLivroDto: updateLivroDto) {
     const updateFields = {};
 
-    if (createLivroDto.titulo) {
-      updateFields['titulo'] = createLivroDto.titulo;
+    if (updateLivroDto.titulo) {
+      updateFields['titulo'] = updateLivroDto.titulo;
     }
-    if (createLivroDto.categoria) {
-      updateFields['categoria'] = createLivroDto.categoria;
+    if (updateLivroDto.categoria) {
+      updateFields['categoria'] = updateLivroDto.categoria;
     }
-    if (createLivroDto.descricao) {
-      updateFields['descricao'] = createLivroDto.descricao;
+    if (updateLivroDto.descricao) {
+      updateFields['descricao'] = updateLivroDto.descricao;
     }
-    if (createLivroDto.localizacao_fisica) {
-      updateFields['localizacao_fisica'] = createLivroDto.localizacao_fisica;
+    if (updateLivroDto.localizacao_fisica) {
+      updateFields['localizacao_fisica'] = updateLivroDto.localizacao_fisica;
     }
-    if (createLivroDto.data_aquisicao) {
-      updateFields['data_aquisicao'] = createLivroDto.data_aquisicao;
+    if (updateLivroDto.estado_conservacao) {
+      updateFields['estado_conservacao'] = updateLivroDto.estado_conservacao;
     }
-    if (createLivroDto.estado_conservacao) {
-      updateFields['estado_conservacao'] = createLivroDto.estado_conservacao;
-    }
-    if (createLivroDto.autor) {
-      updateFields['autor'] = createLivroDto.autor;
+    if (updateLivroDto.autor) {
+      updateFields['autor'] = updateLivroDto.autor;
     }
 
     const resultado = await this.knex('livros')
@@ -115,7 +120,11 @@ export class LivrosService {
       .update(updateFields);
 
     if (resultado) {
-      return { success: true };
+      return { 
+        ...updateLivroDto,
+        success: true,
+        message: 'Livro atualizado com sucesso!'
+      };
     }
     throw new NotFoundException('Livro não encontrado');
   }
@@ -125,7 +134,11 @@ export class LivrosService {
       `DELETE FROM Livros WHERE ISBN = ${isbn}`,
     );
     if (resultado) {
-      return { success: true };
+      return { 
+        ...resultado,
+        message: 'Livro excluído com sucesso!',
+        success: true
+      };
     } else {
       throw new InternalServerErrorException('Erro ao excluir livro');
     }

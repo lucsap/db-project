@@ -41,8 +41,7 @@ export async function up(knex: Knex): Promise<void> {
       "numero_serie" int NOT NULL,
       "estado_conservacao" varchar(255) NOT NULL,
       "localizacao_fisica" varchar(255) NOT NULL,
-      "data_aquisicao" date DEFAULT CURRENT_DATE,
-      "disponivel" boolean DEFAULT TRUE NOT NULL
+      "data_aquisicao" date DEFAULT CURRENT_DATE
     );
 
     CREATE TABLE IF NOT EXISTS Livros (
@@ -51,10 +50,11 @@ export async function up(knex: Knex): Promise<void> {
       "descricao" varchar(255) NOT NULL,
       "autor" varchar(255) NOT NULL,
       "titulo" varchar(255) NOT NULL,
+      "data_aquisicao" date DEFAULT CURRENT_DATE,
       "uri_capa_livro" bytea,
       "localizacao_fisica" varchar(255) NOT NULL,
       "estado_conservacao" varchar(255) NOT NULL,
-      "disponivel" boolean DEFAULT TRUE NOT NULL,
+      "data_aquisicao" date DEFAULT CURRENT_DATE,"
       CONSTRAINT "uc_livros_isbn" UNIQUE ("isbn")
     );
 
@@ -64,12 +64,11 @@ export async function up(knex: Knex): Promise<void> {
       "id_item" int,
       "data_emprestimo" date DEFAULT CURRENT_DATE,
       "data_devolucao_prevista" date,
-      "status_devolucao" boolean NOT NULL,
-      "data_devolucao" date,
+      "status_devolucao" boolean DEFAULT FALSE NOT NULL,
+      "data_devolucao" date DEFAULT NULL,
       CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY ("id_usuario") REFERENCES Usuarios ("id"),
       CONSTRAINT "fk_emprestimos_id_item" FOREIGN KEY ("id_item") REFERENCES MateriaisDidaticos ("id"),
       CONSTRAINT "fk_emprestimos_id_livro" FOREIGN KEY ("id_item") REFERENCES Livros ("isbn")
-
     );
 `);
 }
