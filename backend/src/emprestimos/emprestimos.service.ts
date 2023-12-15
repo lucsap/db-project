@@ -42,7 +42,7 @@ export class EmprestimosService {
     const formattedDate = new Date(emprestimoLivrosDto.data_devolucao_prevista).toISOString();
 
     const sql = `
-      INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status_devolucao) VALUES 
+      INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status) VALUES 
       (${emprestimoLivrosDto.id_usuario}, ${emprestimoLivrosDto.id_item}, '${formattedDate}', ${emprestimoLivrosDto.status})
     `
 
