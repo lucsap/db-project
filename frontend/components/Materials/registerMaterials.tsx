@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '../../pages/globals.module.css'
+import styles from '../styles.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useRouter } from 'next/router';
@@ -42,11 +42,12 @@ export default function FormMaterials() {
         
         }  
     }
+
         catch (error) {
             console.log(error);
         }
     }
-    
+
     return (
         <div className={styles.formContainer}>
             <ToastContainer />
@@ -107,10 +108,10 @@ export default function FormMaterials() {
                     </div>
                 </div>
                 <div className={styles.btnReg}>
-                <button type="submit" className={styles.btnPrimary} >
-                Cadastrar
-                </button>
-            </div>
+                    <button type="submit" className={styles.btnPrimary} >
+                        Cadastrar
+                    </button>
+                </div>
             </form>
         </div>
     );

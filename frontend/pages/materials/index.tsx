@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 import Modal from '../../components/Modal/modal';
+
+import Layout from '../layout'
+
 import Materials from '../../components/Materials/materials';
+
 
 export default function Materiais() {
     interface Material {
@@ -41,7 +45,7 @@ export default function Materiais() {
     };
 
     return (
-            <div>
+            <Layout>
                 <ul className={styles.listContainer}>
                     {materiais.map((material: Material) => (
                         <li key={material.id}>
@@ -68,6 +72,6 @@ export default function Materiais() {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </Layout>
     );
 };
