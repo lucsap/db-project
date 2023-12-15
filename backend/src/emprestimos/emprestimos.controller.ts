@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Req, UseGuards, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
 import { EmprestimosService } from './emprestimos.service';
 import { EmprestimoLivrosDto } from './dto/emprestimo-livros.dto';
 import { EmprestimoMateriaisDto } from './dto/emprestimo-materiais.dto';
@@ -32,16 +32,6 @@ export class EmprestimosController {
   @Get('materiais')
   findAllMateriais() {
     return this.emprestimosService.findAll();
-  }
-
-  @Get(':id')
-  findOneLivros(@Param('id') id: string) {
-    return this.emprestimosService.findOne(+id);
-  }
-
-  @Get(':id')
-  findOneMateriais(@Param('id') id: string) {
-    return this.emprestimosService.findOne(+id);
   }
 
   @UseGuards(JwtAuthGuard)

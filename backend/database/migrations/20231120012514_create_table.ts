@@ -41,10 +41,7 @@ export async function up(knex: Knex): Promise<void> {
       "uri_capa_livro" bytea,
       "localizacao_fisica" varchar(255) NOT NULL,
       "estado_conservacao" varchar(255) NOT NULL,
-<<<<<<< Updated upstream
-=======
       "data_aquisicao" date DEFAULT CURRENT_DATE,
->>>>>>> Stashed changes
       CONSTRAINT "uc_livros_isbn" UNIQUE ("isbn")
     );
 
