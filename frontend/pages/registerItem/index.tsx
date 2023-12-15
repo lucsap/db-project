@@ -4,7 +4,7 @@ import FormBooks from '../../components/Books/registerBook';
 import FormMaterials from '../../components/Materials/registerMaterials';
 
 export default function Register() {
-  const type = 'books'
+  const type = 'book'
 
   return (
     <div className={styles.container}>
@@ -19,11 +19,6 @@ export default function Register() {
       ) : (
         <FormMaterials />
       )}
-      <div className={styles.btnReg}>
-        <button className={styles.btnPrimary} >
-          Cadastrar
-        </button>
-      </div>
     </div>
   );
 };

@@ -71,17 +71,6 @@ export async function up(knex: Knex): Promise<void> {
       CONSTRAINT "fk_emprestimos_id_livro" FOREIGN KEY ("id_item") REFERENCES Livros ("isbn")
 
     );
-
-    ALTER TABLE Emprestimos ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
-    REFERENCES Usuarios ("id");
-
-    ALTER TABLE Devolucoes ADD CONSTRAINT "fk_devolucoes_id_usuario" FOREIGN KEY("id_usuario")
-    REFERENCES Usuarios ("id");
-
-    ALTER TABLE CadastroDeItens ADD CONSTRAINT "fk_cadastro_itens_categoria" FOREIGN KEY("id_categoria")
-    REFERENCES Categorias ("id_categoria");
-
-    ALTER TABLE Livros ADD CONSTRAINT "uc_livros_isbn" UNIQUE ("isbn");
 `);
 }
 
