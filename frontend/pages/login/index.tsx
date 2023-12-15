@@ -98,6 +98,7 @@ export default function Login() {
                         />
                     </div>
                     <div>
+                        Não possui cadastro?
                         <Link href="/signup" className={styles.link}>Registre-se</Link>
                     </div>
                     <div className={styles.btnLogin}>

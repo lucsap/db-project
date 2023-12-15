@@ -42,13 +42,13 @@ export default function Borrow() {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         });
         const data = await response.json();
-
+        
         setLivros(data.rows);
     };
-
+    
     useEffect(() => {
         bookRequest();
-    }, []);
+    }, []); 
 
     //temporário
     const books = [
@@ -90,56 +90,56 @@ export default function Borrow() {
     }
 
     return (
-        <Layout>
-            <div className={styles.pageContainer}>
-                <div className={styles.personalBox}>
-                    <h3>Empréstimo de Livros e Materiais</h3>
-                    <h4>
-                        Olá estudante! Aqui você pode encontrar os livros e materiais que estão disponíveis na plataforma.
-                    </h4>
-                    <h5>Você está vendo todos os {type} disponíveis</h5>
-                </div>
-                {type === 'livros' ? (
-                    <ul className={styles.listContainer}>
-                        {livros.map((livro) => (
-                            <li key={livro.isbn}>
-                                <Books
-                                    onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
-                                    title={livro.titulo}
-                                    author={livro.autor}
-                                    image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
-                                />
-                                {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
-                                    <Modal
-                                        isOpen={true}
-                                        onClose={closeModal}
-                                        titulo={selectedLivro.titulo}
-                                        categoria={selectedLivro.categoria}
-                                        autor={selectedLivro.autor}
-                                        editora={selectedLivro.editora}
-                                        ano={selectedLivro.ano}
-                                        estado_conservacao={selectedLivro.estado_conservacao}
-                                        localizacao_fisica={selectedLivro.localizacao_fisica}
-                                        isbn={selectedLivro.isbn}
-                                        image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
-                                    />
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <ul className={styles.listContainer}>
-                        {materials.map((material) => (
-                            <Materials category={material.category} description={material.description} image={material.image} onClick={() => setMaterial(material)} />
-                        ))}
-                    </ul>
-                )}
-                <div className={styles.btnReg}>
-                    <button className={styles.btnPrimary} onClick={() => sendReq()}>
-                        Solicitar Empréstimo
-                    </button>
-                </div>
-            </div>
-        </Layout>
+<Layout>
+      <div className={styles.pageContainer}>
+        <div className={styles.personalBox}>
+            <h3>Empréstimo de Livros e Materiais</h3>
+            <h4>
+            Olá estudante! Aqui você pode encontrar os livros e materiais que estão disponíveis na plataforma.
+            </h4>
+            <h5>Você está vendo todos os {type} disponíveis</h5>
+        </div>
+        {type === 'livros' ? (
+            <ul className={styles.listContainer}>
+            {livros?.map((livro) => (
+                <li key={livro.isbn}>
+                    <Books
+                        onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
+                        title={livro.titulo}
+                        author={livro.autor}
+                        image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                    />
+                    {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
+                        <Modal
+                            isOpen={true}
+                            onClose={closeModal}
+                            titulo={selectedLivro.titulo}
+                            categoria={selectedLivro.categoria}
+                            autor={selectedLivro.autor}
+                            editora={selectedLivro.editora}
+                            ano={selectedLivro.ano}
+                            estado_conservacao={selectedLivro.estado_conservacao}
+                            localizacao_fisica={selectedLivro.localizacao_fisica}
+                            isbn={selectedLivro.isbn}
+                            image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                        />
+                    )}
+                </li>
+            ))}
+        </ul>
+            ) : (
+            <ul className={styles.listContainer}>
+                {materials.map((material) => (
+                    <Materials category={material.category} description={material.description} image={material.image} onClick={() => setMaterial(material)} />
+                ))}
+            </ul>
+        )}
+        <div className={styles.btnReg}>
+            <button className={styles.btnPrimary} onClick={() => sendReq()}>
+                Solicitar Empréstimo
+            </button>
+        </div>
+        </div>
+</Layout>
     )
 }
