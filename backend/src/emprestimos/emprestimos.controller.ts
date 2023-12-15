@@ -24,14 +24,8 @@ export class EmprestimosController {
 
   @UseGuards(JwtAuthGuard)
   @Get('livros')
-  findAllLivros() {
-    return this.emprestimosService.findAll();
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('materiais')
-  findAllMateriais() {
-    return this.emprestimosService.findAll();
+  async findAllLivros(@Req() req: any) {
+    return await this.emprestimosService.findAll(req);
   }
 
   @UseGuards(JwtAuthGuard)

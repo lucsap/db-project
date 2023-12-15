@@ -88,8 +88,9 @@ export class EmprestimosService {
     }
   }
 
-  async findAll() {
-    const data = await this.knex.raw(`SELECT * FROM Emprestimos`);
+  async findAll(req: any) {
+    const userId = req.user.id;
+    const data = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_usuario = ${userId}`);
 
     return data.rows;
   }

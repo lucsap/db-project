@@ -84,13 +84,25 @@ export class LivrosService {
     }
   }
 
-  async findAll() {
+  async findAll(req: any) {
+    const user = req.user;
+
+    if (!user) {
+      throw new BadRequestException('Usuário não autenticado');
+    }
+
     const data = await this.knex.raw(`SELECT * FROM Livros`);
 
     return data.rows;
   }
 
-  async findOne(isbn: number) {
+  async findOne(isbn: number, req: any) {
+    const user = req.user;
+
+    if (!user) {
+      throw new BadRequestException('Usuário não autenticado');
+    }
+
     const livro = await this.knex.raw(
       `SELECT * FROM Livros WHERE ISBN = ${isbn}`,
     );

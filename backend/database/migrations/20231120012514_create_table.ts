@@ -57,7 +57,6 @@ export async function up(knex: Knex): Promise<void> {
       CONSTRAINT "fk_emprestimos_id_item" FOREIGN KEY ("id_item") REFERENCES MateriaisDidaticos ("id"),
       CONSTRAINT "fk_emprestimos_id_livro" FOREIGN KEY ("id_item") REFERENCES Livros ("isbn")
     );
-
 `);
 }
 

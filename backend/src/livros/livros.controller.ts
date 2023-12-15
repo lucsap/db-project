@@ -26,14 +26,16 @@ export class LivrosController {
     return this.livrosService.create(createLivroDto, req);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.livrosService.findAll();
+  findAll(@Req() req: any) {
+    return this.livrosService.findAll(req);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':isbn')
-  findOne(@Param('isbn') isbn: string) {
-    return this.livrosService.findOne(+isbn);
+  findOne(@Param('isbn') isbn: string, @Req() req: any) {
+    return this.livrosService.findOne(+isbn, req);
   }
 
   @UseGuards(JwtAuthGuard)
