@@ -1,0 +1,43 @@
+/* Estilo para o fundo escuro translúcido */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Cor escura com transparência */
+  z-index: 1000; /* Garante que o modal esteja sobre todo o conteúdo */
+}
+
+/* Estilo para o contêiner do modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white; /* Cor de fundo do modal */
+  border: 1px solid #ccc; /* Borda cinza */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra leve */
+  border-radius: 7px; /* Borda arredondada */
+  padding: 3rem;
+  z-index: 1001; /* Garante que o modal esteja sobre o fundo escuro */
+  max-width: 80%; /* Largura máxima do modal */
+  max-height: 80%; /* Altura máxima do modal */
+  overflow-y: auto; /* Adiciona scroll caso o conteúdo seja maior que a altura máxima */
+}
+
+/* Estilo para o botão de fechar do modal */
+.modalClose {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+}
+.modalContainer {
+  display: flex;
+  flex-direction: row;
+}

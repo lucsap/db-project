@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '../../pages/globals.module.css'
+import styles from '../styles.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useRouter } from 'next/router';
@@ -28,25 +28,25 @@ export default function FormMaterials() {
         }
         try {
             const response = await fetch(`http://localhost:3001/materiais/cadastro`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        if (response.ok) {
-            notify2();
-            router.push('/books');
-            console.log(response)
-        } else {
-            console.log('error')
-            notify();
-        
-        }  
-    }
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                notify2();
+                router.push('/books');
+                console.log(response)
+            } else {
+                console.log('error')
+                notify();
+
+            }
+        }
         catch (error) {
             console.log(error);
         }
     }
-    
+
     return (
         <div className={styles.formContainer}>
             <ToastContainer />
@@ -107,10 +107,10 @@ export default function FormMaterials() {
                     </div>
                 </div>
                 <div className={styles.btnReg}>
-                <button type="submit" className={styles.btnPrimary} >
-                Cadastrar
-                </button>
-            </div>
+                    <button type="submit" className={styles.btnPrimary} >
+                        Cadastrar
+                    </button>
+                </div>
             </form>
         </div>
     );

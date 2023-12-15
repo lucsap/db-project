@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import styles from '../../pages/globals.module.css'
+import styles from '../styles.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useRouter } from 'next/router';
-
 
 export default function FormBooks() {
     const router = useRouter();
@@ -15,7 +14,7 @@ export default function FormBooks() {
     const [localizacao_fisica, setLocalizacao_fisica] = useState('');
     const [estado_conservacao, setEstado_conservacao] = useState('');
     const [autor, setAutor] = useState('');
-    
+
 
 
     const handleSubmit = async (event: any) => {
@@ -30,25 +29,25 @@ export default function FormBooks() {
         }
         try {
             const response = await fetch(`http://localhost:3001/livros/cadastro`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        if (response.ok) {
-            notify2();
-            router.push('/books');
-            console.log(response)
-        } else {
-            console.log('error')
-            notify();
-        
-        }  
-    }
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                notify2();
+                router.push('/books');
+                console.log(response)
+            } else {
+                console.log('error')
+                notify();
+
+            }
+        }
         catch (error) {
             console.log(error);
         }
     }
-    
+
 
 
     return (
@@ -109,20 +108,20 @@ export default function FormBooks() {
                             name='conservationState'
                         />
                     </div>
-                    </div>
-                    <div className={styles.formInfos}>
-                        <label className={styles.formLabel}>Localização</label>
-                        <input
-                            onChange={(event) => setLocalizacao_fisica(event.target.value)}
-                            className={styles.formInput}
-                            name='location'
-                        />
-                    </div>
-            <div className={styles.btnReg}>
-                <button type="submit" className={styles.btnPrimary} >
-                Cadastrar
-                </button>
-            </div>
+                </div>
+                <div className={styles.formInfos}>
+                    <label className={styles.formLabel}>Localização</label>
+                    <input
+                        onChange={(event) => setLocalizacao_fisica(event.target.value)}
+                        className={styles.formInput}
+                        name='location'
+                    />
+                </div>
+                <div className={styles.btnReg}>
+                    <button type="submit" className={styles.btnPrimary} >
+                        Cadastrar
+                    </button>
+                </div>
             </form>
         </div>
     );

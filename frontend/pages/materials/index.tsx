@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 import Books from '../../components/Books/books';
 import Modal from '../../components/Modal/modal';
+import Layout from '../layout'
 
 export default function Livros() {
     interface Livro {
@@ -41,7 +42,7 @@ export default function Livros() {
     };
 
     return (
-            <div>
+            <Layout>
                 <ul className={styles.listContainer}>
                     {livros.map((livro: Livro) => (
                         <li key={livro.isbn}>
@@ -69,6 +70,6 @@ export default function Livros() {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </Layout>
     );
 };
