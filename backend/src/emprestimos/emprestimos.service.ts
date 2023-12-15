@@ -15,7 +15,7 @@ export class EmprestimosService {
       throw new BadRequestException('Somente estudantes podem realizar empréstimos');
     }
     
-    let emprestimo = await this.knex.raw(`SELECT * FROM Emprestimos WHERE status_devolucao = true`);
+    let emprestimo = await this.knex.raw(`SELECT * FROM Emprestimos WHERE status = true`);
 
     if (emprestimoLivrosDto.id_item !== null && emprestimoLivrosDto.id_item !== undefined) {
       emprestimo += ` AND id_item = ${emprestimoLivrosDto.id_item}`
@@ -120,14 +120,14 @@ export class EmprestimosService {
 
     // Atualiza o registro de empréstimo para indicar que foi devolvido
     const updateEmprestimoSql = `
-      UPDATE Emprestimos SET status_devolucao = false, data_devolucao = CURRENT_TIMESTAMP 
+      UPDATE Emprestimos SET status = false, data_devolucao = CURRENT_TIMESTAMP 
       WHERE id = ${updateEmprestimosDto.id_item}
     `;
     await this.knex.raw(updateEmprestimoSql);
 
     // Atualiza o status do livro para indicar que está disponível novamente
     const updateLivroSql = `
-      UPDATE Livros SET status_devolucao = false WHERE isbn = ${updateEmprestimosDto.id_item}
+      UPDATE Livros SET status = false WHERE isbn = ${updateEmprestimosDto.id_item}
     `;
     await this.knex.raw(updateLivroSql);
 
