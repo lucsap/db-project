@@ -29,10 +29,11 @@ date: 30/11/2023
 
 ## CRediT (Contributor Roles Taxonomy):
 
-- **Gustavo** configuração do docker, configuração do backend e documentação dos mesmos, configuração e instalação do frontend, criação dos scripts SQL, autenticação e gerenciamento de rotas e permissões.
+- **Gustavo** configuração do docker, configuração do backend e documentação dos mesmos, configuração e instalação do frontend, autenticação e gerenciamento de rotas e permissões.
 - **Lucas** criação do repositório, instalação do nvm e do nodejs, e documentação do mesmo.
 - **Ana Beatriz** instalação do postgresql e configuração do mesmo.
 - **Thiago** criação do modelo de banco de dados e documentação do mesmo, criação dos CRUDS e teste de rotas.
+- **Hideki** criação dos scripts SQL e documentação dos mesmos.
 
 ## Data da Versão Atual: 30/11/2023
 

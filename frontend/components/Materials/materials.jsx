@@ -1,4 +1,4 @@
-import styles from '../../pages/globals.module.css'
+import styles from '../styles.module.css'
 
 export default function Materials({category, image, description, ...props}) {
     return (
@@ -7,7 +7,7 @@ export default function Materials({category, image, description, ...props}) {
                 <img src={image} alt="material" />
             </div>
             <div className={styles.cardInfos}>
-                <div className={styles.cardName}>{category}</div>
+                <div className={styles.cardName}>{props.name}</div>
                 <div className={styles.cardValue}>{description}</div>
             </div>
         </button>
