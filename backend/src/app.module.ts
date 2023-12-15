@@ -14,7 +14,6 @@ import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { LocalStrategy } from './auth/strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { EmprestimosModule } from './emprestimos/emprestimos.module';
 
 @Module({
   imports: [
@@ -35,8 +34,7 @@ import { EmprestimosModule } from './emprestimos/emprestimos.module';
     MateriaisModule,
     LivrosModule,
     AuthModule,
-    JwtModule,
-    EmprestimosModule
+    JwtModule
   ],
   controllers: [AppController, LivrosController, MateriaisController, AuthController],
   providers: [AppService, LivrosService, MateriaisService, AuthService, LocalStrategy],

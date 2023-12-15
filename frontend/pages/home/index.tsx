@@ -6,7 +6,7 @@ import Materials from '../../components/Materials/materials';
 import Modal from '../../components/Modal/modal';
 
 export default function HomePage() {
-
+    
     interface Livro {
         isbn: string;
         titulo: string;
@@ -20,13 +20,18 @@ export default function HomePage() {
     }
     interface Materiais {
         id: string;
-        category: string;
-        description: string;
+        categoria: string;
+        descricao: string;
         image: string;
-    }
+        nome: string;
+        estado_conservacao: string;
+        localizacao_fisica: string;
+        numero_serie: string;
+        data_aquisicao: string;
 
-    const [livro, setBook] = useState({})
-    const [material, setMaterial] = useState({})
+    }
+    
+    const [selectedMaterial, setSelectedMaterial] = useState<Materiais | null>(null);
     const [selectedLivro, setSelectedLivro] = useState<Livro | null>(null); // Livro selecionado para abrir o modal
     const [livros, setLivros] = useState<Livro[]>([]);
     const [materiais, setMateriais] = useState<Materiais[]>([]);
@@ -50,7 +55,7 @@ export default function HomePage() {
         });
         const data = await response.json();
         
-        setMateriais(data.rows);
+        setMateriais(data);
     }
     
     useEffect(() => {
@@ -65,6 +70,16 @@ export default function HomePage() {
         setSelectedLivro(null);
     };
 
+
+    const openMaterialModal = (material: Materiais) => {
+        setSelectedMaterial(material);
+    };
+
+    const closeMaterialModal = () => {
+        setSelectedMaterial(null);
+    };
+
+    console.log(materiais[0])
 
     const router = useRouter();
     const user = 'Fulano'
@@ -118,6 +133,7 @@ export default function HomePage() {
                         />
                         {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
                             <Modal
+                                type='livro'
                                 isOpen={true}
                                 onClose={closeModal}
                                 titulo={selectedLivro.titulo}
@@ -138,14 +154,29 @@ export default function HomePage() {
                 <div className={styles.infos}>
                     <h5>Seus materiais</h5>
                     <ul className={styles.listContainer}>
-                        {materials.map((material, index) => (
-                            <Materials 
-                            key={index}
-                            category={material.category} 
-                            description={material.description} 
-                            image={material.image} 
-                            onClick={() => setMaterial(material)} />
-                        ))}
+                                {materiais.map((material, index) => (
+                                    <Materials
+                                        key={index}
+                                        category={material.nome}
+                                        description={material.descricao}
+                                        image={'https://iili.io/Juxkncl.jpg'}
+                                        onClick={() => openMaterialModal(material)}
+                                    />
+                                ))}
+                                                        {selectedMaterial && (
+                                <Modal
+                                    type='material'
+                                    isOpen={true}
+                                    onClose={closeMaterialModal}
+                                    titulo={selectedMaterial.nome}
+                                    descricao={selectedMaterial.descricao}
+                                    categoria={selectedMaterial.categoria}
+                                    estado_conservacao={selectedMaterial.estado_conservacao}
+                                    localizacao_fisica={selectedMaterial.localizacao_fisica}
+                                    isbn={selectedMaterial.numero_serie}
+                                    image={'https://iili.io/Juxkncl.jpg'}
+                                />
+                                                        )}
                     </ul>
                 </div>
             </div>

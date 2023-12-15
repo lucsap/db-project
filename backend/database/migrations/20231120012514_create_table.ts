@@ -2,21 +2,34 @@ import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
-    CREATE TABLE IF NOT EXISTS Roles (
-      "id" SERIAL PRIMARY KEY,
+  DROP TYPE IF EXISTS role;
+  CREATE TYPE role AS ENUM ('admin', 'estudante', 'laboratorio');
+
+
+    CREATE TABLE IF NOT EXISTS Usuarios(
+        "id" SERIAL PRIMARY KEY   NOT NULL,
+        "nome" varchar(255)   NOT NULL,
+        "sobrenome" varchar(255)   NOT NULL,
+        "role" role NOT NULL,
+        "uri_foto" bytea   NOT NULL,
+        "senha" varchar(64)   NOT NULL,
+        "email" varchar(255)   NOT NULL,
+        CONSTRAINT "uc_usuarios_nome" UNIQUE (
+            "nome"
+        )
+    );
+
+    CREATE TABLE IF NOT EXISTS Categorias (
+      "id_categoria" SERIAL PRIMARY KEY,
       "nome" varchar(255) NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS Usuarios (
-      "id" SERIAL PRIMARY KEY NOT NULL,
-      "nome" varchar(255) NOT NULL,
-      "sobrenome" varchar(255) NOT NULL,
-      "role_id" int DEFAULT 1 NOT NULL,
-      "uri_foto" bytea,
-      "senha" varchar(64),
-      "email" varchar(255) NOT NULL,
-      CONSTRAINT "uc_usuarios_nome" UNIQUE ("nome"),
-      CONSTRAINT "fk_usuarios_role" FOREIGN KEY ("role_id") REFERENCES Roles ("id")
+    CREATE TABLE IF NOT EXISTS Emprestimos(
+        "id_usuario" int   NOT NULL,
+        "id_item" int   NOT NULL,
+        "data_emprestimo" date   NOT NULL,
+        "data_devolucao_prevista" date   NOT NULL,
+        "status" boolean   NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS MateriaisDidaticos (
@@ -56,8 +69,19 @@ export async function up(knex: Knex): Promise<void> {
       CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY ("id_usuario") REFERENCES Usuarios ("id"),
       CONSTRAINT "fk_emprestimos_id_item" FOREIGN KEY ("id_item") REFERENCES MateriaisDidaticos ("id"),
       CONSTRAINT "fk_emprestimos_id_livro" FOREIGN KEY ("id_item") REFERENCES Livros ("isbn")
+
     );
 
+    ALTER TABLE Emprestimos ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
+    REFERENCES Usuarios ("id");
+
+    ALTER TABLE Devolucoes ADD CONSTRAINT "fk_devolucoes_id_usuario" FOREIGN KEY("id_usuario")
+    REFERENCES Usuarios ("id");
+
+    ALTER TABLE CadastroDeItens ADD CONSTRAINT "fk_cadastro_itens_categoria" FOREIGN KEY("id_categoria")
+    REFERENCES Categorias ("id_categoria");
+
+    ALTER TABLE Livros ADD CONSTRAINT "uc_livros_isbn" UNIQUE ("isbn");
 `);
 }
 
@@ -66,9 +90,9 @@ export async function down(knex: Knex): Promise<void> {
     `
       DROP TABLE IF EXISTS Usuarios CASCADE;
       DROP TABLE IF EXISTS Emprestimos CASCADE;
+      DROP TABLE IF EXISTS Devolucoes CASCADE;
       DROP TABLE IF EXISTS Livros CASCADE;
       DROP TABLE IF EXISTS MateriaisDidaticos CASCADE;
-      DROP TABLE IF EXISTS Roles CASCADE;
     `,
   );
 }
