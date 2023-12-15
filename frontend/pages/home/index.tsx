@@ -7,7 +7,6 @@ import Modal from '../../components/Modal/modal';
 import Layout from '../layout';
 
 export default function HomePage() {
-
     interface Livro {
         isbn: string;
         titulo: string;
@@ -32,13 +31,25 @@ export default function HomePage() {
 
     }
 
-    const [selectedMaterial, setSelectedMaterial] = useState<Materiais | null>(null);
-    const [selectedLivro, setSelectedLivro] = useState<Livro | null>(null); // Livro selecionado para abrir o modal
-    const [livros, setLivros] = useState<Livro[]>([]);
-    const [materiais, setMateriais] = useState<Materiais[]>([]);
+    interface User {
+        nome: string;
+        email: string;
+        cpf: string;
+        data_nascimento: string;
+        endereco: string;
+        telefone: string;
+        senha: string;
+        tipo: number;
+    }
 
-    const bookRequest = async () => {
-        const token = localStorage.getItem('@token');
+    const [user, setUser] = useState({}); // Usuário logado
+    const [selectedMaterial, setSelectedMaterial] = useState<Materiais | null>(null); // Material selecionado para abrir o modal
+    const [selectedLivro, setSelectedLivro] = useState<Livro | null>(null); // Livro selecionado para abrir o modal
+    const [livros, setLivros] = useState<Livro[]>([]);  // Lista de livros
+    const [materiais, setMateriais] = useState<Materiais[]>([]); // Lista de materiais
+
+    const bookRequest = async () => { // Requisição dos livros
+        const token = localStorage.getItem('@token');  // Pega o token do usuário logado
         const response = await fetch('http://localhost:3001/livros', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -48,8 +59,8 @@ export default function HomePage() {
         setLivros(data);
     };
 
-    const materialRequest = async () => {
-        const token = localStorage.getItem('@token');
+    const materialRequest = async () => { // Requisição dos materiais
+        const token = localStorage.getItem('@token'); // Pega o token do usuário logado
         const response = await fetch('http://localhost:3001/materiais', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -62,6 +73,10 @@ export default function HomePage() {
     useEffect(() => {
         bookRequest();
         materialRequest();
+        if (typeof window !== 'undefined') {
+            const userData = localStorage.getItem('@user');
+            setUser(userData ? JSON.parse(userData) : {});
+        } // Pega o usuário logado
     }, []);
 
     const openModal = (livro: Livro) => {
@@ -81,42 +96,10 @@ export default function HomePage() {
         setSelectedMaterial(null);
     };
 
-    console.log(materiais[0])
-
-    const router = useRouter();
-    const user = 'Fulano'
-
-    //temporario
-    const books = [
-        {
-            "title": "Poemas de Amor",
-            "author": "Vinicius de Moraes",
-            "image": "https://iili.io/Juxnkl9.jpg"
-        },
-        {
-            "title": "Hoje eu mato o Ladeira",
-            "author": "Ana Beatriz",
-            "image": "https://iili.io/Juxnkl9.jpg"
-        },
-        {
-            "title": "Aaaaa não sie mais nada",
-            "author": "Desconhecido",
-            "image": "https://iili.io/Juxnkl9.jpg"
-        }
-    ]
-
-    const materials = [
-        {
-            "category": "Computadores",
-            "description": "Pc Dell maluco",
-            "image": "https://iili.io/Juxkncl.jpg"
-        }
-    ]
-
     return (
         <Layout>
             <div className={styles.personalBox}>
-                <h3>Olá {user}</h3>
+                <h3>Olá {user.nome}</h3>
                 <h4>
                     Esses são todos os livros e materiais que você tem no momento.
                 </h4>
@@ -134,7 +117,7 @@ export default function HomePage() {
                                     image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
                                 />
                                 {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
-                                    <Modal
+                                    <Modal // Passa as informações do livro para o modal
                                         isOpen={true}
                                         onClose={closeModal}
                                         titulo={selectedLivro.titulo}
@@ -156,7 +139,7 @@ export default function HomePage() {
                     <h5>Seus materiais</h5>
                     <ul className={styles.listContainer}>
                         {materiais.map((material, index) => (
-                            <Materials
+                            <Materials // Passa as informações do material para o componente
                                 key={index}
                                 category={material.nome}
                                 description={material.descricao}
@@ -165,7 +148,7 @@ export default function HomePage() {
                             />
                         ))}
                         {selectedMaterial && (
-                            <Modal
+                            <Modal  // Passa as informações do material para o modal
                                 type='material'
                                 isOpen={true}
                                 onClose={closeMaterialModal}

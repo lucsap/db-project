@@ -61,7 +61,7 @@ export default function Login() {
         } finally {
             setTimeout(() => {
                 setIsSubmiting(false);
-              }, 2000)
+            }, 2000)
         };
 
     };
