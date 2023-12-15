@@ -40,7 +40,7 @@ export default function Return() {
         });
         const data = await response.json();
 
-        setLivros(data.rows);
+        setLivros(data);
     };
 
     const materialRequest = async () => {
@@ -51,7 +51,7 @@ export default function Return() {
         });
         const data = await response.json();
 
-        setMateriais(data.rows);
+        setMateriais(data);
     }
 
     useEffect(() => {
