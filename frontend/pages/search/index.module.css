@@ -1,9 +1,20 @@
+.listContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: .8em;
+  row-gap: .5em;
+  justify-content: center;
+  text-align: center;
+}
+
 .personalBox {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  align-content: center;
 }
 
 .formInput {
@@ -23,7 +34,7 @@
   background-color: #ff971d;
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  margin-bottom: 0.5em;
+  margin: 2em 0em 1em;
 }
 
 .btnPrimary:hover {
@@ -39,4 +50,9 @@
   padding: 12px;
   row-gap: 8px;
   justify-content: center;
+}
+
+.contentPage {
+  text-align: center;
+  align-items: center;
 }

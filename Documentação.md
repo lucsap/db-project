@@ -465,3 +465,27 @@ No controller de usuários que é onde gerenciamos as rotas e recebemos as requi
 </div>
 
 Com isso temos uma ideia de como está sendo feito a camada de persistência do sistema, para ter uma visão completa só acessar nosso repositório no [**Github**](https://github.com/lucsap/db-project/tree/main/backend)
+
+
+**Relatório de Mudança em Tabela de Banco de Dados**
+
+**Mudança Realizada:**
+Foi adicionada uma nova tabela chamada Roles ao banco de dados.
+
+**Detalhes da Mudança:**
+- **Tabela Anterior:**
+    - Nome: Não existia a tabela Roles anteriormente.
+
+- **Nova Tabela (ALTERAÇÃO):**
+    - **Nome:** Roles
+        - **Campos:**
+            - **id:** Número serial, chave primária.
+            - **nome:** Texto de até 255 caracteres, não nulo.
+        - **Restrições:**
+            - Chave única na coluna nome (uc_roles_nome).
+
+Essa mudança visa introduzir uma tabela para armazenar papéis (Roles) no sistema. A tabela possui um identificador único automático (id) e um campo para o nome do papel, garantindo que não haja duplicatas através de uma restrição de chave única.
+
+Para qualquer dúvida ou esclarecimento adicional, favor entrar em contato.
+
+
