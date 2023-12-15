@@ -28,20 +28,21 @@ export default function FormMaterials() {
         }
         try {
             const response = await fetch(`http://localhost:3001/materiais/cadastro`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            if (response.ok) {
-                notify2();
-                router.push('/books');
-                console.log(response)
-            } else {
-                console.log('error')
-                notify();
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            notify2();
+            router.push('/materials');
+            console.log(response)
+        } else {
+            console.log('error')
+            notify();
+        
+        }  
+    }
 
-            }
-        }
         catch (error) {
             console.log(error);
         }
