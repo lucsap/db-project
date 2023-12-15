@@ -15,5 +15,5 @@ export class EmprestimoMateriaisDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  status_devolucao: boolean;
+  status: boolean;
 }

@@ -23,7 +23,7 @@ export class EmprestimosService {
       emprestimo += ` AND id_item IS NULL`
     }
 
-    const emprestimoExistente = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_item = ${emprestimoLivrosDto.id_item} AND status_devolucao = true`);
+    const emprestimoExistente = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_item = ${emprestimoLivrosDto.id_item} AND status = true`);
 
     if (emprestimoExistente.rows.length > 0) {
       throw new BadRequestException('Livro já foi emprestado para outro usuário');
@@ -35,7 +35,7 @@ export class EmprestimosService {
       throw new BadRequestException('Livro não encontrado');
     }
 
-    if (item.rows[0].status_devolucao === true) {
+    if (item.rows[0].status === true) {
       throw new BadRequestException('Livro indisponível para empréstimo');
     }
 
@@ -43,12 +43,12 @@ export class EmprestimosService {
 
     const sql = `
       INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status_devolucao) VALUES 
-      (${emprestimoLivrosDto.id_usuario}, ${emprestimoLivrosDto.id_item}, '${formattedDate}', ${emprestimoLivrosDto.status_devolucao})
+      (${emprestimoLivrosDto.id_usuario}, ${emprestimoLivrosDto.id_item}, '${formattedDate}', ${emprestimoLivrosDto.status})
     `
 
     await this.knex.raw(sql);
     const updateLivroSql = `
-      UPDATE Livros SET status_devolucao = true WHERE isbn = ${emprestimoLivrosDto.id_item} `;
+      UPDATE Livros SET status = true WHERE isbn = ${emprestimoLivrosDto.id_item} `;
     await this.knex.raw(updateLivroSql);
 
     return {
@@ -57,7 +57,7 @@ export class EmprestimosService {
   }
 
   async emprestimoMateriaisDidaticos(emprestimoMateriaisDto: EmprestimoMateriaisDto) {
-    const emprestimoExistente = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_item = ${emprestimoMateriaisDto.id_item} AND status_devolucao = true`);
+    const emprestimoExistente = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_item = ${emprestimoMateriaisDto.id_item} AND status = true`);
 
     if (emprestimoExistente.rows.length > 0) {
       throw new BadRequestException('Material já está emprestado para outro usuário');
@@ -69,7 +69,7 @@ export class EmprestimosService {
       throw new BadRequestException('Material não encontrado');
     }
 
-    if (item.rows[0].status_devolucao === true) {
+    if (item.rows[0].status === true) {
       throw new BadRequestException('Material indisponível para empréstimo');
     }
 
@@ -77,8 +77,8 @@ export class EmprestimosService {
 
     const sql = 
     `
-      INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status_devolucao) VALUES 
-      (${emprestimoMateriaisDto.id_usuario}, ${emprestimoMateriaisDto.id_item}, '${formattedDate}', ${emprestimoMateriaisDto.status_devolucao})
+      INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status) VALUES 
+      (${emprestimoMateriaisDto.id_usuario}, ${emprestimoMateriaisDto.id_item}, '${formattedDate}', ${emprestimoMateriaisDto.status})
     `
 
     await this.knex.raw(sql);

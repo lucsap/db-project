@@ -15,5 +15,5 @@ export class EmprestimoLivrosDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  status_devolucao: boolean;
+  status: boolean;
 }
