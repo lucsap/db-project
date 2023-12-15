@@ -19,8 +19,15 @@ export class LivrosService {
 
   async create(
     createLivroDto: CreateLivroDto,
+    req: any,
     imagemLivro?: Express.Multer.File,
   ) {
+    const user = req.user;
+
+    if (user.role_id === 1) {
+      throw new BadRequestException('Você não tem permissão para cadastrar livros');
+    }
+ 
     if (!createLivroDto.titulo) {
       throw new BadRequestException('Título não informado');
     }
@@ -93,7 +100,13 @@ export class LivrosService {
     return livro.rows[0];
   }
 
-  async update(isbn: number, updateLivroDto: updateLivroDto) {
+  async update(isbn: number, updateLivroDto: updateLivroDto, req?: any) {
+    const user = req.user;
+
+    if (user.role_id === 1) {
+      throw new BadRequestException('Você não tem permissão para atualizar livros');
+    }
+
     const updateFields = {};
 
     if (updateLivroDto.titulo) {
@@ -129,13 +142,18 @@ export class LivrosService {
     throw new NotFoundException('Livro não encontrado');
   }
 
-  async remove(isbn: number) {
+  async remove(isbn: number, req?: any) {
+    const user = req.user; 
+
+    if (user.role_id === 1) {
+      throw new BadRequestException('Você não tem permissão para excluir livros');
+    }
+
     const resultado = await this.knex.raw(
       `DELETE FROM Livros WHERE ISBN = ${isbn}`,
     );
     if (resultado) {
       return { 
-        ...resultado,
         message: 'Livro excluído com sucesso!',
         success: true
       };

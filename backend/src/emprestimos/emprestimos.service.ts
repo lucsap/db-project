@@ -83,8 +83,6 @@ export class EmprestimosService {
 
     await this.knex.raw(sql);
 
-
-
     return {
       ...emprestimoMateriaisDto,
     }
