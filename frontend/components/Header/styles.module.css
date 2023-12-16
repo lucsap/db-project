@@ -81,3 +81,36 @@
   background-color: #ffd29e;
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5);
 }
+
+.menuContainer {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 1rem;
+  cursor: pointer;
+  color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 150px;
+  top: 20px;
+}
+
+.selected { 
+  color: #ffffff;
+  border-bottom: 2px solid #ffff;
+  
+}
+
+.menuList{
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 1rem;
+  cursor: pointer;
+  color: #ffffff;
+  align-items: center;
+  justify-content: center;
+}
+
+

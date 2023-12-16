@@ -8,6 +8,7 @@ import PopUp from "../PopUp/pupup";
 function Header() {
     const router = useRouter();
     const [stay, setStay] = useState(false);
+    const [selected , setSelected] = useState('');
 
     const handleoption = () => {
         setStay(!stay);
@@ -21,11 +22,21 @@ function Header() {
     return (
         <header className={styles.headerContainer}>
             <div className={styles.logoContainer} >
-                <Image src={Logo} alt="logo" />
+                <Image onClick={()=>{setSelected(''),router.push('/home')}} src={Logo} alt="logo" />
             </div>
+            <div className={styles.menuContainer}>
+                <ul className={styles.menuList}>
+                    <li className={selected == 'Livros'? styles.selected:''} onClick={()=>{setSelected('Livros'), router.push('/books')}}>Livros</li>
+                    <li className={selected == 'Materiais'? styles.selected:''} onClick={()=>{setSelected('Materiais'),router.push('/materials')}}>Materiais</li>
+                    <li className={selected == 'Emprestimos'? styles.selected:''} onClick={()=>{setSelected('Emprestimos'),router.push('/borrow')}}>Fazer emprestimo</li>
+                </ul>
+            </div>
+
             <div className={styles.logoutContainer}>
                 <button onClick={handleoption} className={styles.buttonLogOut}>Sair</button>
             </div>
+
+            
             {stay && (
                 <PopUp isOpen={true} onClose={() => setStay(false)}>
                     <div className={styles.buttonsWrapper}>
