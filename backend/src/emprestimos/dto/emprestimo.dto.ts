@@ -1,6 +1,6 @@
-import { IsBoolean, IsDate, IsNotEmpty, IsNumber } from "class-validator";
+import { IsBoolean, IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class EmprestimoLivrosDto { 
+export class EmprestimoDto { 
   @IsNumber()
   @IsNotEmpty()
   id_item: number;
@@ -8,6 +8,10 @@ export class EmprestimoLivrosDto {
   @IsNumber()
   @IsNotEmpty()
   id_usuario: number;
+
+  @IsNotEmpty()
+  @IsString()
+  tipo_item: string;
 
   @IsNotEmpty()
   @IsDate()

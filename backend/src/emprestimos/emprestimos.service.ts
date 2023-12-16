@@ -1,91 +1,39 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
-import { EmprestimoLivrosDto } from './dto/emprestimo-livros.dto';
-import { EmprestimoMateriaisDto } from './dto/emprestimo-materiais.dto';
+import { EmprestimoDto } from './dto/emprestimo.dto';
+import { UpdateEmprestimoDto } from './dto/update-emprestimo-livros.dto';
 
 @Injectable()
 export class EmprestimosService {
   constructor(@InjectConnection() private readonly knex: Knex) {}
 
-  async emprestimoLivros(req: any, emprestimoLivrosDto: EmprestimoLivrosDto) {
+  async emprestimo(req: any, emprestimoDto: EmprestimoDto) {
     const role = req.user;
 
     if (role.role_id !== 1) {
       throw new BadRequestException('Somente estudantes podem realizar empréstimos');
     }
+
+    const tipoItem = emprestimoDto.tipo_item.toLowerCase();
+
+    const item = await this.knex.raw(`SELECT * FROM Itens WHERE id_${tipoItem} = ${emprestimoDto.id_item} AND disponivel = TRUE`);
+
+    if (item.rows.length === 0) {
+      throw new BadRequestException(`${tipoItem} não encontrado ou indisponível para empréstimo`);
+    }
+
+    const formattedDate = new Date(emprestimoDto.data_devolucao_prevista).toISOString();
+
+    await this.knex.raw(`INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status) VALUES 
+    (${emprestimoDto.id_usuario}, ${emprestimoDto.id_item}, '${formattedDate}', ${emprestimoDto.status})`
+    );
+
+    await this.knex.raw(`UPDATE Itens SET disponivel = FALSE WHERE id_${tipoItem} = ${emprestimoDto.id_item}`)
     
-    let emprestimo = await this.knex.raw(`SELECT * FROM Emprestimos WHERE status = true`);
-
-    if (emprestimoLivrosDto.id_item !== null && emprestimoLivrosDto.id_item !== undefined) {
-      emprestimo += ` AND id_item = ${emprestimoLivrosDto.id_item}`
-    } else {
-      emprestimo += ` AND id_item IS NULL`
-    }
-
-    const emprestimoExistente = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_item = ${emprestimoLivrosDto.id_item} AND status = true`);
-
-    if (emprestimoExistente.rows.length > 0) {
-      throw new BadRequestException('Livro já foi emprestado para outro usuário');
-    }
-
-    const item = await this.knex.raw(`SELECT * FROM Livros WHERE isbn = ${emprestimoLivrosDto.id_item}`);
-
-    if (item.rows.length === 0) {
-      throw new BadRequestException('Livro não encontrado');
-    }
-
-    if (item.rows[0].status === true) {
-      throw new BadRequestException('Livro indisponível para empréstimo');
-    }
-
-    const formattedDate = new Date(emprestimoLivrosDto.data_devolucao_prevista).toISOString();
-
-    const sql = `
-      INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status) VALUES 
-      (${emprestimoLivrosDto.id_usuario}, ${emprestimoLivrosDto.id_item}, '${formattedDate}', ${emprestimoLivrosDto.status})
-    `
-
-    await this.knex.raw(sql);
-    const updateLivroSql = `
-      UPDATE Livros SET disponivel = false WHERE isbn = ${emprestimoLivrosDto.id_item} `;
-    await this.knex.raw(updateLivroSql);
-
     return {
-      ...emprestimoLivrosDto,
+      ...emprestimoDto,
     };
-  }
-
-  async emprestimoMateriaisDidaticos(emprestimoMateriaisDto: EmprestimoMateriaisDto) {
-    const emprestimoExistente = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_item = ${emprestimoMateriaisDto.id_item} AND status = true`);
-
-    if (emprestimoExistente.rows.length > 0) {
-      throw new BadRequestException('Material já está emprestado para outro usuário');
-    }
-
-    const item = await this.knex.raw(`SELECT * FROM MateriaisDidaticos WHERE id = ${emprestimoMateriaisDto.id_item}`);
-
-    if (item.rows.length === 0) {
-      throw new BadRequestException('Material não encontrado');
-    }
-
-    if (item.rows[0].status === true) {
-      throw new BadRequestException('Material indisponível para empréstimo');
-    }
-
-    const formattedDate = new Date(emprestimoMateriaisDto.data_devolucao_prevista).toISOString();
-
-    const sql = 
-    `
-      INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status) VALUES 
-      (${emprestimoMateriaisDto.id_usuario}, ${emprestimoMateriaisDto.id_item}, '${formattedDate}', ${emprestimoMateriaisDto.status})
-    `
-
-    await this.knex.raw(sql);
-
-    return {
-      ...emprestimoMateriaisDto,
-    }
   }
 
   async findAll(req: any) {
@@ -95,8 +43,9 @@ export class EmprestimosService {
     return data.rows;
   }
 
-  async findOne(id: number) {
-    const emprestimo = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id = ${id}`);
+  async findOne(req: any) {
+    const userId = req.user.id;
+    const emprestimo = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id = ${userId}`);
 
     if (!emprestimo) {
       throw new BadRequestException('Empréstimo não encontrado');
@@ -105,10 +54,10 @@ export class EmprestimosService {
     return emprestimo;
   }
 
-  async returnItem(req: any, updateEmprestimosDto: EmprestimoLivrosDto) {
+  async returnItem(req: any, updateEmprestimosDto: UpdateEmprestimoDto) {
     const userId = req.user.id;
 
-    // Verifica se o usuário é o proprietário do livro
+    // Verifica se o usuário é o proprietário do item emprestado
     const emprestimo = await this.knex.raw(`
       SELECT * FROM Emprestimos 
       WHERE id_item = ${updateEmprestimosDto.id_item} AND id_usuario = ${userId}
@@ -125,16 +74,19 @@ export class EmprestimosService {
     `;
     await this.knex.raw(updateEmprestimoSql);
 
-    // Atualiza o status do livro para indicar que está disponível novamente
-    const updateLivroSql = `
-      UPDATE Livros SET disponivel = true WHERE isbn = ${updateEmprestimosDto.id_item}
+    // Determina o tipo do item emprestado
+    const tipoItem = emprestimo.rows[0].tipo_item;
+
+    // Atualiza o status do item para indicar que está disponível novamente
+    const updateItemSql = `
+      UPDATE Itens SET disponivel = TRUE WHERE id_${tipoItem} = ${updateEmprestimosDto.id_item}
     `;
-    await this.knex.raw(updateLivroSql);
+
+    await this.knex.raw(updateItemSql);
 
     return {
       success: true,
-      message: 'Livro devolvido com sucesso',
+      message: ' devolvido com sucesso',
     };
   }
-
 }
