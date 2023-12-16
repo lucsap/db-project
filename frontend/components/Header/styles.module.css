@@ -2,7 +2,6 @@
   height: 80px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   background-color: #ff971d;
 }
 
@@ -28,15 +27,14 @@
 
 .buttonLogOut {
   font-size: 1em;
-  font-weight: 700;
-  border-radius: 10px;
-  height: 2.4rem;
   border-radius: 10px;
   border: none;
   background-color: #ff971d;
   color: #ffffff;
   cursor: pointer;
-  margin-bottom: 0.5em;
+  position: absolute;
+  right: 0;
+  margin-right: 2em;
 }
 
 .buttonsWrapper {
@@ -85,32 +83,27 @@
 .menuContainer {
   display: flex;
   flex-direction: row;
-  list-style: none;
-  gap: 1rem;
-  cursor: pointer;
-  color: #ffffff;
+  justify-content: space-between;
+  background-color: #ff971d;
+  height: 80px;
   align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 150px;
-  top: 20px;
-}
-
-.selected { 
-  color: #ffffff;
-  border-bottom: 2px solid #ffff;
-  
 }
 
 .menuList{
   display: flex;
   flex-direction: row;
   list-style: none;
-  gap: 1rem;
+  gap: 1.5rem;
   cursor: pointer;
   color: #ffffff;
-  align-items: center;
-  justify-content: center;
+  padding-inline-start: 0px;
+  position: relative;
 }
+
+.selected { 
+  color: #ffffff;
+  border-bottom: 1px solid #ffff;
+}
+
 
 
