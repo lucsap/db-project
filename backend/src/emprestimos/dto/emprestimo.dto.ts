@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class EmprestimoDto { 
   @IsNumber()
@@ -13,8 +13,8 @@ export class EmprestimoDto {
   @IsString()
   tipo_item: string;
 
-  @IsNotEmpty()
-  @IsDate()
+  @IsString()
+  @IsOptional()
   data_devolucao_prevista: Date;
 
   @IsNotEmpty()

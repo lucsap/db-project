@@ -86,7 +86,7 @@ export class EmprestimosService {
 
     return {
       success: true,
-      message: ' devolvido com sucesso',
+      message: `${tipoItem} devolvido com sucesso`,
     };
   }
 }

@@ -2,7 +2,11 @@ import type { Knex } from "knex";
 
 // Update with your config settings.
 
-const config: { [key: string]: Knex.Config } = {
+interface KnexConfig {
+  [key: string]: Knex.Config;
+}
+
+const config: KnexConfig = {
   development: {
     client: 'pg',
     connection: {
@@ -14,6 +18,9 @@ const config: { [key: string]: Knex.Config } = {
     migrations: {
       directory: './database/migrations',
     },
-  }};
+    seeds: {
+      directory: './database/seeds',
+    },
+}};
 
 module.exports = config;
