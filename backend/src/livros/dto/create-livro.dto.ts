@@ -22,5 +22,6 @@ export class CreateLivroDto {
   autor: string;
 
   @IsString()
-  uri_capa_livro: string;
+  @IsOptional()
+  uri_capa_livro?: string;
 }

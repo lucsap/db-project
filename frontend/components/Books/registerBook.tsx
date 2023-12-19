@@ -24,7 +24,7 @@ export default function FormBooks() {
             descricao: descricao,
             localizacao_fisica: localizacao_fisica,
             estado_conservacao: estado_conservacao,
-            uri_capa: uri_capa,
+            uri_capa_livro: uri_capa,
             autor: autor,
         }
         try {
@@ -38,7 +38,7 @@ export default function FormBooks() {
                 body: JSON.stringify(data)
             });
             console.log(data)
-            if (response.ok) {
+            if (response.status === 200 || response.status === 201) {
                 notify2();
                 router.push('/books');
                 console.log(response)
@@ -133,7 +133,7 @@ export default function FormBooks() {
                     />
                 </div>
                 <div className={styles.btnReg}>
-                    <button type="submit" className={styles.btnPrimary} >
+                    <button type="submit" onClick={handleSubmit} className={styles.btnPrimary} >
                         Cadastrar
                     </button>
                 </div>

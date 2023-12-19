@@ -57,7 +57,7 @@ export class MateriaisService {
       material.uri_foto_material = imagemBuffer.toString('base64');
     }
     const resultado = await this.knex.raw(`
-    INSERT INTO MateriaisDidaticos (nome, categoria, descricao, localizacao_fisica, estado_conservacao, numero_serie,uri_foto_material) 
+    INSERT INTO MateriaisDidaticos (nome, categoria, descricao, localizacao_fisica, estado_conservacao, numero_serie, uri_foto_material) 
     VALUES ('${material.nome}', '${material.categoria}', '${material.descricao}', '${material.localizacao_fisica}', '${material.estado_conservacao}', '${material.numero_serie}','${material.uri_foto_material}')`);
 
     const setItem = await this.knex.raw(`INSERT INTO Itens("id_material_didatico", "tipo_item")

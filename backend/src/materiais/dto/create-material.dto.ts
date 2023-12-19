@@ -1,11 +1,12 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateMaterialDto {
   @IsString()
   nome: string;
 
   @IsString()
-  descricao: string;
+  @IsOptional()
+  descricao?: string;
 
   @IsString()
   categoria: string;
@@ -17,7 +18,8 @@ export class CreateMaterialDto {
   localizacao_fisica: string;
 
   @IsString()
-  uri_foto: string;
+  @IsOptional()
+  uri_foto?: string;
 
   @IsNumber()
   numero_serie: number;

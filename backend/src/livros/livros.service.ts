@@ -53,7 +53,7 @@ export class LivrosService {
       localizacao_fisica: createLivroDto.localizacao_fisica,
       estado_conservacao: createLivroDto.estado_conservacao,
       autor: createLivroDto.autor,
-      uri_capa_livro: null,
+      uri_capa_livro: createLivroDto.uri_capa_livro,
     };
     if (imagemLivro) {
       const caminhoDestino = path.join(
@@ -69,14 +69,17 @@ export class LivrosService {
 
     const resultado = await this.knex.raw(
       `INSERT INTO Livros (titulo, categoria, descricao, localizacao_fisica, estado_conservacao, autor) 
-      VALUES ('${livro.titulo}', '${livro.categoria}', '${livro.descricao}', '${livro.localizacao_fisica}', '${livro.estado_conservacao}', '${livro.autor}')`,
+      VALUES (?, ?, ?, ?, ?, ?) RETURNING isbn`,
+      [livro.titulo, livro.categoria, livro.descricao, livro.localizacao_fisica, livro.estado_conservacao, livro.autor]
     );
+
+    const isbn = resultado.rows[0].isbn; // Agora deve funcionar corretamente
 
 
     if (resultado.rows && resultado.rows.length > 0) {
       const setItem = await this.knex.raw (
         `INSERT INTO Itens (id_livro, tipo_item) 
-        SELECT isbn, 'livro' FROM Livros WHERE isbn = ${resultado.rows[0].isbn}`,
+        SELECT isbn, 'livro' FROM Livros WHERE isbn = ${isbn}`,
       );
 
       return { 
@@ -86,7 +89,8 @@ export class LivrosService {
         setItem: setItem,
       };
     } else {
-      throw new InternalServerErrorException('Erro ao criar livro');
+      // me de uma mensagem de erro melhor 
+      throw new InternalServerErrorException('Erro ao cadastrar livro');
     }
   }
 
