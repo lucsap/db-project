@@ -23,8 +23,9 @@ export class UsuariosController {
       }
     },
   })
-  async create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return await this.usuariosService.create(createUsuarioDto);
+
+  async create(@Body() createUsuarioDto: CreateUsuarioDto, @Body('role_id') role_id?: number) {
+    return await this.usuariosService.create(createUsuarioDto, role_id);
   }
 
   @ApiOperation({ summary: 'Lista todos os usuários' })
