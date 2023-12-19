@@ -30,7 +30,7 @@ date: 30/11/2023
 ## CRediT (Contributor Roles Taxonomy):
 
 - **Gustavo** configuração do docker, configuração do backend e documentação dos mesmos, configuração e instalação do frontend, autenticação e gerenciamento de rotas e permissões.
-- **Lucas** criação do repositório, instalação do nvm e do nodejs, e documentação do mesmo.
+- **Lucas** criação do repositório, instalação do nvm e do nodejs, documentação do mesmo e documentação final.
 - **Ana Beatriz** instalação do postgresql e configuração do mesmo.
 - **Thiago** criação do modelo de banco de dados e documentação do mesmo, criação dos CRUDS e teste de rotas.
 - **Hideki** criação dos scripts SQL e documentação dos mesmos.
@@ -46,6 +46,10 @@ date: 30/11/2023
 Para auxiliar os estudantes e professores, o seu grupo ficou encarregado de elaborar um sistema de informação para gerenciar livros de ensino e materiais didáticos em um laboratório. O sistema será projetado para organizar e disponibilizar esses recursos para empréstimo através de um sistema computacional.
 
 O foco principal desta especificação é a definição do banco de dados que será utilizado para armazenar informações sobre os livros e materiais. O sistema deve ter diferentes níveis de acesso para os usuários (por exemplo, administradores do sistema computacional, membros do laboratório e estudantes em geral), de maneira que todos os usuários possam pesquisar os livros e materiais, mas apenas membros do laboratório possam pegar os materiais emprestados.
+
+---
+
+# 1. Documentação Técnica
 
 ## Tecnologias Utilizadas
 
@@ -73,13 +77,13 @@ O foco principal desta especificação é a definição do banco de dados que se
 
 O sistema operacional utilizado pela maioria da equipe será linux.
 
-# 1 Documentação de Configuração de Ambiente e Tecnologias
+## 1.1 Documentação de Configuração de Ambiente e Tecnologias
 
 Esta documentação descreve os passos necessários para configurar o ambiente de desenvolvimento e lista as tecnologias utilizadas neste projeto.
 
 ## Configuração de Ambiente
 
-### 1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
+### 1.1.1. Instalação do NVM (Node Version Manager) e Node.js (Linux)
 
 Antes de começar, é importante garantir que o sistema esteja atualizado.
 
@@ -88,7 +92,7 @@ sudo apt update
 sudo apt upgrade
 ```
 
-#### 1.1. Instalação do NVM
+### 1.1.2. Instalação do NVM
 
 Você pode escolher entre dois métodos para instalar o NVM: usando curl ou wget. Escolha um dos seguintes comandos:
 
@@ -108,7 +112,7 @@ Após a instalação, feche e reabra o terminal. Para verificar a instalação d
 nvm --version
 ```
 
-#### 1.2. Instalação do Node.js
+### 1.1.3. Instalação do Node.js
 
 Com o NVM instalado, você pode instalar o Node.js. Recomendamos a instalação da versão LTS mais recente:
 
@@ -122,7 +126,7 @@ Para verificar a versão do Node.js:
 node --version
 ```
 
-## 2. Instalação do PostgreSQL (Sistema de Gerenciamento de Banco de Dados)
+### 1.1.4. Instalação do PostgreSQL (Sistema de Gerenciamento de Banco de Dados)
 
 Para instalar o PostgreSQL no Linux, execute o seguinte comando:
 
@@ -136,7 +140,7 @@ Para verificar a instalação do PostgreSQL:
 pg_config --version
 ```
 
-#### 2.1. Guia de Uso do Docker com PostgreSQL (Opcional)
+### 1.2. Guia de Uso do Docker com PostgreSQL (Opcional)
 
 Se preferir usar o Docker com o PostgreSQL, siga as instruções em Guia de Uso do Docker com PostgreSQL para configuração e uso do contêiner PostgreSQL.
 
@@ -195,9 +199,9 @@ docker-compose down
 
 Isso desligará e removerá o contêiner PostgreSQL. Certifique-se de que nenhum dado importante seja perdido antes de executar este comando.
 
-## Tecnologias Utilizadas
+### 1.3. Rodando o projeto
 
-### 1. Frontend com Next.js
+#### 1.3.1. Frontend com Next.js
 
 Para executar o frontend do projeto com Next.js, siga os passos abaixo:
 
@@ -213,7 +217,7 @@ Inicie o servidor de desenvolvimento:
 npm run dev
 ```
 
-### 2. Backend com NestJS
+#### 1.3.2. Backend com NestJS
 
 Para executar o backend do projeto com NestJS, siga os passos abaixo:
 
@@ -229,11 +233,11 @@ Inicie a aplicação no modo de desenvolvimento:
 npm run start
 ```
 
-## 3. Modelo de Banco de Dados
+# 2. Arquitetura do Sistema (Modelo de Banco de Dados)
 
 Um Modelo de Banco de Dados é essencial em projetos, definindo a estrutura e organização dos dados, garantindo eficiência, integridade e escalabilidade. É a base para a gestão de informações eficaz.
 
-### 3.1. Diagramas de entidade-relacionamento (DERs)
+## 2.1. Diagramas de entidade-relacionamento (DERs)
 
 Diagramas de Entidade-Relacionamento (DERs) são representações visuais que descrevem a estrutura de um banco de dados, mostrando entidades, atributos e relacionamentos entre eles.
 
@@ -241,7 +245,7 @@ Diagramas de Entidade-Relacionamento (DERs) são representações visuais que de
 <img src="modelo.jpeg" height="300" alt="Modelo Markdown">
 </div>
 
-### 3.2 Diagrama do Modelo Lógico (Relacional)
+## 2.2. Diagrama do Modelo Lógico (Relacional)
 
 Um Diagrama do Modelo Lógico Relacional é uma representação visual que descreve as tabelas de um banco de dados relacional, seus campos, chaves primárias e chaves estrangeiras. Tabelas representam entidades, campos representam atributos, chaves primárias garantem unicidade e identificação única de registros, e chaves estrangeiras estabelecem relações entre tabelas. Sua importância reside na definição clara da estrutura do banco de dados, permitindo o armazenamento eficiente e a recuperação de informações, garantindo integridade de dados e facilitando o desenvolvimento de consultas e relatórios. Além disso, o modelo lógico serve como guia para a implementação física do banco de dados.
 
@@ -249,10 +253,10 @@ Um Diagrama do Modelo Lógico Relacional é uma representação visual que descr
 <img src="tabelas.jpeg" height="300" alt="Tabela Markdown">
 </div>
 
-## 4. Scripts SQL
-### Criação de tabelas
+## 2.3. Scripts SQL
+### 2.3.1. Criação de tabelas
 
-#### Tabela Usuários
+#### 2.3.1.1. Tabela Usuários
 ```sql
 CREATE TABLE "Usuarios"(
     "id" int   NOT NULL,
@@ -271,7 +275,7 @@ CREATE TABLE "Usuarios"(
 );
 ```
 
-#### Tabela Emprestimos
+#### 2.3.1.2. Tabela Emprestimos
 ```sql
 CREATE TABLE "Emprestimos"(
     "id_usuario" int   NOT NULL,
@@ -282,7 +286,7 @@ CREATE TABLE "Emprestimos"(
 );
 ```
 
-#### Tabela Devoluções
+#### 2.3.1.3. Tabela Devoluções
 ```sql
 CREATE TABLE "Devolucoes"(
     "id_usuario" int   NOT NULL,
@@ -290,7 +294,7 @@ CREATE TABLE "Devolucoes"(
 );
 ```
 
-#### Tabela CadastroDeItens
+#### 2.3.1.4. Tabela CadastroDeItens
 ```sql
 CREATE TABLE "CadastroDeItens" (
     "id_item" int   NOT NULL,
@@ -305,7 +309,7 @@ CREATE TABLE "CadastroDeItens" (
 );
 ```
 
-#### Tabela Itens
+#### 2.3.1.5. Tabela Itens
 ```sql
 CREATE TABLE "Itens" (
     "id" int   NOT NULL,
@@ -322,7 +326,7 @@ CREATE TABLE "Itens" (
 );
 ```
 
-#### Tabela Livros
+#### 2.3.1.6. Tabela Livros
 ```sql
 CREATE TABLE "Livros" (
     "ISBN" int   NOT NULL,
@@ -335,7 +339,7 @@ CREATE TABLE "Livros" (
 );
 ```
 
-#### Tabela MateriaisDidáticos
+#### 2.3.1.7. Tabela MateriaisDidáticos
 ```sql
 CREATE TABLE "MateriaisDidaticos" (
     "id" int   NOT NULL,
@@ -347,7 +351,7 @@ CREATE TABLE "MateriaisDidaticos" (
 );
 ```
 
-### Chaves estrangeiras
+## 2.4. Chaves estrangeiras
 ```sql
 ALTER TABLE "Emprestimos" ADD CONSTRAINT "fk_emprestimos_id_usuario" FOREIGN KEY("id_usuario")
 REFERENCES "Usuarios" ("id");
@@ -373,8 +377,8 @@ ALTER TABLE "Itens" ADD CONSTRAINT "fk_itens_id_isbn" FOREIGN KEY("id_isbn")
 REFERENCES "Livros" ("ISBN");
 ```
 
-### Inserção de Dados nas tabelas
-#### Tabela Usuários
+## 2.5. Inserção de Dados nas tabelas
+### 2.5.1. Tabela Usuários
 ```sql
 -- Inserção de dados adicionais na tabela Usuarios
 INSERT INTO Usuarios (id, nome, sobrenome, is_admin, uri_foto, senha, email)
@@ -384,7 +388,7 @@ VALUES
     (6, 'Usuario5', 'Sobrenome5', false, 'http://urifotousuario5.com', 'hashed_password_usuario5', 'usuario5@example.com');
 ```
 
-#### Tabela Empréstimos
+### 2.5.2. Tabela Empréstimos
 ```sql
 -- Inserção de dados adicionais na tabela Emprestimos
 INSERT INTO Emprestimos (id_usuario, id_item, data_emprestimo, data_devolucao_prevista, status)
@@ -394,7 +398,7 @@ VALUES
     (6, 2, '2023-04-06', '2023-05-06', true);
 ```
 
-#### Tabela CadastroDeItens
+### 2.5.3. Tabela CadastroDeItens
 ```sql
 -- Inserção de dados adicionais na tabela CadastroDeItens
 INSERT INTO CadastroDeItens (id_item, tipo, data_aquisicao, categoria, descricao, titulo, autor, uri_foto, numero_serie)
@@ -404,7 +408,7 @@ VALUES
     (6, 'Livro', '2023-04-03', 'Romance', 'Descrição do Livro 4', 'Livro 4', 'Autor 4', 'http://urifotolivro4.com', null);
 ```
 
-#### Tabela Itens
+#### 2.5.4. Tabela Itens
 ```sql
 -- Inserção de dados adicionais na tabela Itens
 INSERT INTO Itens (id, id_material, id_isbn, localizacao_fisica, data_aquisicao, categoria, estado_conservacao, descricao)
@@ -414,7 +418,7 @@ VALUES
     (6, null, 5, 'Estante F', '2023-04-03', 'Romance', 'Regular', 'Descrição do Livro 4');
 ```
 
-#### Tabela Livros
+#### 2.5.5. Tabela Livros
 ```sql
 -- Inserção de dados adicionais na tabela Livros
 INSERT INTO Livros (ISBN, autor, titulo, uri_capa_livro)
@@ -424,7 +428,7 @@ VALUES
     (5, 'Autor 5', 'Livro 5', 'http://uricapalivro5.com');
 ```
 
-#### Tabela MateriaisDidáticos
+#### 2.5.6. Tabela MateriaisDidáticos
 ```sql
 -- Inserção de dados adicionais na tabela MateriaisDidadicos
 INSERT INTO MateriaisDidaticos (id, uri_foto_material, numero_serie)
@@ -437,10 +441,10 @@ VALUES
 
 Estes scripts SQL fornecem uma visão geral das tabelas criadas, suas relações e exemplos de inserções de dados.
 
-### Criação da camada de persistência.
+## 2.6. Criação da camada de persistência.
 As tecnologias utilizadas foram **Nestjs** js que é um framework de nodejs e **Knexjs** que é um query builder para SQL, dito isso, os CRUDS foram criados com SQL puro, tanto migrations quanto as seeds também, o knexjs possui um método `knex.raw` que permite colocar queries em SQL puro dentro de um objeto javascript então assim foi feito os CRUDS, Migrations e as Seeds.
 
-##### Exemplos:
+#### 2.6.1. Exemplos:
 **Assim foi feito a migração das tabelas de usuários**
 <div align="center">
     <img src="migration.png" alt="migrations das tabelas"/>
@@ -452,13 +456,13 @@ As tecnologias utilizadas foram **Nestjs** js que é um framework de nodejs e **
     <img src="seed.png" alt="seed de usuários"/>
 </div>
 
-#### CRUD de usuários
+#### 2.6.2. CRUD de usuários
 No controller de usuários que é onde gerenciamos as rotas e recebemos as requisições para darmos alguma resposta pro servidor chamando os métodos criados na service de usuários possui essa estrutura:
 <div align="center">
     <img src="controller_users.png" alt="controller de usuários" />
 </div>
 
-#### Método Create
+#### 2.6.3. Método Create
 **Aqui está um exemplo do método create de usuários**
 <div>
 <img src="metodo_create.png" alt="metodo create do CRUD de usuários" />
@@ -466,6 +470,84 @@ No controller de usuários que é onde gerenciamos as rotas e recebemos as requi
 
 Com isso temos uma ideia de como está sendo feito a camada de persistência do sistema, para ter uma visão completa só acessar nosso repositório no [**Github**](https://github.com/lucsap/db-project/tree/main/backend)
 
+# 3. Descrição de Funcionalidades
+
+## 3.1 Registro de Usuário
+Cada usuaŕio que desejar usar a plataforma consegue fazer um novo cadastro como estudante.
+
+## 3.2 Cadastro de Livros e Materiais
+Cada usuário administrador e chefe de laboratório consegue registar um novo livro e/ou material.
+
+## 3.3 Catalogação
+Cada item possui uma catalogação detalhada sobre si, contendo título, autor, ISBN (para livros), descrição, categoria, número de série (para materiais), data de aquisição e estado de conservação.
+
+## 3.4 Armazenamento Físico
+Cada item possui um número indicando sua estante e prateleira físicamente.
+
+## 3.5 Empréstimo e Devolução
+Cada usuário consegue fazer empréstimos e devoluções ao sistema.
+
+## 3.6 Pesquisa e Consulta
+Cada usuário consegue consultar os livros e materiasi disponíveis e locados.
+
+## 3.7 Controle de Acesso
+Cada usuário só tem acesso as funcionalidades do próprio tipo de acesso, como admin, chefe de leboratório e estudantes (comum).
+
+# 4. Manual de Usuário
+
+## Conteúdo
+
+1. [Login](#1-login)
+2. [Registrar](#2-registrar)
+3. [Visualizar Materiais](#3-visualizar-materiais)
+
+---
+
+## 4.1 Página inicial
+
+<div align="center">
+<img src="barra.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+- Para fazer login, clique no seu tipo de usuário.
+
+## 4.2. Login
+
+<div align="center">
+<img src="login[.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+**Para acessar o sistema, siga os passos abaixo:**
+- Abra o navegador e vá para a página de login em [http://localhost:3000/login](http://localhost:3000/login).
+- Digite seu email de usuário e senha nos campos fornecidos.
+
+## 4.3. Registrar
+
+<div align="center">
+<img src="register.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+**Para se registrar no sistema, siga os passos abaixo:**
+- Abra o navegador e vá para a página de login em [http://localhost:3000/signup](http://localhost:3000/signup).
+- Digite seu nome, sobrenome, email de usuário e senha.
+
+## 4.4. Visualizar Materiais
+
+<div align="center">
+<img src="home.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+- Para visualizar a localização física, clique em um material.
+
+<div align="center">
+<img src="modal.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+# 5. Relatório de Implantação
+
+O sistema pode ser muito útil em ambientes reais como escolas e bibliotecas, privadas ou públicas, visando automatizar a rotina de empréstimo/devolução de livros e demais materiais que possuírem, como laptops, tabltes, etc. Além do mais o sistema pode funcionar muito bem como cabines de consulta, sendo microcomputadores com pouco recursos de hardware e com custo menor, o que o torna mais versátil e possível de aplicar em vários ambientes de mundo real.
+
+# 6. Relatório de Correções
 
 **Relatório de Mudança em Tabela de Banco de Dados**
 
@@ -473,19 +555,16 @@ Com isso temos uma ideia de como está sendo feito a camada de persistência do 
 Foi adicionada uma nova tabela chamada Roles ao banco de dados.
 
 **Detalhes da Mudança:**
-- **Tabela Anterior:**
-    - Nome: Não existia a tabela Roles anteriormente.
 
-- **Nova Tabela (ALTERAÇÃO):**
-    - **Nome:** Roles
-        - **Campos:**
-            - **id:** Número serial, chave primária.
-            - **nome:** Texto de até 255 caracteres, não nulo.
-        - **Restrições:**
-            - Chave única na coluna nome (uc_roles_nome).
+- **Nova Tablea:**
+```sql
+CREATE TABLE IF NOT EXISTS Roles (
+      "id" SERIAL PRIMARY KEY,
+      "nome" varchar(255) NOT NULL,
+      CONSTRAINT "uc_roles_nome" UNIQUE ("nome")
+    );
+```
 
 Essa mudança visa introduzir uma tabela para armazenar papéis (Roles) no sistema. A tabela possui um identificador único automático (id) e um campo para o nome do papel, garantindo que não haja duplicatas através de uma restrição de chave única.
 
 Para qualquer dúvida ou esclarecimento adicional, favor entrar em contato.
-
-
