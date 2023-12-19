@@ -30,7 +30,7 @@ export default function Borrow() {
 	const [req, setReq] = useState([]); // Requisições do usuário [temporário
 	const [livros, setLivros] = useState<Livro[]>([]);
 	const [materiais, setMateriais] = useState<Materiais[]>([]);
-	const [tipo, setTipo] = useState("livros"); // 'livros' ou 'materiais' [temporário
+	const [tipo, setTipo] = useState(""); // 'livros' ou 'materiais' [temporário
 	const [user, setUser] = useState({}); // Usuário logado
 	const [selectedMaterial, setSelectedMaterial] = useState<Materiais | null>(
 		null
@@ -45,6 +45,22 @@ export default function Borrow() {
 		setSelectedLivro(null);
 	};
 
+	const penteLivro = () => {
+		const livrosEmprestados = req.map((item) => item.id_item);
+		const livrosDisponiveis = livros.filter((livro) => {
+			return !livrosEmprestados.includes(livro.isbn);
+		});
+		setLivros(livrosDisponiveis);
+	};
+
+	const penteMaterial = () => {
+		const materiaisEmprestados = req.map((item) => item.id_item);
+		const materiaisDisponiveis = materiais.filter((material) => {
+			return !materiaisEmprestados.includes(material.id);
+		});
+		setMateriais(materiaisDisponiveis);
+	};
+
 	const bookRequest = async () => {
 		const token = localStorage.getItem("@token");
 		const response = await fetch("http://localhost:3001/livros", {
@@ -55,7 +71,6 @@ export default function Borrow() {
 			},
 		});
 		const data = await response.json();
-		console.log(data);
 		setLivros(data);
 	};
 	const materialRequest = async () => {
@@ -110,17 +125,15 @@ export default function Borrow() {
 					);
 					setMateriais(updatedMateriais);
 				}
-			}else{
+			} else {
 				notifyError();
 			}
 		} catch (error) {
-
-				console.log(error);
-			
+			console.log(error);
 		}
 	};
 
-	const emprestimoReq = async () =>{
+	const emprestimoReq = async () => {
 		const token = localStorage.getItem("@token");
 		const response = await fetch("http://localhost:3001/emprestimo", {
 			method: "GET",
@@ -130,15 +143,28 @@ export default function Borrow() {
 			},
 		});
 		const data = await response.json();
-		console.log(data);
-		setReq(data)
-	}
-	
+
+		// Atualiza o estado req com os dados dos empréstimos
+		setReq(data);
+
+		// Filtra os livros já emprestados
+		const livrosEmprestados = data.map((item) => item.id_item);
+		const livrosDisponiveis = livros.filter((livro) => {
+			return !livrosEmprestados.includes(livro.isbn);
+		});
+
+		// Atualiza o estado livros com os livros disponíveis para empréstimo
+		setLivros(livrosDisponiveis);
+	};
+	console.log(livros);
 
 	useEffect(() => {
 		materialRequest();
 		bookRequest();
 		emprestimoReq();
+		penteLivro();
+		penteMaterial();
+
 		if (typeof window !== "undefined") {
 			const userData = localStorage.getItem("@user");
 			setUser(userData ? JSON.parse(userData) : {});
@@ -149,35 +175,6 @@ export default function Borrow() {
 		setTipo(event.target.value);
 	};
 
-	//temporário
-	const books = [
-		{
-			title: "Poemas de Amor",
-			author: "Vinicius de Moraes",
-			image: "https://iili.io/Juxnkl9.jpg",
-		},
-		{
-			title: "Hoje eu mato o Ladeira",
-			author: "Ana Beatriz",
-			image: "https://iili.io/Juxnkl9.jpg",
-		},
-		{
-			title: "Aaaaa não sie mais nada",
-			author: "Desconhecido",
-			image: "https://iili.io/Juxnkl9.jpg",
-		},
-	];
-
-	const materials = [
-		{
-			category: "Computadores",
-			description: "Pc Dell maluco",
-			image: "https://iili.io/Juxkncl.jpg",
-		},
-	];
-	const type = "livros";
-	// const type = 'materiais'
-
 	const openMaterialModal = (material: Materiais) => {
 		setSelectedMaterial(material);
 	};
@@ -185,8 +182,6 @@ export default function Borrow() {
 	const closeMaterialModal = () => {
 		setSelectedMaterial(null);
 	};
-
-	console.log(tipo);
 	return (
 		<div className={styles.pageContainer}>
 			<ToastContainer />
@@ -259,6 +254,9 @@ export default function Borrow() {
 					))}
 				</ul>
 			) : (
+				<></>
+			)}
+			{tipo === "materiais" ? (
 				<ul className={styles.listContainer}>
 					{materiais.map((material, index) => (
 						<Materials
@@ -286,6 +284,8 @@ export default function Borrow() {
 						/>
 					)}
 				</ul>
+			) : (
+				<></>
 			)}
 		</div>
 	);
