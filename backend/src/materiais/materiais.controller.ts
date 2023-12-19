@@ -9,8 +9,10 @@ import {
 } from '@nestjs/common';
 import { MateriaisService } from './materiais.service';
 import { CreateMaterialDto } from './dto/create-material.dto';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UpdateMaterialDto } from './dto/update-material.dto';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @ApiTags('materiais')
 @Controller('materiais')
 export class MateriaisController {
@@ -53,7 +55,7 @@ export class MateriaisController {
   @Patch(':id')
   @ApiOperation({ summary: 'Atualiza informações um material' })
   @ApiResponse({ status: 200, description: 'Informações atualizada(s)' })
-  update(@Param('id') id: string, @Body() updateMaterialDto: CreateMaterialDto) {
+  update(@Param('id') id: string, @Body() updateMaterialDto: UpdateMaterialDto) {
     return this.materiaisService.update(+id, updateMaterialDto);
   }
 

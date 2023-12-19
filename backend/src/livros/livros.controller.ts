@@ -12,8 +12,10 @@ import {
 import { LivrosService } from './livros.service';
 import { CreateLivroDto } from './dto/create-livro.dto';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { updateLivroDto } from './dto/update-livro.dto';
 
+@ApiBearerAuth()
 @ApiTags('livros')
 @Controller('livros')
 export class LivrosController {
@@ -26,8 +28,8 @@ export class LivrosController {
   @ApiBody({
     schema: {
       example: {
-        isbn: '978-85-336-1341-5',
         categoria: 'Fantasia',
+        descricao: 'Livro de fantasia',
         titulo: 'O Senhor dos Anéis',
         autor: 'J. R. R. Tolkien',
         localizacao_fisica: 'Estante 1',
@@ -64,7 +66,7 @@ export class LivrosController {
   @ApiOperation({ summary: 'Atualiza informações de um livro' })
   @ApiResponse({ status: 200, description: 'Informações atualizadas' })
   update(@Param('isbn') isbn: string, 
-         @Body() updateLivroDto: CreateLivroDto,
+         @Body() updateLivroDto: updateLivroDto,
          @Req() req: any
         ) {
     return this.livrosService.update(+isbn, updateLivroDto, req);

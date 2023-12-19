@@ -10,7 +10,7 @@ export class CreateLivroDto {
 
   @IsString()
   @IsOptional()
-  descricao: string;
+  descricao?: string;
 
   @IsString()
   localizacao_fisica: string;

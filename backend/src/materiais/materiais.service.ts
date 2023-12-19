@@ -3,13 +3,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {
   Injectable,
-  UnauthorizedException,
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
+import { UpdateMaterialDto } from './dto/update-material.dto';
 
 @Injectable()
 export class MateriaisService {
@@ -60,10 +60,14 @@ export class MateriaisService {
     INSERT INTO MateriaisDidaticos (nome, categoria, descricao, localizacao_fisica, estado_conservacao, numero_serie,uri_foto_material) 
     VALUES ('${material.nome}', '${material.categoria}', '${material.descricao}', '${material.localizacao_fisica}', '${material.estado_conservacao}', '${material.numero_serie}','${material.uri_foto_material}')`);
 
+    const setItem = await this.knex.raw(`INSERT INTO Itens("id_material_didatico", "tipo_item")
+    SELECT id, 'material_didatico' FROM MateriaisDidaticos WHERE id = ${resultado.rows[0].id}`);
+
     if (resultado) {
       return {
         success: true,
         message: 'Material didático cadastrado com sucesso!',
+        setItem: setItem,
       };
     } else {
       throw new InternalServerErrorException(
@@ -76,6 +80,7 @@ export class MateriaisService {
     const materiais = await this.knex.raw(`SELECT * FROM MateriaisDidaticos`);
     return materiais.rows;
   }
+
   async findOne(id: number) {
     const material = await this.knex.raw(
       `SELECT * FROM MateriaisDidaticos WHERE id = ${id}`,
@@ -85,30 +90,31 @@ export class MateriaisService {
     }
     return material.rows[0];
   }
+
   async update(
     id: number,
-    createMaterialDto: CreateMaterialDto,
+    updateMaterialDto: UpdateMaterialDto,
     imagemMaterial?: Express.Multer.File,
   ) {
     const updateFields = {};
-    if (createMaterialDto.nome) {
-      updateFields['nome'] = createMaterialDto.nome;
+    if (updateMaterialDto.nome) {
+      updateFields['nome'] = updateMaterialDto.nome;
     }
-    if (createMaterialDto.categoria) {
-      updateFields['categoria'] = createMaterialDto.categoria;
+    if (updateMaterialDto.categoria) {
+      updateFields['categoria'] = updateMaterialDto.categoria;
     }
-    if (createMaterialDto.descricao) {
-      updateFields['descricao'] = createMaterialDto.descricao;
+    if (updateMaterialDto.descricao) {
+      updateFields['descricao'] = updateMaterialDto.descricao;
     }
-    if (createMaterialDto.localizacao_fisica) {
-      updateFields['localizacao_fisica'] = createMaterialDto.localizacao_fisica;
+    if (updateMaterialDto.localizacao_fisica) {
+      updateFields['localizacao_fisica'] = updateMaterialDto.localizacao_fisica;
     }
-    if (createMaterialDto.estado_conservacao) {
+    if (updateMaterialDto.estado_conservacao) {
       updateFields['estado_conservacao'] =
-        createMaterialDto.estado_conservacao;
+        updateMaterialDto.estado_conservacao;
     }
-    if (createMaterialDto.numero_serie) {
-      updateFields['numero_serie'] = createMaterialDto.numero_serie;
+    if (updateMaterialDto.numero_serie) {
+      updateFields['numero_serie'] = updateMaterialDto.numero_serie;
     }
     if (imagemMaterial) {
       const caminhoDestino = path.join(
@@ -134,6 +140,7 @@ export class MateriaisService {
       throw new InternalServerErrorException('Erro ao atualizar material');
     }
   }
+
   async remove(id: number) {
     const resultado = await this.knex.raw(
       `DELETE FROM MateriaisDidaticos WHERE id = ${id}`,

@@ -12,6 +12,9 @@ export async function seed(knex: Knex): Promise<void> {
     ('Microscópio Biológico', 'Microscópio para estudos biológicos', 1, 'microscopio_biologico.jpg', 123456, 'Ótimo', 'Laboratório de Biologia', '2021-01-01'),
     ('Telescópio Astronômico', 'Telescópio para observações astronômicas', 2, 'telescopio_astronomico.jpg', 654321, 'Bom', 'Observatório Astronômico', '2021-01-01'),
     ('Quadro Interativo', 'Quadro interativo para aulas interativas', 3, 'quadro_interativo.jpg', 987654, 'Excelente', 'Sala de Aula 301', '2021-01-01');
+
+    INSERT INTO Itens("id_material_didatico", "tipo_item")
+    SELECT id, 'material_didatico' FROM MateriaisDidaticos;
     `
   )
 }

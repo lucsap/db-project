@@ -121,31 +121,44 @@ export class UsuariosService {
       return { 
         success: true,
         message: "Nenhum campo foi atualizado"
-
       };
     }
 
     const updateQuery = `UPDATE Usuarios SET ${updateFields.join(', ')} WHERE id = ?`;
     const resultado = await this.knex.raw(updateQuery, [id]);
 
-    if (resultado) {
+    if (resultado.rowCount > 0) {
       return { 
         success: true,
         ...updateUsuarioDto,
         senha: undefined,
       };
     }
-
     throw new NotFoundException('Usuário não encontrado');
   }
 
-  async remove(id: number) {
-    const query = 'DELETE FROM Usuarios WHERE id = ?';
-    const values = [id];
-    const resultado = await this.knex.raw(query, values);
+  async remove(req: any) {
+    const userId = req.user.id;
+    // Informar que o usuário possui itens emprestados
+    const emprestimos = await this.knex.raw(
+      'SELECT * FROM Emprestimos WHERE id_usuario = ?',
+      [userId],
+    );
+
+    if (emprestimos.rowCount > 0) {
+      throw new BadRequestException(
+        'Usuário possui itens emprestados e não pode ser removido',
+      );
+    }
+
+    const query = `DELETE FROM Usuarios WHERE id = ${userId}`;
+    const resultado = await this.knex.raw(query);
 
     if (resultado.rowCount > 0) {
-      return { success: true };
+      return {
+        success: true,
+        message: 'Usuário removido com sucesso',
+      };
     }
 
     throw new NotFoundException('Usuário não encontrado');

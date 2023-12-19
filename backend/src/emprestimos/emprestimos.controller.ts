@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Req, UseGuards, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards, Patch, Param } from '@nestjs/common';
 import { EmprestimosService } from './emprestimos.service';
 import { EmprestimoDto } from './dto/emprestimo.dto';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UpdateEmprestimoDto } from './dto/update-emprestimo-livros.dto';
 
+@ApiBearerAuth()
 @ApiTags('emprestimos')
 @Controller('emprestimo')
 export class EmprestimosController {
@@ -31,15 +33,22 @@ export class EmprestimosController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('livros')
+  @Get()
   @ApiOperation({ summary: 'Listar emprestimos' })
   @ApiResponse({ status: 200, description: 'Lista de emprestimos' })
   async findAll(@Req() req: any) {
     return await this.emprestimosService.findAll(req);
   }
 
+  @Get('itens')
+  @ApiOperation({ summary: 'Listar todos os itens'})
+  @ApiResponse({ status: 200, description: 'Lista de itens'})
+  async findAllItens() {
+    return await this.emprestimosService.findAllItens();
+  }
+
   @UseGuards(JwtAuthGuard)
-  @Get('livros/:id')
+  @Get(':id')
   @ApiOperation({ summary: 'Listar um item emprestado' })
   @ApiResponse({ status: 200, description: 'Item' })
   async findOne(@Req() req: any) {
@@ -60,7 +69,7 @@ export class EmprestimosController {
       }
     }
   })
-  async devolucao(@Req() req: any, @Body() updateEmprestimosDto: EmprestimoDto) {
+  async devolucao(@Req() req: any, @Body() updateEmprestimosDto: UpdateEmprestimoDto) {
     return await this.emprestimosService.returnItem(req, updateEmprestimosDto);
   }
 

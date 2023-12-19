@@ -72,13 +72,19 @@ export class LivrosService {
       VALUES ('${livro.titulo}', '${livro.categoria}', '${livro.descricao}', '${livro.localizacao_fisica}', '${livro.estado_conservacao}', '${livro.autor}')`,
     );
 
-    if (resultado) {
+
+    if (resultado.rows && resultado.rows.length > 0) {
+      const setItem = await this.knex.raw (
+        `INSERT INTO Itens (id_livro, tipo_item) 
+        SELECT isbn, 'livro' FROM Livros WHERE isbn = ${resultado.rows[0].isbn}`,
+      );
+
       return { 
         ...createLivroDto,
         success: true, 
-        message: 'Livro cadastrado com sucesso!'
+        message: 'Livro cadastrado com sucesso!',
+        setItem: setItem,
       };
-
     } else {
       throw new InternalServerErrorException('Erro ao criar livro');
     }
@@ -162,7 +168,7 @@ export class LivrosService {
     }
 
     const resultado = await this.knex.raw(
-      `DELETE FROM Livros WHERE ISBN = ${isbn}`,
+      `DELETE FROM Livros WHERE ISBN = ${isbn};`,
     );
     if (resultado) {
       return { 

@@ -15,7 +15,12 @@ export class EmprestimosService {
       throw new BadRequestException('Somente estudantes podem realizar empréstimos');
     }
 
-    const tipoItem = emprestimoDto.tipo_item.toLowerCase();
+    const queryItem = await this.knex.raw(`SELECT tipo_item FROM Itens WHERE id = ${emprestimoDto.id_item}`);
+    const tipoItem = queryItem.rows[0]?.tipo_item;
+
+    if (!tipoItem) {
+      throw new BadRequestException('Item não encontrado');
+    }
 
     const item = await this.knex.raw(`SELECT * FROM Itens WHERE id_${tipoItem} = ${emprestimoDto.id_item} AND disponivel = TRUE`);
 
@@ -23,10 +28,8 @@ export class EmprestimosService {
       throw new BadRequestException(`${tipoItem} não encontrado ou indisponível para empréstimo`);
     }
 
-    const formattedDate = new Date(emprestimoDto.data_devolucao_prevista).toISOString();
-
-    await this.knex.raw(`INSERT INTO Emprestimos (id_usuario, id_item, data_devolucao_prevista, status) VALUES 
-    (${emprestimoDto.id_usuario}, ${emprestimoDto.id_item}, '${formattedDate}', ${emprestimoDto.status})`
+    await this.knex.raw(`INSERT INTO Emprestimos (id_usuario, id_item) VALUES 
+    (${emprestimoDto.id_usuario}, ${emprestimoDto.id_item})`
     );
 
     await this.knex.raw(`UPDATE Itens SET disponivel = FALSE WHERE id_${tipoItem} = ${emprestimoDto.id_item}`)
@@ -39,6 +42,16 @@ export class EmprestimosService {
   async findAll(req: any) {
     const userId = req.user.id;
     const data = await this.knex.raw(`SELECT * FROM Emprestimos WHERE id_usuario = ${userId}`);
+
+    return data.rows;
+  }
+
+  async findAllItens() {
+    const data = await this.knex.raw(`SELECT * FROM Itens`);
+
+    if (!data) {
+      throw new BadRequestException('Nenhum item encontrado');
+    }
 
     return data.rows;
   }
@@ -70,12 +83,13 @@ export class EmprestimosService {
     // Atualiza o registro de empréstimo para indicar que foi devolvido
     const updateEmprestimoSql = `
       UPDATE Emprestimos SET status = false, data_devolucao = CURRENT_TIMESTAMP 
-      WHERE id = ${updateEmprestimosDto.id_item}
+      WHERE id_item = ${updateEmprestimosDto.id_item} AND id_usuario = ${userId}
     `;
     await this.knex.raw(updateEmprestimoSql);
 
     // Determina o tipo do item emprestado
-    const tipoItem = emprestimo.rows[0].tipo_item;
+    const queryItem = await this.knex.raw(`SELECT tipo_item FROM Itens WHERE id = ${updateEmprestimosDto.id_item}`);
+    const tipoItem = queryItem.rows[0].tipo_item;
 
     // Atualiza o status do item para indicar que está disponível novamente
     const updateItemSql = `
@@ -85,6 +99,7 @@ export class EmprestimosService {
     await this.knex.raw(updateItemSql);
 
     return {
+      ...updateEmprestimosDto,
       success: true,
       message: `${tipoItem} devolvido com sucesso`,
     };

@@ -25,6 +25,7 @@ async function bootstrap() {
     .setTitle('Emprestimos API')
     .setDescription('A Api de emprestimo de livros e materiais')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
