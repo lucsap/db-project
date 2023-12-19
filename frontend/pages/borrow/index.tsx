@@ -45,22 +45,6 @@ export default function Borrow() {
 		setSelectedLivro(null);
 	};
 
-	const penteLivro = () => {
-		const livrosEmprestados = req.map((item) => item.id_item);
-		const livrosDisponiveis = livros.filter((livro) => {
-			return !livrosEmprestados.includes(livro.isbn);
-		});
-		setLivros(livrosDisponiveis);
-	};
-
-	const penteMaterial = () => {
-		const materiaisEmprestados = req.map((item) => item.id_item);
-		const materiaisDisponiveis = materiais.filter((material) => {
-			return !materiaisEmprestados.includes(material.id);
-		});
-		setMateriais(materiaisDisponiveis);
-	};
-
 	const bookRequest = async () => {
 		const token = localStorage.getItem("@token");
 		const response = await fetch("http://localhost:3001/livros", {
@@ -133,37 +117,9 @@ export default function Borrow() {
 		}
 	};
 
-	const emprestimoReq = async () => {
-		const token = localStorage.getItem("@token");
-		const response = await fetch("http://localhost:3001/emprestimo", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		});
-		const data = await response.json();
-
-		// Atualiza o estado req com os dados dos empréstimos
-		setReq(data);
-
-		// Filtra os livros já emprestados
-		const livrosEmprestados = data.map((item) => item.id_item);
-		const livrosDisponiveis = livros.filter((livro) => {
-			return !livrosEmprestados.includes(livro.isbn);
-		});
-
-		// Atualiza o estado livros com os livros disponíveis para empréstimo
-		setLivros(livrosDisponiveis);
-	};
-	console.log(livros);
-
 	useEffect(() => {
 		materialRequest();
 		bookRequest();
-		emprestimoReq();
-		penteLivro();
-		penteMaterial();
 
 		if (typeof window !== "undefined") {
 			const userData = localStorage.getItem("@user");
