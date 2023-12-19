@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Knex } from 'knex';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
@@ -18,7 +19,7 @@ export class UsuariosService {
     this.knex = knex;
   }
 
-  async create(createUsuarioDto: CreateUsuarioDto) {
+  async create(createUsuarioDto: CreateUsuarioDto, role_id?: number) {
     try {
       let createdUser = null;
 
@@ -31,16 +32,17 @@ export class UsuariosService {
 
         let usuario = {
           ...createUsuarioDto,
+          role_id: role_id || 1,
           senha: hashedPassword,
         };
 
         // Insert the user within the transaction
         const result = await trx.raw(
           `
-          INSERT INTO Usuarios (email, nome, senha, sobrenome) 
-          VALUES (?, ?, ?, ?) RETURNING *
+          INSERT INTO Usuarios (email, nome, senha, sobrenome, role_id)
+          VALUES (?, ?, ?, ?, ?) RETURNING *
             `, 
-          [usuario.email, usuario.nome, usuario.senha, usuario.sobrenome]
+          [usuario.email, usuario.nome, usuario.senha, usuario.sobrenome, usuario?.role_id]
         );
 
         createdUser = result.rows[0];
@@ -138,29 +140,57 @@ export class UsuariosService {
   }
 
   async remove(req: any) {
-    const userId = req.user.id;
-    // Informar que o usuário possui itens emprestados
-    const emprestimos = await this.knex.raw(
-      'SELECT * FROM Emprestimos WHERE id_usuario = ?',
-      [userId],
-    );
+    const loggedInUser = req.user;
+    const userIdToDelete = req.params.id;
 
-    if (emprestimos.rowCount > 0) {
-      throw new BadRequestException(
-        'Usuário possui itens emprestados e não pode ser removido',
-      );
+    // Verifica se o usuário logado é um administrador
+    if (loggedInUser.role_id === 3) {
+      const query = `
+      DELETE FROM Usuarios
+      WHERE id = :userId
+      RETURNING *;
+      `;
+
+      try {
+        const resultado = await this.knex.raw(query, { userId: userIdToDelete });
+
+        if (resultado.rows.length > 0) {
+          return {
+            success: true,
+            message: 'Usuário removido com sucesso',
+          };
+        } else {
+          throw new NotFoundException('Usuário não encontrado');
+        }
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    } else if (loggedInUser.id == userIdToDelete) {
+      const query = `
+      DELETE FROM Usuarios
+      WHERE id = :userId
+      RETURNING *;
+      `;
+
+      try {
+        const resultado = await this.knex.raw(query, { userId: userIdToDelete });
+
+        if (resultado.rows.length > 0) {
+          return {
+            success: true,
+            message: 'Usuário removido com sucesso',
+          };
+        } else {
+          throw new NotFoundException('Usuário não encontrado');
+        }
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    } else {
+      throw new ForbiddenException('Você não tem permissão para realizar esta operação');
     }
-
-    const query = `DELETE FROM Usuarios WHERE id = ${userId}`;
-    const resultado = await this.knex.raw(query);
-
-    if (resultado.rowCount > 0) {
-      return {
-        success: true,
-        message: 'Usuário removido com sucesso',
-      };
-    }
-
-    throw new NotFoundException('Usuário não encontrado');
   }
+
 }
