@@ -503,18 +503,19 @@ Cada usuário só tem acesso as funcionalidades do próprio tipo de acesso, como
 
 ---
 
-## 4.1 Página inicial
+## 4.1 Barra
 
 <div align="center">
 <img src="barra.jpg" height="500" alt="Modelo Markdown">
 </div>
 
-- Para fazer login, clique no seu tipo de usuário.
+- Para fazer login, clique em 'Faça login'.
+- Para fazer um cadastro, clique em 'cadastre-se'.
 
 ## 4.2. Login
 
 <div align="center">
-<img src="login[.jpg" height="500" alt="Modelo Markdown">
+<img src="login.jpg" height="500" alt="Modelo Markdown">
 </div>
 
 **Para acessar o sistema, siga os passos abaixo:**
@@ -524,14 +525,14 @@ Cada usuário só tem acesso as funcionalidades do próprio tipo de acesso, como
 ## 4.3. Registrar
 
 <div align="center">
-<img src="register.jpg" height="500" alt="Modelo Markdown">
+<img src="signup.jpg" height="500" alt="Modelo Markdown">
 </div>
 
 **Para se registrar no sistema, siga os passos abaixo:**
 - Abra o navegador e vá para a página de login em [http://localhost:3000/signup](http://localhost:3000/signup).
 - Digite seu nome, sobrenome, email de usuário e senha.
 
-## 4.4. Visualizar Materiais
+## 4.4. Página inicial
 
 <div align="center">
 <img src="home.jpg" height="500" alt="Modelo Markdown">
@@ -540,8 +541,62 @@ Cada usuário só tem acesso as funcionalidades do próprio tipo de acesso, como
 - Para visualizar a localização física, clique em um material.
 
 <div align="center">
-<img src="modal.jpg" height="500" alt="Modelo Markdown">
+<img src="home-modal.jpg" height="500" alt="Modelo Markdown">
 </div>
+
+## 4.5. Livros
+
+<div align="center">
+<img src="books.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+- Para saber detalhes de um livro clique no modelo.
+
+<div align="center">
+<img src="books-modal.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+## 4.6. Materiais
+
+<div align="center">
+<img src="materials.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+- Para saber detalhes de um material clique no modelo.
+
+<div align="center">
+<img src="materials-modal.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+## 4.7. Fazer empréstimo
+
+<div align="center">
+<img src="borrow.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+- Selecione um tipo de empréstimo que deseja fazer para mostrar somente esses itens.
+- No exemplo acima temos **Livros** selecionado.
+- Para visualizar os detalhes do livro e soliciar um empréstimo, clique no item desejado.
+  
+<div align="center">
+<img src="borrow-books-modal.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+- Para soliciar empréstimo clique em 'Solicitar Empréstimo'.
+
+<div align="center">
+<img src="borrow-materials.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+- Selecione um tipo de empréstimo que deseja fazer para mostrar somente esses itens.
+- No exemplo acima temos **Materiais Didáticos** selecionado.
+- Para visualizar os detalhes do material e soliciar um empréstimo, clique no item desejado.
+
+<div align="center">
+<img src="borrow-material-modal.jpg" height="500" alt="Modelo Markdown">
+</div>
+
+- Para soliciar empréstimo clique em 'Solicitar Empréstimo'.
 
 # 5. Relatório de Implantação
 
