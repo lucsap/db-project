@@ -5,6 +5,10 @@
   justify-content: center;
 }
 
+.personalBox h3 {
+  padding-top: 100px;
+}
+
 .listContainer {
   display: flex;
   flex-direction: row;

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.css'
-import { useRouter } from 'next/router';
 import Books from '../../components/Books/books';
 import Materials from '../../components/Materials/materials';
 import Modal from '../../components/Modal/modal';
-import jwt from 'jsonwebtoken';
 
 
 export default function HomePage() {
@@ -71,6 +69,14 @@ export default function HomePage() {
         setMateriais(data);
     }
 
+    // Verifica o tipo do usuário logado
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const userData = localStorage.getItem('@user');
+            setUser(userData ? JSON.parse(userData) : {});
+        }
+    }, []);
+
     useEffect(() => {
         bookRequest();
         materialRequest();
@@ -102,12 +108,12 @@ export default function HomePage() {
             <div className={styles.personalBox}>
                 <h3>Olá {user.nome}</h3>
                 <h4>
-                    Esses são todos os livros e materiais que você tem no momento.
+                  Esses são os livros e materiais disponíveis no momento!
                 </h4>
             </div>
             <div className={styles.dataContainer}>
                 <div className={styles.infos}>
-                    <h5>Seus livros</h5>
+                    <h5>Livros</h5>
                     <ul className={styles.listContainer}>
                         {livros.map((livro) => (
                             <li key={livro.isbn}>
@@ -115,7 +121,7 @@ export default function HomePage() {
                                     onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
                                     title={livro.titulo}
                                     author={livro.autor}
-                                    image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                                    image={'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F41USfMS%2BjaL.jpg&f=1&nofb=1&ipt=218ae8af391522cd0cb67ecd6dc2e6d6de1c83f18f865fb897fb0e416379000a&ipo=images'}
                                 />
                                 {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
                                     <Modal // Passa as informações do livro para o modal
@@ -137,7 +143,7 @@ export default function HomePage() {
                     </ul>
                 </div>
                 <div className={styles.infos}>
-                    <h5>Seus materiais</h5>
+                    <h5>Materiais</h5>
                     <ul className={styles.listContainer}>
                         {materiais.map((material, index) => (
                             <Materials // Passa as informações do material para o componente

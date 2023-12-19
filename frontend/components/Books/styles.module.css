@@ -1,0 +1,63 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 400px; /* Defina o tamanho máximo do formulário conforme necessário */
+  margin: 0 auto;
+  padding: 80px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.formLabel {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.btnReg {
+  text-align: center;
+}
+
+.btnPrimary {
+  background-color: var(--Primary, #ffae51);
+  color: var(--Text, #ffffff);
+  border: none;
+  border-radius: 8px;
+  padding: 12px; /* Aumentei o padding para melhorar a aparência */
+  font-size: 1.2em;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease; /* Adicionei uma transição suave de cor de fundo */
+}
+
+.btnPrimary:hover {
+  background-color: #ff964d; /* Cor alterada ao passar o mouse para um tom mais escuro */
+}
+
+/* Adição de novas classes para melhorar a organização do formulário */
+
+.formSection {
+  margin-bottom: 20px;
+}
+
+.h4 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Adicione mais estilos conforme necessário */
+

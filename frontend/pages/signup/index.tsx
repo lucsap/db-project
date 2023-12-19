@@ -17,18 +17,22 @@ export default function SignUp() {
 
     const handleNameChange = (event: any) => {
         setNome(event.target.value);
+        console.log(nome);
     };
 
     const handleSobrenomeChange = (event: any) => {
         setSobrenome(event.target.value);
+        console.log(sobrenome);
     };
 
     const handleSenhaChange = (event: any) => {
         setSenha(event.target.value);
+        console.log(senha);
     };
 
     const handleEmailChange = (event: any) => {
         setEmail(event.target.value);
+        console.log(email);
     };
 
     const handleSubmit = async (event: any) => {
@@ -42,7 +46,6 @@ export default function SignUp() {
             senha: senha,
             nome: nome,
             sobrenome: sobrenome,
-            role: 'estudante',
         };
 
         try {
@@ -56,9 +59,7 @@ export default function SignUp() {
 
             if (response.ok) {
                 console.log(response)
-                // const { token } = await response.json();
-                // localStorage.setItem('@token', token);
-                router.push('/home');
+                router.push('/login');
             }
             else {
                 setIsSubmiting(false);
@@ -67,12 +68,7 @@ export default function SignUp() {
         } catch (error) {
             setIsSubmiting(false);
             console.log(error);
-        } finally {
-            setTimeout(() => {
-                setIsSubmiting(false);
-            }, 2000)
-        };
-
+        } 
     };
 
     return (
@@ -93,7 +89,7 @@ export default function SignUp() {
                             id='nome'
                             className={styles.formInput}
                             name='nome'
-                            placeholder='Branco'
+                            placeholder='João'
                             onChange={handleNameChange}
                         />
                     </div>
@@ -103,7 +99,7 @@ export default function SignUp() {
                             id='sobrenome'
                             className={styles.formInput}
                             name='sobrenome'
-                            placeholder='Retinto'
+                            placeholder='Silva'
                             onChange={handleSobrenomeChange}
                         />
                     </div>

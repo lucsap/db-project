@@ -1,0 +1,18 @@
+
+.pageContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

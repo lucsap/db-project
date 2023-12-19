@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '../styles.module.css'
+import styles from './styles.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useRouter } from 'next/router';
@@ -13,9 +13,8 @@ export default function FormBooks() {
     const [descricao, setDescricao] = useState('');
     const [localizacao_fisica, setLocalizacao_fisica] = useState('');
     const [estado_conservacao, setEstado_conservacao] = useState('');
+    const [uri_capa, setUriCapa] = useState(''); 
     const [autor, setAutor] = useState('');
-
-
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
@@ -25,14 +24,20 @@ export default function FormBooks() {
             descricao: descricao,
             localizacao_fisica: localizacao_fisica,
             estado_conservacao: estado_conservacao,
+            uri_capa: uri_capa,
             autor: autor,
         }
         try {
+            const token = localStorage.getItem('@token');
             const response = await fetch(`http://localhost:3001/livros/cadastro`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify(data)
             });
+            console.log(data)
             if (response.ok) {
                 notify2();
                 router.push('/books');
@@ -48,7 +53,12 @@ export default function FormBooks() {
         }
     }
 
-
+    const estadosDeConservacao = [
+      'Novo',
+      'Bom',
+      'Regular',
+      'Ruim'
+    ]
 
     return (
         <div className={styles.formContainer}>
@@ -91,24 +101,29 @@ export default function FormBooks() {
                         />
                     </div>
                 </div>
-                <div className={styles.formGrup}>
-                    <div className={styles.formInfos}>
-                        <label className={styles.formLabel}>Data de Aquisição</label>
-                        <input
-
-                            className={styles.formInput}
-                            name='aquiDate'
-                        />
-                    </div>
-                    <div className={styles.formInfos}>
-                        <label className={styles.formLabel}>Estado de Conservação</label>
-                        <input
-                            onChange={(event) => setEstado_conservacao(event.target.value)}
-                            className={styles.formInput}
-                            name='conservationState'
-                        />
-                    </div>
+                <div className={styles.formInfos}>
+                  <label className={styles.formLabel}>Estado de Conservação</label>
+                  <select
+                    onChange={(event) => setEstado_conservacao(event.target.value)}
+                    className={styles.formInput}
+                    name='conservationState'
+                  >
+                  {estadosDeConservacao.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+                <div className={styles.formInfos}>
+                    <label className={styles.formLabel}>Uri Capa Livro</label>
+                    <input
+                        onChange={(event) => setUriCapa(event.target.value)}
+                        className={styles.formInput}
+                        name='location'
+                    />
                 </div>
+
                 <div className={styles.formInfos}>
                     <label className={styles.formLabel}>Localização</label>
                     <input

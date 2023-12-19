@@ -42,8 +42,8 @@ export default function Materiais() {
     };
 
     return (
-            <>
-
+            <div className={styles.container}>
+              <strong>Materiais disponíveis!</strong>
                 <ul className={styles.listContainer}>
                     {materiais.map((material: Material) => (
                         <li key={material.id}>
@@ -70,6 +70,6 @@ export default function Materiais() {
                         </li>
                     ))}
                 </ul>
-            </>
+            </div>
     );
 };

@@ -7,9 +7,13 @@ import { useRouter } from 'next/router';
 export default function Landing() {
     const router = useRouter();
 
-    const handleClick = () => {
+    const handleClickLogin = () => {
         router.push('/login');
     };
+
+    const handleClickRegister = () => {
+        router.push('/signup');
+    }
 
     return (
         <section className={styles.welcomeScreen}>
@@ -17,15 +21,16 @@ export default function Landing() {
             <div>
                 <h1 className={styles.h1}>Sejam Bem Vindos</h1>
                 <h2 className={styles.h2}>
-                    Uma plataforma dedicada aos amantes de leitura
+                    Uma plataforma dedicada a ajudar bibliotecas a gerenciar seus itens e seus usuários.
                 </h2>
             </div>
             <div className={styles.btnContainer}>
-                <button onClick={handleClick} className={styles.btnPrimary} >
-                    sou admin
+                <button onClick={handleClickLogin} className={styles.btnPrimary} >
+                    Faça login
                 </button>
-                <button onClick={handleClick} className={styles.btnPrimary} >
-                    sou estudante
+                <div className={styles.ou}> Ou </div>
+                <button onClick={handleClickRegister} className={styles.btnPrimary} >
+                    Cadastre-se
                 </button>
             </div>
         </section>

@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: row;
   background-color: #ff971d;
+  position: fixed;
+  width: 100%;
 }
 
 .logoContainer {
