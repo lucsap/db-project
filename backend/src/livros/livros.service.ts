@@ -28,24 +28,6 @@ export class LivrosService {
       throw new BadRequestException('Você não tem permissão para cadastrar livros');
     }
  
-    if (!createLivroDto.titulo) {
-      throw new BadRequestException('Título não informado');
-    }
-    if (!createLivroDto.categoria) {
-      throw new BadRequestException('Categoria não informada');
-    }
-    if (!createLivroDto.descricao) {
-      throw new BadRequestException('Descrição não informada');
-    }
-    if (!createLivroDto.localizacao_fisica) {
-      throw new BadRequestException('Localização física não informada');
-    }
-    if (!createLivroDto.estado_conservacao) {
-      throw new BadRequestException('Estado de conservação não informado');
-    }
-    if (!createLivroDto.autor) {
-      throw new BadRequestException('Autor não informado');
-    }
     let livro = {
       titulo: createLivroDto.titulo,
       categoria: createLivroDto.categoria,
@@ -53,7 +35,7 @@ export class LivrosService {
       localizacao_fisica: createLivroDto.localizacao_fisica,
       estado_conservacao: createLivroDto.estado_conservacao,
       autor: createLivroDto.autor,
-      uri_capa_livro: createLivroDto.uri_capa_livro,
+      imagem_capa: createLivroDto.imagem_capa
     };
     if (imagemLivro) {
       const caminhoDestino = path.join(
@@ -64,7 +46,7 @@ export class LivrosService {
 
       fs.writeFileSync(caminhoDestino, imagemLivro.buffer);
       const imagemBuffer = fs.readFileSync(caminhoDestino);
-      livro.uri_capa_livro = imagemBuffer.toString('base64');
+      livro.imagem_capa = imagemBuffer.toString('base64');
     }
 
     const resultado = await this.knex.raw(

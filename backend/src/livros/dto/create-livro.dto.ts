@@ -21,7 +21,5 @@ export class CreateLivroDto {
   @IsString()
   autor: string;
 
-  @IsString()
-  @IsOptional()
-  uri_capa_livro?: string;
+  imagem_capa: string;
 }
