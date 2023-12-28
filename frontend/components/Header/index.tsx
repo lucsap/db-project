@@ -3,7 +3,7 @@ import Image from "next/image"
 import Logo from '../../assets/logo-branca.svg'
 import { useRouter } from 'next/router';
 import { useState } from "react";
-import PopUp from "../PopUp/pupup";
+import PopUp from "../PopUp/popup";
 
 function Header() {
     const router = useRouter();
@@ -28,7 +28,6 @@ function Header() {
                 <ul className={styles.menuList}>
                     <li className={selected == 'Livros'? styles.selected:''} onClick={()=>{setSelected('Livros'), router.push('/books')}}>Livros</li>
                     <li className={selected == 'Materiais'? styles.selected:''} onClick={()=>{setSelected('Materiais'),router.push('/materials')}}>Materiais</li>
-                    <li className={selected == 'Emprestimos'? styles.selected:''} onClick={()=>{setSelected('Emprestimos'),router.push('/borrow')}}>Fazer emprestimo</li>
                 </ul>
             </div>
 

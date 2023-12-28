@@ -17,22 +17,18 @@ export default function SignUp() {
 
     const handleNameChange = (event: any) => {
         setNome(event.target.value);
-        console.log(nome);
     };
 
     const handleSobrenomeChange = (event: any) => {
         setSobrenome(event.target.value);
-        console.log(sobrenome);
     };
 
     const handleSenhaChange = (event: any) => {
         setSenha(event.target.value);
-        console.log(senha);
     };
 
     const handleEmailChange = (event: any) => {
         setEmail(event.target.value);
-        console.log(email);
     };
 
     const handleSubmit = async (event: any) => {

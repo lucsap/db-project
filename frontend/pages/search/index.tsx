@@ -1,38 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 import Books from '../../components/Books/books'
 import Materials from '../../components/Materials/materials'
-import Layout from '../layout';
 
 export default function Search() {
-    //temporário
-    const books = [
-        {
-            "title": "Poemas de Amor",
-            "author": "Vinicius de Moraes",
-            "image": "https://iili.io/Juxnkl9.jpg"
-        },
-        {
-            "title": "Hoje eu mato o Ladeira",
-            "author": "Ana Beatriz",
-            "image": "https://iili.io/Juxnkl9.jpg"
-        },
-        {
-            "title": "Aaaaa não sie mais nada",
-            "author": "Desconhecido",
-            "image": "https://iili.io/Juxnkl9.jpg"
-        }
-    ]
+    const [itens, setItens] = useState([]);
 
-    const materials = [
-        {
-            "category": "Computadores",
-            "description": "Pc Dell maluco",
-            "image": "https://iili.io/Juxkncl.jpg"
-        }
-    ]
-    const type = 'livros'
-    // const type = 'materiais'
+    useEffect(() => {
+      const fetchData = async () => {
+        const token = localStorage.getItem("@token");
+        const response = await fetch(`http://localhost:3001/livros/itens`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        console.log(data)
+        setItens(data);
+      }
+    }, [])
 
     const [isSearch, setIsSearch] = useState(false)
     const sendReq = () => {
@@ -41,7 +29,6 @@ export default function Search() {
     }
 
     return (
-        <Layout>
             <div className={styles.contentPage}>
                 <div className={styles.personalBox}>
                     <h3>Pesquisa de Livros e Materiais</h3>
@@ -59,8 +46,8 @@ export default function Search() {
                     <>
                         {type === 'livros' ? (
                             <ul className={styles.listContainer}>
-                                {books.map((book) => (
-                                    <Books title={book.title} author={book.author} image={book.image} />
+                                {books.map(({book, index}: any) => (
+                                    <Books key={index} title={book.title} author={book.author} image={book.image} />
                                 ))}
                             </ul>
                         ) : (
@@ -77,6 +64,5 @@ export default function Search() {
                     </>
                 )}
             </div>
-        </Layout>
     )
 }

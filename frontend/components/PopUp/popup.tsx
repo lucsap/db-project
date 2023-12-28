@@ -1,8 +1,13 @@
 import styles from './styles.module.css';
-
 import React from 'react';
 
-const PopUp = ({ isOpen, onClose, children }: { children: React.ReactNode }) => {
+interface PopUpProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+const PopUp = ({ isOpen, onClose, children }: PopUpProps) => {
     if (!isOpen) return null;
 
     return (

@@ -1,7 +1,25 @@
+import Image from "next/image";
 import styles from "./styles.module.css";
 import React from "react";
 
-const Modal = ({ isOpen, onClose, sendReq, type, ...props }) => {
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  sendReq: () => void;
+  type: string;
+  image: string;
+  titulo: string;
+  autor: string;
+  categoria: string;
+  isbn: string;
+  descricao: string;
+  estado_conservacao: string;
+  localizacao_fisica: string;
+  data_aquisicao: string;
+  button: boolean;
+}
+
+export const Modal = ({ isOpen, onClose, sendReq, type, ...props }: ModalProps) => {
 	if (!isOpen) return null;
 
 	return (
@@ -12,7 +30,7 @@ const Modal = ({ isOpen, onClose, sendReq, type, ...props }) => {
 				</button>
 
 				<div className={styles.modalContainer}>
-              <img className={styles.modalImage} src={props.image} alt="capa do livro" />
+              <Image className={styles.modalImage} src={props.image} alt="capa do livro" width={300} height={300}/>
               <div className={styles.modalText}>
                 <p className={styles.title}>{props.titulo}</p>
                 <p className={styles.subTitle}>{props.autor}</p>
@@ -38,4 +56,3 @@ const Modal = ({ isOpen, onClose, sendReq, type, ...props }) => {
 	);
 };
 
-export default Modal;

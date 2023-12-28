@@ -13,10 +13,12 @@ export default function FormBooks() {
     const [descricao, setDescricao] = useState('');
     const [localizacao_fisica, setLocalizacao_fisica] = useState('');
     const [estado_conservacao, setEstado_conservacao] = useState('');
-    const [uri_capa, setUriCapa] = useState(''); 
+    const [imagem, setImagem] = useState<File>(); 
     const [autor, setAutor] = useState('');
 
-    const handleSubmit = async (event: any) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        if (!imagem) return
+
         event.preventDefault();
         const data = {
             titulo: titulo,
@@ -24,9 +26,10 @@ export default function FormBooks() {
             descricao: descricao,
             localizacao_fisica: localizacao_fisica,
             estado_conservacao: estado_conservacao,
-            uri_capa_livro: uri_capa,
+            imagem_capa: imagem,
             autor: autor,
         }
+
         try {
             const token = localStorage.getItem('@token');
             const response = await fetch(`http://localhost:3001/livros/cadastro`, {
@@ -116,11 +119,12 @@ export default function FormBooks() {
                 </select>
               </div>
                 <div className={styles.formInfos}>
-                    <label className={styles.formLabel}>Uri Capa Livro</label>
+                    <label className={styles.formLabel}>Imagem do livro</label>
                     <input
-                        onChange={(event) => setUriCapa(event.target.value)}
+                        type='file'
+                        name='image'
+                        onChange={(event) => setImagem(event.target.files?.[0])}
                         className={styles.formInput}
-                        name='location'
                     />
                 </div>
 

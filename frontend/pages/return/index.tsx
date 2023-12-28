@@ -89,7 +89,6 @@ export default function Return() {
 
     const sendReq = () => {
         //Enviar pro back aqui
-
         console.log(livro)
         console.log(material)
     }

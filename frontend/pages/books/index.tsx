@@ -4,6 +4,7 @@ import Books from "../../components/Books/books";
 import styles from "./index.module.css";
 import { useRouter } from "next/router";
 import { ToastContainer } from "react-toastify";
+import { convertBufferToBase64 } from "../../utils/convertBufferToBase64";
 
 interface Livro {
   isbn: string;
@@ -12,24 +13,29 @@ interface Livro {
   categoria: string;
   estado_conservacao: string;
   localizacao_fisica: string;
+  imagem_capa: string;
 }
 
 export default function LivrosPage() {
   const [livros, setLivros] = useState<Livro[]>([]);
   const router = useRouter();
 
-  const bookRequest = async () => {
-    const token = localStorage.getItem("@token");
-    const response = await fetch("http://localhost:3001/livros", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    setLivros(data);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("@token");
+      const response = await fetch(`http://localhost:3001/livros`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      console.log(data)
+      setLivros(data);
+    }
+    fetchData();
+  }, [])
 
   const userRole = () => {
     const userString = localStorage.getItem('@user');
@@ -44,25 +50,20 @@ export default function LivrosPage() {
         return true
       }
     }
-
   };
-
-  useEffect(() => {
-    bookRequest();
-  }, []);
 
   return (
     <div className={styles.container}>
       <ToastContainer />
       <strong>Livros disponíveis!</strong>
       <ul className={styles.listContainer}>
-        {livros.map((livro: Livro) => (
+        {livros.map((livro) => (
           <li key={livro.isbn}>
             <Link href={`/books/${livro.isbn}`} className={styles.link}>
               <Books
                 title={livro.titulo}
                 author={livro.autor}
-                image={'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F41USfMS%2BjaL.jpg&f=1&nofb=1&ipt=218ae8af391522cd0cb67ecd6dc2e6d6de1c83f18f865fb897fb0e416379000a&ipo=images'}
+                image={convertBufferToBase64(livro.imagem_capa)}
               />
             </Link>
           </li>

@@ -2,91 +2,44 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.css'
 import Books from '../../components/Books/books';
 import Materials from '../../components/Materials/materials';
-import Modal from '../../components/Modal/modal';
+import { Modal } from '../../components/Modal/modal';
+import { convertBufferToBase64 } from '../../utils/convertBufferToBase64';
+import Link from 'next/link';
 
 
 export default function HomePage() {
-    interface Livro {
-        isbn: string;
-        titulo: string;
-        autor: string;
-        editora: string;
-        ano: string;
-        categoria: string;
-        estado_conservacao: string;
-        localizacao_fisica: string;
-        image: string;
-    }
-
-    interface Materiais {
-        id: string;
-        categoria: string;
-        descricao: string;
-        image: string;
-        nome: string;
-        estado_conservacao: string;
-        localizacao_fisica: string;
-        numero_serie: string;
-        data_aquisicao: string;
-    }
-
-    interface User {
-        nome: string;
-        email: string;
-        cpf: string;
-        data_nascimento: string;
-        endereco: string;
-        telefone: string;
-        senha: string;
-        tipo: number;
-    }
 
     const [user, setUser] = useState({}); // Usuário logado
-    const [selectedMaterial, setSelectedMaterial] = useState<Materiais | null>(null); // Material selecionado para abrir o modal
-    const [selectedLivro, setSelectedLivro] = useState<Livro | null>(null); // Livro selecionado para abrir o modal
-    const [livros, setLivros] = useState<Livro[]>([]);  // Lista de livros
-    const [materiais, setMateriais] = useState<Materiais[]>([]); // Lista de materiais
-
-    const bookRequest = async () => { // Requisição dos livros
-        const token = localStorage.getItem('@token');  // Pega o token do usuário logado
-        const response = await fetch('http://localhost:3001/livros', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        });
-        const data = await response.json();
-
-        setLivros(data);
-    };
-
-    const materialRequest = async () => { // Requisição dos materiais
-        const token = localStorage.getItem('@token'); // Pega o token do usuário logado
-        const response = await fetch('http://localhost:3001/materiais', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        });
-        const data = await response.json();
-
-        setMateriais(data);
-    }
-
-    // Verifica o tipo do usuário logado
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const userData = localStorage.getItem('@user');
-            setUser(userData ? JSON.parse(userData) : {});
-        }
-    }, []);
+    const [selectedMaterial, setSelectedMaterial] = useState(null); // Material selecionado para abrir o modal
+    const [selectedLivro, setSelectedLivro] = useState(null); // Livro selecionado para abrir o modal
+    const [livros, setLivros] = useState([]);  // Lista de livros
+    const [materiais, setMateriais] = useState([]); // Lista de materiais
 
     useEffect(() => {
-        bookRequest();
-        materialRequest();
-        if (typeof window !== 'undefined') {
-            const userData = localStorage.getItem('@user');
-            setUser(userData ? JSON.parse(userData) : {});
-        } // Pega o usuário logado
-    }, []);
+      const token = localStorage.getItem('@token');  // Pega o token do usuário logado
+      async function bookRequest(){ // Requisição dos livros
+          const response = await fetch('http://localhost:3001/livros', {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          });
+          const data = await response.json();
+          console.log(data)
+          setLivros(data);
+      };
+      async function materialRequest(){ // Requisição dos materiais
+          const response = await fetch('http://localhost:3001/materiais', {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          });
+          const data = await response.json();
+          setMateriais(data);
+      }
 
-    const openModal = (livro: Livro) => {
+      materialRequest();
+      bookRequest();
+    }, [])
+
+    const openModal = (livro: any) => {
         setSelectedLivro(livro);
     };
 
@@ -95,7 +48,7 @@ export default function HomePage() {
     };
 
 
-    const openMaterialModal = (material: Materiais) => {
+    const openMaterialModal = (material: any) => {
         setSelectedMaterial(material);
     };
 
@@ -116,13 +69,14 @@ export default function HomePage() {
                     <h5>Livros</h5>
                     <ul className={styles.listContainer}>
                         {livros.map((livro) => (
-                            <li key={livro.isbn}>
+                            <li key={livro}>
+                              <Link href={`/books/${livro.isbn}`} className={styles.link}>
                                 <Books
-                                    onClick={() => openModal(livro)} // Passa o livro específico ao abrir o modal
-                                    title={livro.titulo}
-                                    author={livro.autor}
-                                    image={'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F41USfMS%2BjaL.jpg&f=1&nofb=1&ipt=218ae8af391522cd0cb67ecd6dc2e6d6de1c83f18f865fb897fb0e416379000a&ipo=images'}
+                                  title={livro.titulo}
+                                  author={livro.autor}
+                                  image={convertBufferToBase64(livro.imagem_capa)}
                                 />
+                              </Link>
                                 {selectedLivro && selectedLivro.isbn === livro.isbn && ( // Renderiza o modal apenas se o livro estiver selecionado
                                     <Modal // Passa as informações do livro para o modal
                                         isOpen={true}
@@ -135,7 +89,7 @@ export default function HomePage() {
                                         estado_conservacao={selectedLivro.estado_conservacao}
                                         localizacao_fisica={selectedLivro.localizacao_fisica}
                                         isbn={selectedLivro.isbn}
-                                        image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                                        image={selectedLivro.image}
                                     />
                                 )}
                             </li>
@@ -150,7 +104,7 @@ export default function HomePage() {
                                 key={index}
                                 category={material.nome}
                                 description={material.descricao}
-                                image={'https://iili.io/Juxkncl.jpg'}
+                                image={material.image}
                                 onClick={() => openMaterialModal(material)}
                             />
                         ))}
@@ -165,7 +119,7 @@ export default function HomePage() {
                                 estado_conservacao={selectedMaterial.estado_conservacao}
                                 localizacao_fisica={selectedMaterial.localizacao_fisica}
                                 isbn={selectedMaterial.numero_serie}
-                                image={'https://iili.io/Juxkncl.jpg'}
+                                image={selectedMaterial.image}
                             />
                         )}
                     </ul>
