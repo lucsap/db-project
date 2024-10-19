@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 import { Modal } from '../../components/Modal/modal';
 import Materials from '../../components/Materials/materials';
+import { convertBufferToBase64 } from '../../utils/convertBufferToBase64';
 
 interface materialProps {
     id: number,
@@ -11,6 +12,7 @@ interface materialProps {
     categoria: string,
     estado_conservacao: string,
     localizacao_fisica: string,
+    imagem: string
 }
 
 export default function Materiais(): materialProps {
@@ -52,7 +54,7 @@ export default function Materiais(): materialProps {
                                 name={material.nome}
                                 description={material.description}
                                 category={material.categoria}
-                                image={'https://cdn.awsli.com.br/2500x2500/2362/2362735/produto/221557798/81uvv7s9abl-axu125ebuo.jpg'}
+                                image={convertBufferToBase64(material.imagem)}
                             />
                             {selectedMaterial && selectedMaterial.id === material.id && ( // Renderiza o modal apenas se o material estiver selecionado
                                 <Modal
@@ -62,7 +64,7 @@ export default function Materiais(): materialProps {
                                     categoria={selectedMaterial.categoria}
                                     estado_conservacao={selectedMaterial.estado_conservacao}
                                     localizacao_fisica={selectedMaterial.localizacao_fisica}
-                                    image={selectedMaterial.imagem_capa}
+                                    image={convertBufferToBase64(selectedMaterial.imagem)}
                                 />
                             )}
                         </li>
