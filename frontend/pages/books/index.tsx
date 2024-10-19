@@ -5,6 +5,8 @@ import styles from "./index.module.css";
 import { useRouter } from "next/router";
 import { ToastContainer } from "react-toastify";
 import { convertBufferToBase64 } from "../../utils/convertBufferToBase64";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
 interface Livro {
   isbn: string;
@@ -18,6 +20,7 @@ interface Livro {
 
 export default function LivrosPage() {
   const [livros, setLivros] = useState<Livro[]>([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,8 +34,9 @@ export default function LivrosPage() {
         },
       });
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setLivros(data);
+      setLoading(false);
     }
     fetchData();
   }, [])
@@ -53,33 +57,44 @@ export default function LivrosPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <ToastContainer />
-      <strong>Livros disponíveis!</strong>
-      <ul className={styles.listContainer}>
-        {livros.map((livro) => (
-          <li key={livro.isbn}>
-            <Link href={`/books/${livro.isbn}`} className={styles.link}>
-              <Books
-                title={livro.titulo}
-                author={livro.autor}
-                image={convertBufferToBase64(livro.imagem_capa)}
-              />
-            </Link>
-          </li>
-        ))}
-      </ul>
-      { userRole() ? (
-      <button 
-      className={styles.btnPrimary}
-      onClick={() => router.push('/books/create')}
-      > 
-      Adicionar livros 
-      </button>
+      <div className={styles.container}>
+        <ToastContainer />
+        <strong>Livros disponíveis!</strong>
+      {loading ? (
+        // Skeleton loading when data is being fetched
+        <ul className={styles.listContainer}>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <li key={index}>
+              <Skeleton height={150} />
+            </li>
+          ))}
+        </ul>
       ) : (
-      <></>
-      )
-      }
+        // Actual content when data is available
+        <ul className={styles.listContainer}>
+          {livros.map((livro) => (
+            <li key={livro.isbn}>
+              <Link href={`/books/${livro.isbn}`} className={styles.link}>
+                <Books
+                  title={livro.titulo}
+                  author={livro.autor}
+                  image={convertBufferToBase64(livro.imagem_capa)}
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+      {userRole() ? (
+        <button
+          className={styles.btnPrimary}
+          onClick={() => router.push('/books/create')}
+        >
+          Adicionar livros
+        </button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
