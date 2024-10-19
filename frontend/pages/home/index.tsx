@@ -104,7 +104,7 @@ export default function HomePage() {
                                 key={index}
                                 category={material.nome}
                                 description={material.descricao}
-                                image={material.image}
+                                image={convertBufferToBase64(material.imagem)}
                                 onClick={() => openMaterialModal(material)}
                             />
                         ))}
